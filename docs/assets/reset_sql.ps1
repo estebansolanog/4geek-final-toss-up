@@ -1,7 +1,7 @@
 rmdir "./migrations" -Force -Recurse
 echo rm -R -f ./migrations
 pipenv run init
-mysql -u root -p -e "DROP DATABASE example;"
-mysql -u root -p -e "CREATE DATABASE example;"
+mysql -u root -p -e "DROP DATABASE exampletu;"
+mysql -u root -p -e "CREATE DATABASE exampletu;"
 pipenv run migrate
 pipenv run upgrade
