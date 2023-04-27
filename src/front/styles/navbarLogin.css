@@ -1,0 +1,25 @@
+/* 
+    General Styles used on every website (Don't Repeat Yourself)
+*/
+/* styles.css */
+.container-visitor {
+  width: 100%;
+}
+
+.navbar {
+  background-color: black !important;
+  opacity: 0.3;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.navbar-brand {
+  color: white !important;
+  text-decoration: none !important;
+}
+
+/* styles.css */
+.navbar-brand:hover {
+  color: #3d84ff !important;
+  cursor: pointer;
+}
