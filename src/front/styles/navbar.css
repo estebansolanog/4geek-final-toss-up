@@ -1,0 +1,7 @@
+.navbar-thick {
+    height: 80px; /* cambia este valor según lo grueso que quieras hacer el Navbar */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
