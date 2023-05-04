@@ -1,9 +1,6 @@
-
-
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
-
 const CardRecetas = (props) => {
     const { store, actions } = useContext(Context)
     return (<>
@@ -22,5 +19,6 @@ const CardRecetas = (props) => {
         </div>
     </>)
 }
+
 
 export default CardRecetas;
