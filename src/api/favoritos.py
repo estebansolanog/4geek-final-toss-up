@@ -1,19 +1,14 @@
 from flask_sqlalchemy import SQLAlchemy
 from .db import db
 
-
-class Favoritos(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=False, nullable=False)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-
-    def __repr__(self):
-        return f'<User {self.email}>'
+class Favorito(db.Model):
+    id_favorito = db.Column(db.Integer, primary_key=True)
+    id_user = db.Column(db.Integer, db.ForeignKey('user.id_user'), nullable=False)
+    id_recipe = db.Column(db.Integer, db.ForeignKey('recipe.id_recipe'), nullable=False)
 
     def serialize(self):
         return {
-            "id": self.id,
-            "email": self.email,
-            # do not serialize the password, its a security breach
+            "id_favorito": self.id_favorito,
+            "id_user": self.id_user,
+            "id_recipe": self.id_recipe,
         }
