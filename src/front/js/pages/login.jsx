@@ -51,7 +51,7 @@ export const Login = () => {
         </video>
       </div>
       <div className="content">
-        <NavbarLogin />
+        {/* <NavbarLogin /> */}
         <br />
         <br />
         <br />
