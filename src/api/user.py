@@ -15,7 +15,7 @@ class User(db.Model):
     otp_active = db.Column(db.Boolean(), unique=False, nullable=False, default=False)
     
     # Relación uno-a-muchos con Likes
-    likes = db.relationship('Likes', backref='user', lazy=True)
+    id_likes = db.relationship('Likes', backref='user', lazy=True)
 
     def serialize(self):
         return {

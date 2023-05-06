@@ -4,6 +4,7 @@ from .ingredient import Ingredient
 from .countries import Country
 from .categories import Category
 from .likes import Likes
+from .recipe_ingredient import Recipe_ingredient
 
 
 class Recipe(db.Model):
@@ -15,11 +16,12 @@ class Recipe(db.Model):
     description = db.Column(db.String(80), unique=False, nullable=False)
     instructions = db.Column(db.String(120), unique=True, nullable=False)
     id_country = db.Column(db.Integer, db.ForeignKey('country.id_country'), nullable=False)
-    country = db.relationship('Country', backref='recipes', lazy=True)
-    ingredients = db.relationship('Ingredient', secondary=recipe_ingredient, backref=db.backref('recipes', lazy=True))
     id_category = db.Column(db.Integer, db.ForeignKey('category.id_category'), nullable=False)
-    category = db.relationship('Category', backref='recipes', lazy=True)
-    likes = db.relationship('Like', backref='recipe', lazy=True)
+    id_likes = db.relationship('Likes', backref='recipe', lazy=True)
+
+    # Relación muchos-a-muchos con Ingredient
+    id_ingredient = db.relationship('Ingredient', secondary=Recipe_ingredient, lazy='subquery',
+        backref=db.backref('recipes', lazy=True))
 
     def serialize(self):
         return {
@@ -30,8 +32,8 @@ class Recipe(db.Model):
             "calories": self.calories,
             "description": self.description,
             "instructions": self.instructions,
-            "country": self.country.name_country,
-            "ingredients": [ingredient.name for ingredient in self.ingredients],
-            "category": self.category.name_category,
+            "id_country": self.id_country,
+            "id_category": self.id_category,
             "likes": len(self.likes),
+            "id_ingredient": [ingredient.serialize() for ingredient in self.ingredients]
         }
