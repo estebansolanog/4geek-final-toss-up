@@ -1,33 +1,37 @@
 import React from "react";
-import "../../styles/SingleCardRecetas.css"
+// import "../../styles/SingleCardRecetas.css"
 
 const SingleCardRecetas = ({ image, title, description, ingredients, instructions }) => {
     return (
 
-        <div className="contenido" style={{ display: 'flex', color: 'white', padding: '80px' }}>
-            <div className="row align-items-start">
-                <div className="col">
-                    <div style={{ flex: 1 }}>
-                        <h2 style={{ color: "white" }}>{title}</h2>
-                        <p style={{ color: "white" }}>{description}</p>
-                        <h3 style={{ color: "white" }}>Ingredientes:</h3>
-                        <ul>
-                            {ingredients.map((ingredient, index) => (
-                                <li key={index}>{ingredient}</li>
-                            ))}
-                        </ul>
-                        <h3 style={{ color: "white" }}>Instrucciones:</h3>
-                        <ol>
-                            {instructions.map((instruction, index) => (
-                                <li key={index}>{instruction}</li>
-                            ))}
-                        </ol>
+        <div className="h-100">
+            <img className="rounded-4 img-fluid d-xs-none d-sm-none d-md-none " src={image} alt={title} style={{ borderRadius: "5%" }} />
+
+            <div className="contenido" style={{ display: 'flex', color: 'white', padding: '65px', width: '100%', border: '1px solid-succes' }}>
+                <div className="row align-items-start">
+                    <div className="col">
+                        <div style={{ flex: 1 }}>
+                            <h2 style={{ color: "white" }}>{title}</h2>
+                            <p style={{ color: "white" }}>{description}</p>
+                            <h3 style={{ color: "white" }}>Ingredientes:</h3>
+                            <ul>
+                                {ingredients.map((ingredient, index) => (
+                                    <li key={index}>{ingredient}</li>
+                                ))}
+                            </ul>
+                            <h3 style={{ color: "white" }}>Instrucciones:</h3>
+                            <ol>
+                                {instructions.map((instruction, index) => (
+                                    <li key={index}>{instruction}</li>
+                                ))}
+                            </ol>
+                        </div>
                     </div>
-                </div>
-                <div className="col align-items-end d-xs-none">
-                    <img className="rounded-4" src={image} alt={title} style={{ borderRadius: "5%" }} height={""} />
+                    <div className="col align-items-end  d-none d-xs-block d-sm-block d-md-block">
+                        <img className="rounded-4 img-fluid" src={image} alt={title} style={{ borderRadius: "5%" }} />
 
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -59,8 +63,8 @@ const Receta = () => {
 
     return (
         <div style={{
-            height: "90vh",
-            display: "flex",
+            height: "100%",
+
 
             justifyContent: "center",
             background: `url(${recipe.image2}) no-repeat center center fixed`,

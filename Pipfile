@@ -23,6 +23,8 @@ flask-bcrypt = "1.0.1"
 colorama = "*"
 mysql-connector-python = "*"
 mysqlclient = "*"
+certifi = "*"
+packages = "*"
 
 [requires]
 python_version = "3.10"

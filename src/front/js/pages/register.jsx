@@ -47,12 +47,12 @@ export const Login = () => {
         <div className="landing-page">
 
 
-            <div className="video-container">
+            <div className="video-container ">
 
-                <img src="https://cdn.shopify.com/s/files/1/0899/2262/articles/Restaurantes_Comida_Internacional.JPG?v=1555022012"></img>
+                <img className="d-none d-sm-block" src="https://cdn.shopify.com/s/files/1/0899/2262/articles/Restaurantes_Comida_Internacional.JPG?v=1555022012"></img>
 
             </div>
-            <div className="content">
+            <div className="container-fluid">
 
 
                 <Container maxWidth="xs">
