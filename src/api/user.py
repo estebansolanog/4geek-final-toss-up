@@ -13,9 +13,12 @@ class User(db.Model):
     gender = db.Column(db.String(20), nullable=True)
     otp = db.Column(db.Integer, nullable=True)
     otp_active = db.Column(db.Boolean(), unique=False, nullable=False, default=False)
+
+    
     
     # Relación uno-a-muchos con Likes
-    id_likes = db.relationship('Likes', backref='user', lazy=True)
+    # id_likes = db.relationship('Likes', backref='user', lazy=True)
+    # id_favorito = db.relationship('Favorito', backref='user', lazy=True)
 
     def serialize(self):
         return {
@@ -28,6 +31,7 @@ class User(db.Model):
             "country": self.country,
             "gender": self.gender,
             "otp": self.otp,
-            "otp_active": self.otp_active
+            "otp_active": self.otp_active,
+            # "favoritos": self.favoritos
             # do not serialize the password, its a security breach
         }

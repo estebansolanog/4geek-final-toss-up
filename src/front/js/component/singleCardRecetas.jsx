@@ -1,13 +1,29 @@
 import React from "react";
-// import "../../styles/SingleCardRecetas.css"
+import { Footer } from "../component/footerSinglecardrecetas.jsx";
+
+
+
+import {
+    Container,
+    makeStyles,
+
+} from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+    container: {
+        // padding: theme.spacing(2),
+    }
+}));
 
 const SingleCardRecetas = ({ image, title, description, ingredients, instructions }) => {
+
+
     return (
 
-        <div className="h-100">
+        <div className="h-100 ">
             <img className="rounded-4 img-fluid d-xs-none d-sm-none d-md-none " src={image} alt={title} style={{ borderRadius: "5%" }} />
 
-            <div className="contenido" style={{ display: 'flex', color: 'white', padding: '65px', width: '100%', border: '1px solid-succes' }}>
+            <div className="contenido" style={{ display: 'flex', color: 'white', paddingTop: '60px', width: '100%', border: '1px solid-succes' }}>
                 <div className="row align-items-start">
                     <div className="col">
                         <div style={{ flex: 1 }}>
@@ -31,6 +47,7 @@ const SingleCardRecetas = ({ image, title, description, ingredients, instruction
                         <img className="rounded-4 img-fluid" src={image} alt={title} style={{ borderRadius: "5%" }} />
 
 
+
                     </div>
                 </div>
             </div>
@@ -39,6 +56,7 @@ const SingleCardRecetas = ({ image, title, description, ingredients, instruction
 };
 
 const Receta = () => {
+
     const recipe = {
         image: 'https://cdn.pixabay.com/photo/2017/12/09/08/18/pizza-3007395_960_720.jpg',
         image2: 'https://static.vecteezy.com/system/resources/previews/001/906/862/large_2x/black-texture-background-free-photo.jpg',
@@ -62,6 +80,9 @@ const Receta = () => {
     };
 
     return (
+
+
+
         <div style={{
             height: "100%",
 
@@ -78,7 +99,9 @@ const Receta = () => {
                 ingredients={recipe.ingredients}
                 instructions={recipe.instructions}
             />
+
         </div>
+
     );
 };
 
