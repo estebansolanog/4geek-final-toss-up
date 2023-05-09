@@ -49,7 +49,7 @@ export const Login = () => {
 
             <div className="video-container ">
 
-                <img className="d-none d-sm-block" src="https://cdn.shopify.com/s/files/1/0899/2262/articles/Restaurantes_Comida_Internacional.JPG?v=1555022012"></img>
+                <img className="ho" src="https://cdn.shopify.com/s/files/1/0899/2262/articles/Restaurantes_Comida_Internacional.JPG?v=1555022012"></img>
 
             </div>
             <div className="container-fluid">
