@@ -1,17 +1,18 @@
 from flask_sqlalchemy import SQLAlchemy
 from .db import db
-from .ingredient import Ingredient
+# from .ingredient import Ingredient
 from .countries import Country
 from .categories import Category
-from .likes import Likes
-from .recipe_ingredient import Recipe_ingredient
+# from .likes import Likes
+# from .recipe_ingredient import Recipe_ingredient
 
 
 class Recipe(db.Model):
+    __tablename__="recipe"
     id_recipe = db.Column(db.Integer, primary_key=True)
     name_recipe = db.Column(db.String(120), unique=True, nullable=False)
     time = db.Column(db.Integer, nullable=True)
-    difficulty = db.Column(db.String(120), unique=True, nullable=False)
+    difficulty = db.Column(db.String(120), unique=False, nullable=False)
     calories = db.Column(db.Integer, nullable=True)
     description = db.Column(db.String(80), unique=False, nullable=False)
     instructions = db.Column(db.String(120), unique=True, nullable=False)
@@ -20,8 +21,8 @@ class Recipe(db.Model):
     id_likes = db.relationship('Likes', backref='recipe', lazy=True)
 
     # Relación muchos-a-muchos con Ingredient
-    id_ingredient = db.relationship('Ingredient', secondary=Recipe_ingredient, lazy='subquery',
-        backref=db.backref('recipes', lazy=True))
+    # id_ingredient = db.relationship('Ingredient', secondary=Recipe_ingredient, lazy='subquery',backref=db.backref('recipe', lazy=True))
+    recipe_ingredient = db.relationship('Recipe_ingredient', backref="recipe", lazy=True)
 
     def serialize(self):
         return {
