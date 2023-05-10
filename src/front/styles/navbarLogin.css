@@ -6,20 +6,20 @@
   width: 100%;
 }
 
-.navbar {
+/* .navbar {
   background-color: black !important;
   opacity: 0.3;
   padding-left: 5%;
   padding-right: 5%;
-}
+} */
 
-.navbar-brand {
+/* .navbar-brand {
   color: white !important;
   text-decoration: none !important;
-}
+} */
 
 /* styles.css */
-.navbar-brand:hover {
+/* .navbar-brand:hover {
   color: #3d84ff !important;
   cursor: pointer;
-}
+} */
