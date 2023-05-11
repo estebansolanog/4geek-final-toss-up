@@ -66,6 +66,7 @@ export const Login = () => {
 
                         <Typography variant="h5" align="center">
                             Registrate!
+
                         </Typography>
 
                         <TextField
