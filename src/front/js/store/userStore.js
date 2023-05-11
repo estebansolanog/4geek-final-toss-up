@@ -38,7 +38,7 @@ export function userActions(getStore, getActions, setStore) {
             };
 
             let { respuestaJson, response } = await actions.useFetch(
-                "/api/login",
+                "/api/signin",
                 obj,
                 "POST"
             );
@@ -68,7 +68,7 @@ export function userActions(getStore, getActions, setStore) {
             return store.usuario;
         },
 
-        register: async (name, lastName, email, password, confirmPassword) => {
+        register: async (name, lastName, email, password) => {
             const store = getStore();
             const actions = getActions();
             console.log(
@@ -82,7 +82,6 @@ export function userActions(getStore, getActions, setStore) {
                 last_name: lastName,
                 email: email,
                 password: password,
-                password_confirmation: confirmPassword,
             };
 
             let { respuestaJson, response } = await actions.useFetch(
