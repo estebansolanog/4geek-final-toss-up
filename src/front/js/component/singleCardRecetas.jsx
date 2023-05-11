@@ -58,7 +58,7 @@ const SingleCardRecetas = ({ image, title, description, ingredients, instruction
 const Receta = () => {
 
     const recipe = {
-        image: 'https://cdn.pixabay.com/photo/2017/12/09/08/18/pizza-3007395_960_720.jpg',
+        image: 'https://media.istockphoto.com/id/931643150/vector/picture-icon.jpg?s=612x612&w=0&k=20&c=St-gpRn58eIa8EDAHpn_yO4CZZAnGD6wKpln9l3Z3Ok=',
         image2: 'https://static.vecteezy.com/system/resources/previews/001/906/862/large_2x/black-texture-background-free-photo.jpg',
         title: 'Pizza de pepperoni',
         description: 'Deliciosa pizza de pepperoni hecha en casa.',
