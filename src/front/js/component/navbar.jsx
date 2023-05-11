@@ -21,7 +21,7 @@ export const Navbar = () => {
 						placeholder="Que receta vamos a hacer?"
 						aria-label="Search"
 					/>
-					<button className="col-2 btn btn-warning" type="submit">
+					<button className="col btn btn-warning" type="submit">
 						Buscar
 					</button>
 				</form>
