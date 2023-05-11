@@ -64,7 +64,7 @@ export const Login = () => {
                         <br></br>
                         <br></br>
 
-                        <Typography variant="h5" align="center">
+                        <Typography className="text-white" variant="h5" align="center">
                             Registrate!
 
                         </Typography>
@@ -107,7 +107,7 @@ export const Login = () => {
                             fullWidth
                             InputProps={{
                                 placeholder: "Nombre de Usuario",
-                                style: { color: "secondary" },
+                                style: { color: "white" },
                             }}
                         />
 
