@@ -3,8 +3,11 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-from api.user import db, User, TokenBlokedList
+from api.db import db
+from api.user import User
+from api.token_bloked_list import TokenBlokedList
 from api.favoritos import Favorito
+from api.countries import Country
 from api.utils import generate_sitemap, APIException
 
 from api.extensions import jwt, bcrypt
@@ -14,6 +17,13 @@ from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 import re
 
+# se utiliza para enviar correos electrónicos utilizando el protocolo SMTP (Simple Mail Transfer Protocol).
+import smtplib
+import ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
 #RUTAS QUE ENCONTRARÁ EN ESTE ARCHIVO: 1) USER REGISTER, 2) USER LOGIN, 3) USER DELETE, 4) USER UPDATE, 5) USER ACOUNT, 6) USER LOGOUT 
 
 #PARA OPERACIONES CON FECHAS Y HORAS.
@@ -28,6 +38,129 @@ from flask_jwt_extended import JWTManager
 
 
 api = Blueprint('api', __name__)
+
+EMAIL = os.environ.get('EMAIL')
+PASSWORD = os.environ.get('PASSWORD')
+
+def sendEmail(message, to, subject):
+    smtp_address = 'smtp.gmail.com'
+    smtp_port = 465 #SSL
+
+    print(message, to, subject)
+
+    messageMime = MIMEMultipart('alternative')
+    messageMime['Subject'] = subject
+    messageMime['To'] = to
+    messageMime['From'] = EMAIL
+
+    html = '''
+    <html>
+    <body>
+    <h1> Hi, ''' + message + ''' </h1>
+    </body>
+    </html>
+    '''
+
+    #crear elementos MIMEtext
+    text_mime = MIMEText(message, 'plain')
+    #html_mime = MIMEText(html, 'html')
+
+    #adjuntar los MIMEText al MIMEMultipart
+
+    messageMime.attach(text_mime)
+    #messageMime.attach(html_mime)
+
+    #conectarnos al puerto 465 de gmail para enviar el correo
+
+    context = ssl.create_default_context()
+    emailfrom = EMAIL
+    password = PASSWORD
+    with smtplib.SMTP_SSL(smtp_address, smtp_port, context=context) as server:
+        server.login(emailfrom, password)
+        server.sendmail(emailfrom, to, messageMime.as_string())
+
+    return jsonify({"message":"email sent"}), 200
+
+@api.route('/correo', methods=['POST'])
+def handle_email():
+    body = request.get_json()
+    message = body["message"]
+    to = body ["to"]
+    subject = body ["subject"]
+
+    sendEmail(message, to, subject)
+
+    return jsonify({"message":"message sent"}), 200
+
+#1 - REGISTRO DE USUARIO.
+#VER DOCUMENTACION ADICIONAL SOBRE ESTA RUTA EN: https://www.notion.so/dicttaapp-1-REGISTRO-DE-USUARIO-7ed225b8b61a4461a68413a37253434c
+@api.route('/signup', methods=['POST'])
+def register_user():
+
+    # Obtenemos los datos del cuerpo de la solicitud
+    body = request.get_json()
+
+    # Extraemos los datos del cuerpo
+
+    name = body["name"]
+    last_name = body["lastname"]
+    email = body["email"]
+    password = body["password"]
+    country = body["country"]
+    gender = body["gender"]
+    
+    # Si el cuerpo está vacío, lanzamos un error
+    if body is None:
+        raise APIException("You need to specify the request body as json object", status_code=400) 
+    
+    # Verificamos que todos los campos requeridos estén presentes
+
+    if "name" not in body:
+        raise APIException("You need to specify the name", status_code=400)
+    if "lastname" not in body:
+        raise APIException("You need to specify the lastname", status_code=400)
+    if "email" not in body:
+        raise APIException("You need to specify the email", status_code=400)
+    if "password" not in body:
+        raise APIException("You need to specify the password", status_code=400)
+    if "country" not in body:
+        raise APIException("You need to specify the country", status_code=400)
+    if "gender" not in body:
+        raise APIException("You need to specify the gender", status_code=400)
+
+    # Verificamos que todos los campos requeridos estén presentes
+
+   
+    # Validar el formato del correo electrónico
+    try:
+        validate_email(email)
+        print(f"Email is valid: {email}")  # Agregamos esta línea para mostrar que el correo electrónico es válido
+    except EmailNotValidError:
+        return jsonify({"message": "El formato del correo electrónico es inválido."}), 400
+
+    # Validamos la contraseña y lanzamos un error si no cumple con los requisitos
+    if not validate_password(password):
+        raise APIException({"message": "La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y al menos un simbolo especial (@#$%^&+=*/)"}, status_code=400)
+
+    # if password != password_confirmation:
+    #     raise APIException({"message": "La contraseña y la confirmación de la contraseña no coinciden"}, status_code=400)
+
+    # Comprobamos si el correo electrónico ya está registrado
+    existing_user = User.query.filter_by(email=email).first()
+    if existing_user:
+        raise APIException({"message": "El correo electrónico ya está registrado"}, status_code=400)
+
+    # Encriptamos la contraseña antes de guardarla en la base de datos
+    password_escrypted = bcrypt.generate_password_hash(password, 10).decode('utf-8')
+
+    # Creamos un nuevo objeto de usuario y lo agregamos a la base de datos
+    new_user = User(email=email, name=name, last_name=last_name, password=password_escrypted)
+    db.session.add(new_user)
+    db.session.commit()
+
+
+    # Devolvemos una respuesta JSON con un mensaje y un código de estado HTTP 201 (creado)
+    return jsonify({"message": "Usuario creado correctamente"}), 201
 
 
 # Handle/serialize errors like a JSON object
@@ -90,84 +223,30 @@ def get_all_users():
     return jsonify(user), 200
 
 
-#1 - REGISTRO DE USUARIO.
-#VER DOCUMENTACION ADICIONAL SOBRE ESTA RUTA EN: https://www.notion.so/dicttaapp-1-REGISTRO-DE-USUARIO-7ed225b8b61a4461a68413a37253434c
-@api.route('/register/user', methods=['POST'])
-def register_user():
-
-    # Obtenemos los datos del cuerpo de la solicitud
-    body = request.get_json()
-
-    # Si el cuerpo está vacío, lanzamos un error
-    if not body:
-        raise APIException({"message": "Necesitas especificar el body"}, status_code=400)
-
-    # Verificamos que todos los campos requeridos estén presentes
-    for field in ["email", "name", "last_name", "password"]:
-        if field not in body:
-            raise APIException({"message": f"Necesitas especificar {field}"}, status_code=400)
-
-    # Extraemos los datos del cuerpo
-    name = body["name"]
-    last_name = body["last_name"]
-    email = body["email"]
-    password = body["password"]
-
-    # Validar el formato del correo electrónico
-    try:
-        validate_email(email)
-        print(f"Email is valid: {email}")  # Agregamos esta línea para mostrar que el correo electrónico es válido
-    except EmailNotValidError:
-        return jsonify({"message": "El formato del correo electrónico es inválido."}), 400
-
-    # Validamos la contraseña y lanzamos un error si no cumple con los requisitos
-    if not validate_password(password):
-        raise APIException({"message": "La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y al menos un simbolo especial (@#$%^&+=*/)"}, status_code=400)
-
-    # if password != password_confirmation:
-    #     raise APIException({"message": "La contraseña y la confirmación de la contraseña no coinciden"}, status_code=400)
-
-    # Comprobamos si el correo electrónico ya está registrado
-    existing_user = User.query.filter_by(email=email).first()
-    if existing_user:
-        raise APIException({"message": "El correo electrónico ya está registrado"}, status_code=400)
-
-    # Encriptamos la contraseña antes de guardarla en la base de datos
-    password_escrypted = bcrypt.generate_password_hash(password, 10).decode('utf-8')
-
-    # Creamos un nuevo objeto de usuario y lo agregamos a la base de datos
-    new_user = User(email=email, name=name, last_name=last_name, password=password_escrypted)
-    db.session.add(new_user)
-    db.session.commit()
-
-
-    # Devolvemos una respuesta JSON con un mensaje y un código de estado HTTP 201 (creado)
-    return jsonify({"message": "Usuario creado correctamente"}), 201
-
-
-
 #2 - LOGIN DE USUARIO.
 #VER DOCUMENTACION ADICIONAL SOBRE ESTA RUTA EN: https://www.notion.so/dicttaapp-2-LOGIN-DE-USUARIO-b6b48b0b3ea34b23a55b8b3216cd2ac6?pvs=4
 
-@api.route('/signin', methods=["POST"])  # Corrected the methods parameter
-def user_login():
-    print("user_login function called")  # Agrega esta línea para depurar
+@api.route('/login', methods=["POST"])  # Corrected the methods parameter
+def login():
+    print("login function called")  # Agrega esta línea para depurar
 
     # Obtenemos los datos del cuerpo de la solicitud    
+    body = request.get_json()
     email = request.get_json()["email"]
     password = request.get_json()["password"]
 
     user = User.query.filter_by(email=email).first()
 
     if user is None:
-        return jsonify({"message": "usuario o contraseña incorrecta"})
- 
-    if not bcrypt.check_password_hash(user.password, password): #se compara la contrese encriptada, contra la contraseña encrytada que llega desde el usuario.
-        return jsonify({"message": "usuario o contraseña incorrecta"})
+        return jsonify({"message": "Login failed"}), 401
 
     # Validación del email.    
-    if email != user.email:
-        return jsonify({"message": "usuario o contraseña incorrecta"})
+
+    if "email" not in body:
+        raise APIException("You need to specify the email", status_code=400)
+    
+    if not bcrypt.check_password_hash(user.password, password): #se compara la contrese encriptada, contra la contraseña encrytada que llega desde el usuario.
+        return jsonify({"message": "usuario o contraseña incorrecta"}), 401
 
     # access_token = create_access_token(identity=user.id)
     access_token = create_access_token(identity=user.id_user, additional_claims={"users_id_user": user.id_user})
@@ -218,6 +297,7 @@ def user_logout():
 
 #5 - EDITAR UN USUARIO.
 #VER DOCUMENTACION ADICIONAL DE ESTA RUTA EN: https://www.notion.so/dicttaapp-5-myaccount-update-be57cae02ef3417d95adea63217cd1b8?pvs=4
+
 @api.route('/myaccount/update', methods=['POST'])
 @jwt_required()  # Requiere un token válido para acceder a la ruta.
 def update_user():
@@ -255,9 +335,39 @@ def update_user():
     else:
         return jsonify({"message": "Usuario no encontrado."}), 404
 
-    
+@api.route('/getuser', methods=['GET'])
+def get_user():
+    body = request.get_json()
+    id = body ["id"] if 'id' in body else None
+    email = body ["email"] if 'email' in body else None
+    name = body["name"] if 'name' in body else None
+    last_name = body["last_name"] if 'last_name' in body else None
+    country = body["country"] if 'country' in body else None
+    creation_date = body["creation_date"] if 'creation_date' in body else None
+    is_active = body["is_active"] if 'is_active' in body else None
+    gender = body["gender"] if 'gender' in body else None
 
-
+    users = User.query
+    if id:
+        users = users.filter_by(id=id)
+    if email:
+        users = users.filter_by(email=email)
+    if name:
+        users = users.filter_by(name=name)
+    if last_name:
+        users = users.filter_by(last_name=last_name)
+    if country:
+        users = users.filter_by(country=country)
+    if creation_date:
+        users = users.filter_by(creation_date=creation_date)
+    if is_active:
+        users = users.filter_by(is_active=is_active)
+    if gender:
+        users = users.filter_by(is_active=gender)
+    users = users.all()
+    print(users)
+    users=list(map(lambda item: item.serialize(), users))
+    return jsonify(users)
 
 #6 - ELIMINAR UN USARIO
 #VER DOCUMENTACION ADICIONAL DE ESTA RUTA EN: https://www.notion.so/dicttaap-6-myaccount-delete-cbd5495b91854d069be30f53aa00ff26?pvs=4
