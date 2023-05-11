@@ -92,7 +92,7 @@ def get_all_users():
 
 #1 - REGISTRO DE USUARIO.
 #VER DOCUMENTACION ADICIONAL SOBRE ESTA RUTA EN: https://www.notion.so/dicttaapp-1-REGISTRO-DE-USUARIO-7ed225b8b61a4461a68413a37253434c
-@api.route('/register/user', methods=['POST'])
+@api.route('/register', methods=['POST'])
 def register_user():
 
     # Obtenemos los datos del cuerpo de la solicitud

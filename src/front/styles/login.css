@@ -57,3 +57,11 @@ button:hover {
   opacity: 0.8;
   font-weight: 300;
 }
+
+.opacity-image {
+  opacity: 1.1;
+}
+
+.text-outline {
+  text-shadow: 0 0 1px rgba(0, 0, 0, 1);
+}
