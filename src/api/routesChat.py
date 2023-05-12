@@ -68,3 +68,25 @@ def get_all_recipes():
     print(recipe)
 
     return jsonify(recipe), 200
+
+
+
+@chat.route('/chatgpt', methods=['POST'])
+def open_ai():
+    body =request.get_json()    
+    prompt = "Eres una pagina web de recetas que responde con descripcion de la receta, una lista de ingredientes y un paso a paso para preparar la receta solicitada por el usuario: "+ body['prompt']
+
+    completation = openai.Completion.create(engine="text-davinci-003",
+                            prompt=prompt,
+                            n=1,
+                            max_tokens=1024)
+    
+    #print(completation.choices[0])
+    print(completation.choices[0].text)
+    response = {
+        "message":completation.choices[0].text
+    }
+    return jsonify(response), 200
+
+# MPT-7b : 64k tokens, ggml, q4_0, 128bits 4Q 
+# Oobaboonga, Koboldcpp
