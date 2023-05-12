@@ -1,6 +1,7 @@
-// import Head from "next/head";
-import React from "react";
-import { useState } from "react";
+
+//import Head from "next/head";
+import React, { useState, useEffect, useContext } from "react";
+//import styles from "./index.module.css";
 
 
 export default function Home() {

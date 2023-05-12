@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
-// import "../../styles/navbar.css";
+import "../../styles/navbar.css";
 
 export const Navbar = () => {
 
@@ -10,18 +10,18 @@ export const Navbar = () => {
 		<nav className="navbar navbar-light bg-danger navbar-thick navbar-expand-md">
 			<div className="container-fluid">
 				<Link to="/home">
-					<span className="navbar-brand" href="#">
+					<span className="navbar-brand col-1" href="#">
 						TossUp
 					</span>
 				</Link>
-				<form className="mx-auto d-flex">
+				<form className="col-4 d-flex">
 					<input
-						className="form-control me-2"
+						className="col form-control me-2"
 						type="search"
 						placeholder="Que receta vamos a hacer?"
 						aria-label="Search"
 					/>
-					<button className="btn btn-warning" type="submit">
+					<button className="col btn btn-warning" type="submit">
 						Buscar
 					</button>
 				</form>
@@ -30,12 +30,11 @@ export const Navbar = () => {
 
 				<div className="ms-auto flex-column flex-md-row">
 					<Link to="/login">
-						<span className="navbar-brand mb-0 h1 text-white">Inicio</span>
+						<span className="navbar-brand mb-0 h1 text-white col-1">Inicio</span>
 					</Link>
 					<Link to="/register">
-						<span className="navbar-brand mb-0 h1 text-white">Registro</span>
+						<span className="navbar-brand mb-0 h1 text-white col-1">Registro</span>
 					</Link>
-
 
 					<button class="btn btn-warning dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">
 						<span className="p-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-egg-fried" viewBox="0 0 16 16">
@@ -49,6 +48,7 @@ export const Navbar = () => {
 						<li><a class="dropdown-item" href="#"></a></li>
 					</ul>
 				</div>
+
 
 
 			</div>

@@ -50,30 +50,24 @@ export const Home = () => {
     //       </ul>
     //     </div>
 
-    <div className="Home">
-
-      {/* <div className="image-container">
-        <img className="hu" src="https://static.vecteezy.com/system/resources/previews/017/651/910/large_2x/wooden-board-empty-table-in-front-of-blurred-background-free-photo.jpg"> </img>
-      </div> */}
-      <div className="container-fluid mx-4 ">
-
-        <ul className="row m-2 p-0">
-          <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
-          <li className="col md-3 sm-12my-2"><CardRecetas /></li>
-          <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
-          <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
-          <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
-          <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
-          <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
-          <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
-        </ul>
-      </div>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
+    <div className="container-fluid mx-4 ">
+      <ul className="row m-2 p-0">
+        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
+      </ul>
     </div>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+        </div >
 
   );
 };
