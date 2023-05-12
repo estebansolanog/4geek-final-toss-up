@@ -8,7 +8,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 from api.modelsChat import db, RecipeChat
-from api.user import User
+from api.user import User, TokenBlokedList
 from api.favoritos import Favorito
 from api.utils import generate_sitemap, APIException
 
@@ -22,9 +22,6 @@ import re
 #PARA OPERACIONES CON FECHAS Y HORAS.
 from datetime import date, time, datetime, timezone, timedelta #timedelta, es para hacer resta de horas.
 
-#LIBRERIA PARA VALIDAR EMAIL, valida que el dominio exista y que tenga un formato valida de email.
-# from email_validator import validate_email, EmailNotValidError
-
 #PARA MANEJAR LA ENCRIPTACIÓN DE LA INFORMACIÓN. ADICIONAL SE REQUIERE, FLASK, REQUEST, JSONIFY, SIN EMBARGO ESOS YA FUERON INSTALADOS ARRIBA.
 from flask_jwt_extended import get_jwt
 from flask_jwt_extended import JWTManager
@@ -32,43 +29,70 @@ from flask_jwt_extended import JWTManager
 
 chat = Blueprint('chat', __name__)
 
-@chat.route("/chat", methods=("GET", "POST"))
-def index():
-    if request.method == "POST":
-        animal = request.form["animal"]
-        response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=generate_prompt(animal),
-            temperature=0.6,
-        )
-        return redirect(url_for("index", result=response.choices[0].text))
 
-    result = request.args.get("result")
-    return render_template("index.html", result=result)
+# Handle/serialize errors like a JSON object
+@chat.errorhandler(APIException)
+def handle_invalid_usage(error):
+    return jsonify(error.to_dict()), error.status_code
 
 
-def generate_prompt(animal):
-    return """Suggest three names for an animal that is a superhero.
-
-Animal: Cat
-Names: Captain Sharpclaw, Agent Fluffball, The Incredible Feline
-Animal: Dog
-Names: Ruff the Protector, Wonder Canine, Sir Barks-a-Lot
-Animal: {}
-Names:""".format(
-        animal.capitalize()
-    )
+#Funcion de verificación de token:
+def verificacionToken(identity):
+    jti = identity["jti"]
+    token = TokenBlokedList.query.filter_by(token=jti, is_blocked=True).first()
+    
+    if token:
+        return True  # Token bloqueado
+    else:
+        return False  # Token no bloqueado
 
 
-@chat.route('/get_recipe', methods=['GET'])
-def get_all_recipes():
+@chat.route('/saveRecipe', methods=['POST'])
+@jwt_required()
+def save_recipe():
 
-    recipe = RecipeChat.query.all()
-    recipe = list(map(lambda item: item.serialize(), recipe))
-    print(recipe)
+    jwt_claims = get_jwt()
+    print(jwt_claims)
+    user = jwt_claims["users_id_user"]
+    
+    body = request.get_json()
+    
+    # Si el cuerpo está vacío, lanzamos un error
+    if not body:
+        raise APIException({"message": "Necesitas rellenar todos los campos"}, status_code=400)
 
-    return jsonify(recipe), 200
+    # Verificamos que todos los campos requeridos estén presentes
+    for field in ["description", "user_query"]:
+        if field not in body:
+            raise APIException({"message": f"Necesitas especificar {field}"}, status_code=400)
 
+    description = body["description"]
+    user_query = body["user_query"]
+
+
+    # Creamos un nuevo objeto de usuario y lo agregamos a la base de datos
+    new_recipe = RecipeChat(description=description, user_id=user, user_query=user_query)
+    db.session.add(new_recipe)
+    db.session.commit()
+
+
+    # Devolvemos una respuesta JSON con un mensaje y un código de estado HTTP 201 (creado)
+    return jsonify({"message": "Receta guardada correctamente"}), 201
+
+
+@chat.route('/getChatHistory', methods=['GET'])
+@jwt_required()
+def get_chat_history():
+
+    jwt_claims = get_jwt()
+    print(jwt_claims)
+    user_id = jwt_claims["users_id_user"]
+    
+    recipes = RecipeChat.query.filter_by(user_id=user_id).all()
+    recipes = list(map(lambda item: item.serialize(), recipes))
+    print(recipes)
+
+    return jsonify(recipes), 200
 
 
 @chat.route('/chatgpt', methods=['POST'])
