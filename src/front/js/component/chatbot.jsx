@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useContext } from 'react';
 import { Context } from '../store/appContext';
+import "../../styles/chatbot.css"
+
+import SendIcon from '@material-ui/icons/Send';
+
 const Chatbot = () => {
   const { store, actions } = useContext(Context);
   const [recipe, setRecipe] = useState(''); // Estado para almacenar la receta
@@ -9,6 +13,7 @@ const Chatbot = () => {
   const [inputValue, setInputValue] = useState(''); // Estado para almacenar el valor del input
   const [chatHistory, setChatHistory] = useState([]);
   const [infoUsuario, setInfoUsuario] = useState(null)
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const fetchChatHistory = async () => {
@@ -38,6 +43,10 @@ const Chatbot = () => {
     }
     cargaDatos()
   }, [])
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatHistory]);
 
   const fetchRecipe = async () => {
     setIsLoading(true);
@@ -82,80 +91,35 @@ const Chatbot = () => {
   return (
     <div className='container'>
       <h1>Receta</h1>
-      <form onSubmit={handleSubmit}>
+
+      <div>
+        {chatHistory && chatHistory.length > 0 ? chatHistory.map((chat, index) => (
+          <div key={index}>
+            <p><strong>{infoUsuario}:</strong> {chat.user_query}</p>
+            <p style={{ whiteSpace: 'pre-wrap' }}><strong>MarIA:</strong> {chat.description}</p>
+          </div>
+
+        )) : <div className='container' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <p>Hola, <span>{infoUsuario}</span>, soy MarIA, tu asistente de recetas desarrollada por el equipo de TossUp.</p>
+          <p>Para empezar, escribe una receta que quieras preparar.</p>
+        </div>}
+      </div>
+      {isLoading ? <p>Cargando receta...</p> : <></>}
+      <form onSubmit={handleSubmit} className="fixed-form" style={{ display: 'flex', justifyContent: 'space-between' }}>
         <input
           type="text"
           value={inputValue}
           onChange={handleInputChange}
-          placeholder="Introduce la receta que quieres buscar"
+          placeholder="¿Que vas preparar hoy?"
+          style={{ flex: 1 }}
         />
-        <button type="submit">Buscar receta</button>
+        <button type="submit">
+          <SendIcon />
+        </button>
       </form>
-      <div>
-        {chatHistory.map((chat, index) => (
-          <div key={index}>
-            <p><strong>{infoUsuario}</strong> {chat.user_query}</p>
-            <p><strong>MarIA:</strong> {chat.description}</p>
-          </div>
-
-        ))}
-      </div>
-      {/* {isLoading ? <p>Cargando receta...</p> : <div style={{ whiteSpace: 'pre-wrap' }}>{recipe}</div>} */}
+      <div ref={messagesEndRef} /> {/* Añade este div */}
     </div>
   );
 };
 
 export default Chatbot;
-
-
-// import React, { useState } from 'react';
-// import axios from 'axios';
-
-// const Chatbot = () => {
-//   const [recipe, setRecipe] = useState(''); // Estado para almacenar la receta
-//   const [isLoading, setIsLoading] = useState(false); // Estado para controlar el indicador de carga
-//   const [inputValue, setInputValue] = useState(''); // Estado para almacenar el valor del input
-
-//   const fetchRecipe = async () => {
-//     setIsLoading(true);
-//     try {
-//       const response = await axios.post('http://localhost:3001/chat/chatgpt', {
-//         prompt: inputValue
-//       });
-
-//       setRecipe(response.data.message);
-//     } catch (error) {
-//       console.error('Hubo un error al obtener la receta:', error);
-//     }
-//     setIsLoading(false);
-//   };
-
-//   const handleInputChange = (event) => {
-//     setInputValue(event.target.value);
-
-//   };
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault(); // Previene el comportamiento de envío de formulario por defecto
-//     fetchRecipe();
-//     setInputValue('');
-//   };
-
-//   return (
-//     <div className='container'>
-//       <h1>Receta</h1>
-//       <form onSubmit={handleSubmit}>
-//         <input
-//           type="text"
-//           value={inputValue}
-//           onChange={handleInputChange}
-//           placeholder="Introduce la receta que quieres buscar"
-//         />
-//         <button type="submit">Buscar receta</button>
-//       </form>
-//       {isLoading ? <p>Cargando receta...</p> : <div style={{ whiteSpace: 'pre-wrap' }}>{recipe}</div>}
-//     </div>
-//   );
-// };
-
-// export default Chatbot;

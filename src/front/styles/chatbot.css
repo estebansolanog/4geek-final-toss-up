@@ -69,3 +69,13 @@
   white-space: pre-wrap;
   /* Agregar las demás propiedades existentes aquí */
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Esto hace que el contenedor ocupe todo el espacio vertical disponible */
+}
+
+.fixed-form {
+  margin-top: auto; /* Esto empujará el formulario hacia abajo */
+}
