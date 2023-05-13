@@ -4,6 +4,7 @@ import "../../styles/home.css";
 import CardRecetas from "../component/cardRecetas.jsx";
 
 
+
 export const Home = () => {
   const { store, actions } = useContext(Context);
   const [listRecetas, setListRecetas] = useState({})
@@ -60,6 +61,12 @@ export const Home = () => {
         <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
         <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
       </ul>
+
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
     </div>
 
   );

@@ -1,6 +1,8 @@
-import Head from "next/head";
-import { useState } from "react";
-import styles from "./index.module.css";
+
+//import Head from "next/head";
+import React, { useState, useEffect, useContext } from "react";
+//import styles from "./index.module.css";
+
 
 export default function Home() {
   const [animalInput, setAnimalInput] = useState("");
@@ -27,7 +29,7 @@ export default function Home() {
     } catch (error) {
       // Consider implementing your own error handling logic here
       console.error(error);
-      alert(error.message);
+      // alert(error.message);
     }
   }
 

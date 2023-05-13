@@ -15,7 +15,7 @@ import Receta from "./component/singleCardRecetas.jsx";
 
 
 
-import Chatbot from "./component/chatbot.js";
+// import Chatbot from "./component/chatbot.js";
 //create your first component
 const Layout = () => {
   //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -28,11 +28,12 @@ const Layout = () => {
         <ScrollToTop>
           <Navbar />
           <Routes>
-            <Route element={<Chatbot />} path="/chathome" />
+            {/* <Route element={<Chatbot />} path="/chathome" /> */}
             <Route element={<Demo />} path="/demo" />
             <Route element={<Receta />} path="/receta" />
             <Route element={<Login />} path="/login" />
             <Route element={<Register />} path="/register" />
+            <Route element={<Home />} path="/home" />
 
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<h1>Not found!</h1>} />
