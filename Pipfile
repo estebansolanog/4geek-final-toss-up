@@ -25,6 +25,9 @@ mysql-connector-python = "*"
 mysqlclient = "*"
 certifi = "*"
 packages = "*"
+pyjwt = "*"
+openai = "*"
+email-validator = "*"
 
 [requires]
 python_version = "3.10"

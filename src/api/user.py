@@ -1,21 +1,26 @@
 from flask_sqlalchemy import SQLAlchemy
 from .db import db
+from datetime import datetime
 
 class User(db.Model):
+    __tablename__="users"
     id_user = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
     last_name = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     birthdate = db.Column(db.Date, nullable=True, default=None)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    country = db.Column(db.String(120), nullable=False)
+    is_active = db.Column(db.Boolean(), unique=False, nullable=True)
+    country = db.Column(db.String(120), nullable=True)
     gender = db.Column(db.String(20), nullable=True)
     otp = db.Column(db.Integer, nullable=True)
-    otp_active = db.Column(db.Boolean(), unique=False, nullable=False, default=False)
+    otp_active = db.Column(db.Boolean(), unique=False, nullable=True, default=False)
+    creation_date = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
+    recipe_chat = db.relationship("RecipeChat", backref="users", lazy=True)
     
     # Relación uno-a-muchos con Likes
-    id_likes = db.relationship('Likes', backref='user', lazy=True)
+    # id_likes = db.relationship('Likes', backref='user', lazy=True)
+    # id_favorito = db.relationship('Favorito', backref='user', lazy=True)
 
     def serialize(self):
         return {
@@ -28,6 +33,9 @@ class User(db.Model):
             "country": self.country,
             "gender": self.gender,
             "otp": self.otp,
-            "otp_active": self.otp_active
+            "otp_active": self.otp_active,
+            "creation_date": self.creation_date,
+            # "favoritos": self.favoritos
             # do not serialize the password, its a security breach
         }
+    

@@ -51,14 +51,14 @@ export const Home = () => {
 
     <div className="container-fluid mx-4 ">
       <ul className="row m-2 p-0">
-        <li className="col-3 my-2"><CardRecetas /></li>
-        <li className="col-3 my-2"><CardRecetas /></li>
-        <li className="col-3 my-2"><CardRecetas /></li>
-        <li className="col-3 my-2"><CardRecetas /></li>
-        <li className="col-3 my-2"><CardRecetas /></li>
-        <li className="col-3 my-2"><CardRecetas /></li>
-        <li className="col-3 my-2"><CardRecetas /></li>
-        <li className="col-3 my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
       </ul>
     </div>
 

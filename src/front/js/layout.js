@@ -10,10 +10,12 @@ import Login from "./pages/login.jsx";
 import Register from "./pages/register.jsx";
 import Navbar from "./component/navbar.jsx";
 import { Footer } from "./component/footer";
+import Receta from "./component/singleCardRecetas.jsx";
 
 
 
 
+import Chatbot from "./component/chatbot.js";
 //create your first component
 const Layout = () => {
   //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -21,13 +23,14 @@ const Layout = () => {
   const basename = process.env.BASENAME || "";
 
   return (
-    <div>
+    <div className="h-100">
       <BrowserRouter basename={basename}>
         <ScrollToTop>
           <Navbar />
           <Routes>
-            <Route element={<Home />} path="/home" />
+            <Route element={<Chatbot />} path="/chathome" />
             <Route element={<Demo />} path="/demo" />
+            <Route element={<Receta />} path="/receta" />
             <Route element={<Login />} path="/login" />
             <Route element={<Register />} path="/register" />
 
