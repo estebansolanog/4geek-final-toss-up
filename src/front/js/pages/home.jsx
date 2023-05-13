@@ -61,13 +61,13 @@ export const Home = () => {
         <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
         <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
       </ul>
+
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
     </div>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-        </div >
 
   );
 };

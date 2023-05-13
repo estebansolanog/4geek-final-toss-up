@@ -69,7 +69,7 @@ export const Register = () => {
             <br></br>
             <br></br>
 
-            <Typography className="text-white" align="center">
+            <Typography className="text-white" variant="h5" align="center">
               Registrate!
 
             </Typography>
