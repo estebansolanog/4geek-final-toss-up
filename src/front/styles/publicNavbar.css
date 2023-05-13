@@ -1,11 +1,4 @@
-/* .navbar-thick {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-} */
-
-.private-navbar {
+.public-navbar {
   /* background-color: rgb(249, 218, 167); */
   background-color: rgb(79, 75, 75);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -38,12 +31,17 @@
 
   align-items: center;
   justify-content: center;
-  width: 15%;
+  width: 35%;
 }
-
+.menu-link {
+  width: 55%;
+}
+.menu-botton {
+  width: 45%;
+}
 .logo-container {
   width: 5%;
-  padding: 0%;
+  padding-top: 10px;
   margin: 0%;
 }
 
