@@ -1,0 +1,32 @@
+.public-navbar {
+  /* background-color: rgb(249, 218, 167); */
+  background-color: rgb(79, 75, 75);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  height: 65px;
+}
+
+.form-control {
+  padding: 1%;
+  height: 50px;
+  margin: 0%;
+}
+
+.menu-group {
+  display: flex;
+  justify-content: space-between;
+
+  align-items: center;
+  justify-content: center;
+  width: 35%;
+}
+
+.menu-botton {
+  width: 70%;
+  display: flex;
+  flex-direction: row;
+}
+.logo-container {
+  width: 15%; /* Ajusta este valor según sea necesario */
+  padding-top: 10px;
+  margin: 0%;
+}
