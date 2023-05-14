@@ -44,84 +44,82 @@ const Chatbot = () => {
     cargaDatos()
   }, [])
 
-  export default function Home() {
-    const [animalInput, setAnimalInput] = useState("");
-    const [result, setResult] = useState();
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatHistory]);
 
-    const fetchRecipe = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.post('http://localhost:3001/chat/chatgpt', {
-          prompt: inputValue
-        });
+  const fetchRecipe = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post('http://localhost:3001/chat/chatgpt', {
+        prompt: inputValue
+      });
 
-        console.log(`Bearer ${localStorage.getItem("token")}`);
-        await axios.post('http://localhost:3001/chat/saveRecipe', {
-          description: response.data.message,
-          user_query: inputValue
-        }, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem("token")}`
-          }
-        });
+      console.log(`Bearer ${localStorage.getItem("token")}`);
+      await axios.post('http://localhost:3001/chat/saveRecipe', {
+        description: response.data.message,
+        user_query: inputValue
+      }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        }
+      });
 
-        // setRecipe(response.data.message);
-        // Agregar la pregunta del usuario y la respuesta del bot al historial de chat
-        setChatHistory(prevChatHistory => [...prevChatHistory, {
-          user_query: inputValue,
-          description: response.data.message
-        }]);
-      } catch (error) {
-        // Consider implementing your own error handling logic here
-        console.error(error);
-        alert(error.message);
-      }
-      setIsLoading(false);
-    };
-
-    const handleInputChange = (event) => {
-      setInputValue(event.target.value);
-
-    };
-
-    const handleSubmit = (event) => {
-      event.preventDefault(); // Previene el comportamiento de envío de formulario por defecto
-      fetchRecipe();
-      setInputValue('');
-    };
-
-    return (
-      <div className='container'>
-        <h1>Receta</h1>
-
-        <div>
-          {chatHistory && chatHistory.length > 0 ? chatHistory.map((chat, index) => (
-            <div key={index}>
-              <p><strong>{infoUsuario}:</strong> {chat.user_query}</p>
-              <p style={{ whiteSpace: 'pre-wrap' }}><strong>MarIA:</strong> {chat.description}</p>
-            </div>
-
-          )) : <div className='container' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <p>Hola, <span>{infoUsuario}</span>, soy MarIA, tu asistente de recetas desarrollada por el equipo de TossUp.</p>
-            <p>Para empezar, escribe una receta que quieras preparar.</p>
-          </div>}
-        </div>
-        {isLoading ? <p>Cargando receta...</p> : <></>}
-        <form onSubmit={handleSubmit} className="fixed-form" style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <input
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            placeholder="¿Que vas preparar hoy?"
-            style={{ flex: 1 }}
-          />
-          <button type="submit">
-            <SendIcon />
-          </button>
-        </form>
-        <div ref={messagesEndRef} /> {/* Añade este div */}
-      </div>
-    );
+      // setRecipe(response.data.message);
+      // Agregar la pregunta del usuario y la respuesta del bot al historial de chat
+      setChatHistory(prevChatHistory => [...prevChatHistory, {
+        user_query: inputValue,
+        description: response.data.message
+      }]);
+    } catch (error) {
+      console.error('Hubo un error al obtener la receta:', error);
+    }
+    setIsLoading(false);
   };
 
-  export default Chatbot;
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Previene el comportamiento de envío de formulario por defecto
+    fetchRecipe();
+    setInputValue('');
+  };
+
+  return (
+    <div className='container'>
+      <h1>Receta</h1>
+
+      <div>
+        {chatHistory && chatHistory.length > 0 ? chatHistory.map((chat, index) => (
+          <div key={index}>
+            <p><strong>{infoUsuario}:</strong> {chat.user_query}</p>
+            <p style={{ whiteSpace: 'pre-wrap' }}><strong>MarIA:</strong> {chat.description}</p>
+          </div>
+
+        )) : <div className='container' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <p>Hola, <span>{infoUsuario}</span>, soy MarIA, tu asistente de recetas desarrollada por el equipo de TossUp.</p>
+          <p>Para empezar, escribe una receta que quieras preparar.</p>
+        </div>}
+      </div>
+      {isLoading ? <p>Cargando receta...</p> : <></>}
+      <form onSubmit={handleSubmit} className="fixed-form" style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          placeholder="¿Que vas preparar hoy?"
+          style={{ flex: 1 }}
+        />
+        <button type="submit">
+          <SendIcon />
+        </button>
+      </form>
+      <div ref={messagesEndRef} /> {/* Añade este div */}
+    </div>
+  );
+};
+
+export default Chatbot;

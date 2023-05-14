@@ -8,7 +8,8 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 from api.modelsChat import db, RecipeChat
-from api.user import User, TokenBlokedList
+from api.user import User
+from api.token_bloked_list import TokenBlokedList
 from api.favoritos import Favorito
 from api.utils import generate_sitemap, APIException
 

@@ -46,7 +46,7 @@ export const Register = () => {
     console.log("Email:", email, "Password:", password, "Name:");
     // Lógica de inicio de sesión
     actions.register(name, lastName, email, password);
-    navigate("/login");
+    // navigate("/login");
     // console.log({
     //   email: data.get("email"),
     //   password: data.get("password"),
@@ -71,8 +71,36 @@ export const Register = () => {
 
             <Typography className="text-white" variant="h5" align="center">
               Registrate!
-
             </Typography>
+
+            <TextField
+              label="Nombre"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              margin="normal"
+              required
+              fullWidth
+              InputProps={{
+                placeholder: "Nombre",
+                style: { color: "White" },
+                className: "text-outline",
+              }}
+            />
+
+            <TextField
+              label="Apellido"
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              margin="normal"
+              required
+              fullWidth
+              InputProps={{
+                placeholder: "Apellido",
+                style: { color: "White" },
+              }}
+            />
 
             <TextField
               label="Correo electrónico"
@@ -84,7 +112,8 @@ export const Register = () => {
               fullWidth
               InputProps={{
                 placeholder: "Correo electrónico",
-                style: { color: "white" },
+                style: { color: "White" },
+                className: "text-outline",
               }}
             />
 
@@ -102,6 +131,20 @@ export const Register = () => {
                 className: "text-outline",
               }}
             />
+
+
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              color="secondary"
+              onClick={(e) => {
+                handleSubmit(e);
+              }}
+            >
+              Registrase
+            </Button>
           </form>
         </Container>
         <br />
@@ -110,7 +153,6 @@ export const Register = () => {
         <Footer />
       </div>
     </div>
-
   );
 };
 
