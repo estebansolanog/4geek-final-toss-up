@@ -13,9 +13,7 @@ import { Footer } from "./component/footer";
 import Receta from "./component/singleCardRecetas.jsx";
 
 
-
-
-import Chatbot from "./component/chatbot.js";
+import Chatbot from "./component/chatbot.jsx";
 //create your first component
 const Layout = () => {
   //the basename is used when your project is published in a subdirectory and not in the root of the domain
