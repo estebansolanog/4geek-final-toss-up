@@ -79,3 +79,8 @@
 .fixed-form {
   margin-top: auto; /* Esto empujará el formulario hacia abajo */
 }
+
+.responsive-image {
+  max-width: 100%;
+  height: auto;
+}
