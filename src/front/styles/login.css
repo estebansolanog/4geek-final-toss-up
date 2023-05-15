@@ -31,7 +31,7 @@ video {
   color: white;
 }
 
-/* button {
+button {
   background-color: #3d84ff;
   border: none;
   color: white;
@@ -45,7 +45,7 @@ video {
   border-radius: 5px;
   outline: none;
   transition: background-color 0.3s;
-} */
+}
 
 button:hover {
   background-color: #2a62cc;
