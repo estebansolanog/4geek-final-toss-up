@@ -2,20 +2,6 @@ import React from "react";
 import { Carousel } from "react-bootstrap";
 import CardCarousel from "../component/cardCarrousel.jsx";
 import { Link } from "react-router-dom";
-// import CardCarousel from "../component/cardRecetas.jsx";
-import img1 from "/src/front/img/img1.jpg";
-import img2 from "/src/front/img/img2.jpg";
-import img3 from "/src/front/img/img3.jpg";
-import img4 from "/src/front/img/img4.jpg";
-import img5 from "/src/front/img/img5.jpg";
-import img6 from "/src/front/img/img6.jpg";
-import img7 from "/src/front/img/img7.jpg";
-import img8 from "/src/front/img/img8.jpg";
-import img9 from "/src/front/img/img9.jpg";
-import img10 from "/src/front/img/img10.jpg";
-import img11 from "/src/front/img/img11.jpg";
-import img12 from "/src/front/img/img12.jpg";
-import BackSearch from "/src/front/img/search_section_element_backless.png";
 import "../../styles/landingPage.css";
 // import "../../styles/publicNavbar.css";
 const LandingPage = () => {
@@ -24,123 +10,123 @@ const LandingPage = () => {
       <div id="top" style={{ display: "flex" }} className="container-carousel">
         <Carousel fade className="carousel-container">
           <Carousel.Item>
-            <CardCarousel url={img1} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159201/img10_udvzky.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img2} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159200/img7_fmticb.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img3} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159200/img5_ji20c5.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img4} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img9_r06ihn.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img5} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img8_untaqb.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img6} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img6_riebls.jpg"} />
           </Carousel.Item>
           {/* Añade más ítems de carrusel según sea necesario */}
         </Carousel>
         <Carousel fade className="carousel-container" >
           <Carousel.Item>
-            <CardCarousel url={img7} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img3_j0z88r.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img8} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img2_e5wn6v.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img9} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img12_ogjjhr.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img10} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img4_obnjup.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img11} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img1_pwmuwa.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img12} />
-          </Carousel.Item>
-        </Carousel>
-        <Carousel fade className="carousel-container">
-          <Carousel.Item>
-            <CardCarousel url={img12} />
-          </Carousel.Item>
-          <Carousel.Item>
-            <CardCarousel url={img11} />
-          </Carousel.Item>
-          <Carousel.Item>
-            <CardCarousel url={img10} />
-          </Carousel.Item>
-          <Carousel.Item>
-            <CardCarousel url={img9} />
-          </Carousel.Item>
-          <Carousel.Item>
-            <CardCarousel url={img8} />
-          </Carousel.Item>
-          <Carousel.Item>
-            <CardCarousel url={img7} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159198/img11_voyzpz.jpg"} />
           </Carousel.Item>
         </Carousel>
         <Carousel fade className="carousel-container">
           <Carousel.Item>
-            <CardCarousel url={img6} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159198/img11_voyzpz.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img5} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img1_pwmuwa.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img4} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img4_obnjup.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img3} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img12_ogjjhr.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img2} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img2_e5wn6v.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img1} />
-          </Carousel.Item>
-        </Carousel>
-        <Carousel fade className="carousel-container">
-          <Carousel.Item>
-            <CardCarousel url={img2} />
-          </Carousel.Item>
-          <Carousel.Item>
-            <CardCarousel url={img4} />
-          </Carousel.Item>
-          <Carousel.Item>
-            <CardCarousel url={img6} />
-          </Carousel.Item>
-          <Carousel.Item>
-            <CardCarousel url={img8} />
-          </Carousel.Item>
-          <Carousel.Item>
-            <CardCarousel url={img10} />
-          </Carousel.Item>
-          <Carousel.Item>
-            <CardCarousel url={img12} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img3_j0z88r.jpg"} />
           </Carousel.Item>
         </Carousel>
         <Carousel fade className="carousel-container">
           <Carousel.Item>
-            <CardCarousel url={img6} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img6_riebls.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img5} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img8_untaqb.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img4} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img9_r06ihn.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img3} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159200/img5_ji20c5.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img2} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159200/img7_fmticb.jpg"} />
           </Carousel.Item>
           <Carousel.Item>
-            <CardCarousel url={img1} />
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159201/img10_udvzky.jpg"} />
+          </Carousel.Item>
+        </Carousel>
+        <Carousel fade className="carousel-container">
+          <Carousel.Item>
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159200/img7_fmticb.jpg"} />
+          </Carousel.Item>
+          <Carousel.Item>
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img9_r06ihn.jpg"} />
+          </Carousel.Item>
+          <Carousel.Item>
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img6_riebls.jpg"} />
+          </Carousel.Item>
+          <Carousel.Item>
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img3_j0z88r.jpg"} />
+          </Carousel.Item>
+          <Carousel.Item>
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img4_obnjup.jpg"} />
+          </Carousel.Item>
+          <Carousel.Item>
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159198/img11_voyzpz.jpg"} />
+          </Carousel.Item>
+        </Carousel>
+        <Carousel fade className="carousel-container">
+          <Carousel.Item>
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img6_riebls.jpg"} />
+          </Carousel.Item>
+          <Carousel.Item>
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img8_untaqb.jpg"} />
+          </Carousel.Item>
+          <Carousel.Item>
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/img9_r06ihn.jpg"} />
+          </Carousel.Item>
+          <Carousel.Item>
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159200/img5_ji20c5.jpg"} />
+          </Carousel.Item>
+          <Carousel.Item>
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159200/img7_fmticb.jpg"} />
+          </Carousel.Item>
+          <Carousel.Item>
+            <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159201/img10_udvzky.jpg"} />
           </Carousel.Item>
         </Carousel>
       </div>
@@ -182,7 +168,7 @@ const LandingPage = () => {
         <Link to="/public" className="my-link">
           <div className="search-img">
             <h2>Busca entre cientos de recetas</h2>
-            <img className="container-img" src={BackSearch} alt="Backgroun of section search" />
+            <img className="container-img" src={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/search_section_element_backless_tywwbl.png"} alt="Backgroun of section search" />
           </div>
         </Link>
         <div className="search-text">
