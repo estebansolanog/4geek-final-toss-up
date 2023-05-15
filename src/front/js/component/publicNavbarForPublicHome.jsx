@@ -35,7 +35,7 @@ export const PublicNavbarForPublicHome = () => {
         <div className="flex-column flex-md-row logo-container">
           <Link to="/home" onClick={() => handleLinkClick('/home')}>
             <div className="navbar-brand col-1" href="#" style={{ height: "80px", width: "100px" }}>
-              <img style={{ maxHeight: "100%", maxWidth: "100%" }} src={Logo} alt="" />
+              <img style={{ maxHeight: "100%", maxWidth: "100%" }} src={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159198/logoTossUp_backgroundless_v2_hgg3ta.png"} alt="" />
             </div>
           </Link>
         </div>

@@ -34,9 +34,9 @@ chat = Blueprint('chat', __name__)
 
 # Configurar cloudinary
 cloudinary.config(
-  cloud_name = "doqx408xv",
-  api_key = "381731366278899",
-  api_secret = "88rsMojoVVbEC0IDA9HXx2rNBVU",
+  cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"),
+  api_key = os.getenv("CLOUDINARY_API_KEY"),
+  api_secret = os.getenv("CLOUDINARY_API_SECRET"),
   secure = True
 )
 
