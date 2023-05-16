@@ -19,10 +19,12 @@ class Recipe(db.Model):
     id_country = db.Column(db.Integer, db.ForeignKey('country.id_country'), nullable=False)
     id_category = db.Column(db.Integer, db.ForeignKey('category.id_category'), nullable=False)
     id_likes = db.relationship('Likes', backref='recipe', lazy=True)
+    id_favoritos = db.Column(db.Integer, db.ForeignKey('recipe.id_favoritos'), nullable=False)
 
     # Relación muchos-a-muchos con Ingredient
     # id_ingredient = db.relationship('Ingredient', secondary=Recipe_ingredient, lazy='subquery',backref=db.backref('recipe', lazy=True))
     recipe_ingredient = db.relationship('Recipe_ingredient', backref="recipe", lazy=True)
+    
 
     def serialize(self):
         return {
