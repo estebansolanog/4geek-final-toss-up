@@ -167,7 +167,13 @@ def image_recipe():
     return jsonify({"image_path": image_path, "recipe_id": new_recipe_chat.id})
 
 @chat.route('/recipe', methods=['POST'])
+@jwt_required()
 def generate_recipe():
+
+    jwt_claims = get_jwt()
+    print(jwt_claims)
+    user_id = jwt_claims["users_id"]
+
     data = request.get_json()
     prompt = "Eres una pagina web de recetas que responde con descripcion de la receta, una lista de ingredientes y un paso a paso para preparar la receta solicitada por el usuario: "+ data['prompt']
 
@@ -206,7 +212,7 @@ def generate_recipe():
     new_recipe_chat = RecipeChat(
         name="nombre de la receta",  # actualiza esto
         description=recipe_text,
-        user_id=3,  # actualiza esto
+        user_id=user_id, 
         user_query=data['prompt'],
         image_of_recipe=image_cloudinary_url  # ahora esto es la URL de la imagen en Cloudinary
     )
