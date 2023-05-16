@@ -4,9 +4,9 @@ import { Footer } from "../component/footerLogin";
 
 import { NavbarLogin } from "../component/navbarLogin";
 // import { NavbarVisitor } from "../component/navbarVisitor";
-import { useNavigate, useState } from "react";
-// import CutFruitAndVegetables from "../../img/CutFruitAndVegetables.mp4";
-import Comida from "../../img/comida.mp4";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 import {
   Container,
@@ -14,6 +14,7 @@ import {
   TextField,
   Button,
   Grid,
+  Link,
   makeStyles,
 } from "@material-ui/core";
 import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
@@ -31,22 +32,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Login = () => {
+  const { store, actions } = useContext(Context);
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(email);
+  }, [email]);
+  useEffect(() => {
+    console.log(password);
+  }, [password]);
+
+  const handleSignIn = (e) => {
     e.preventDefault();
-    console.log("Email:", email, "Password:", password);
-    // Lógica de inicio de sesión
+    actions.login(email, password);
+    navigate("/chatbot");
   };
 
   return (
     <div className="landing-page">
       <div className="video-container">
         <video autoPlay muted loop>
-          <source src={Comida} type="video/mp4" />
-          <source src="https://www.example.com/tuvideo.mp4" type="video/mp4" />
+          <source src={"https://res.cloudinary.com/doqx408xv/video/upload/v1684159209/comida_chxnqx.mp4"} type="video/mp4" />
           Tu navegador no soporta la reproducción de video.
         </video>
       </div>
@@ -63,7 +73,7 @@ export const Login = () => {
         <br />
 
         <Container maxWidth="xs">
-          <form onSubmit={handleSubmit} className={classes.container}>
+          <form className={classes.container}>
             <Grid container justifyContent="center">
               <Grid item>
                 <LockOutlinedIcon className={classes.lockIcon} />
@@ -101,15 +111,33 @@ export const Login = () => {
               }}
             />
 
+            <br />
             <Button
-              className={classes.submitButton}
-              type="submit"
-              variant="contained"
-              color="primary"
+              type="button"
               fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              color="primary"
+              onClick={(e) => {
+                handleSignIn(e);
+              }}
             >
               Iniciar sesión
             </Button>
+            <br />
+            <br />
+            <Grid container direction="column" alignItems="center" justifyContent="center">
+              <Grid item xs>
+                <Link href="#" variant="body2" style={{ color: "white" }}>
+                  Olvidé mi contraseña
+                </Link>
+              </Grid>
+              <Grid item xs>
+                <Link href="#" variant="body2" style={{ color: "white" }}>
+                  {"¿Aún no tienes una cuenta? Regístrate"}
+                </Link>
+              </Grid>
+            </Grid>
           </form>
         </Container>
         <br />

@@ -35,6 +35,16 @@ module.exports = {
           options: { name: "[name].[ext]" },
         },
       }, //for images
+      //Se agrega esta regla para aceptar imagenes jpg
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+
       {
         test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
         use: ["file-loader"],

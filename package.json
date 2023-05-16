@@ -75,11 +75,16 @@
 	"dependencies": {
 		"@material-ui/core": "^4.12.4",
 		"@material-ui/icons": "^4.11.3",
+		"axios": "^1.4.0",
+		"bootstrap": "^5.2.3",
+		"classnames": "^2.3.2",
 		"dotenv": "^16.0.3",
 		"prop-types": "^15.6.1",
 		"react": "^16.8.4",
+		"react-bootstrap": "^2.7.4",
 		"react-dom": "^16.8.4",
 		"react-polyfills": "0.0.1",
-		"react-router-dom": "^6.3.0"
+		"react-router-dom": "^6.3.0",
+		"react-toastify": "^9.1.2"
 	}
 }

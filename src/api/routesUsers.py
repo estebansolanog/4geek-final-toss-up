@@ -223,6 +223,62 @@ def get_all_users():
     return jsonify(user), 200
 
 
+#1 - REGISTRO DE USUARIO.
+#VER DOCUMENTACION ADICIONAL SOBRE ESTA RUTA EN: https://www.notion.so/dicttaapp-1-REGISTRO-DE-USUARIO-7ed225b8b61a4461a68413a37253434c
+@api.route('/register', methods=['POST'])
+def register_user():
+
+    # Obtenemos los datos del cuerpo de la solicitud
+    body = request.get_json()
+
+    # Si el cuerpo está vacío, lanzamos un error
+    if not body:
+        raise APIException({"message": "Necesitas especificar el body"}, status_code=400)
+
+    # Verificamos que todos los campos requeridos estén presentes
+    for field in ["email", "name", "last_name", "password"]:
+        if field not in body:
+            raise APIException({"message": f"Necesitas especificar {field}"}, status_code=400)
+
+    # Extraemos los datos del cuerpo
+    name = body["name"]
+    last_name = body["last_name"]
+    email = body["email"]
+    password = body["password"]
+
+    # Validar el formato del correo electrónico
+    try:
+        validate_email(email)
+        print(f"Email is valid: {email}")  # Agregamos esta línea para mostrar que el correo electrónico es válido
+    except EmailNotValidError:
+        return jsonify({"message": "El formato del correo electrónico es inválido."}), 400
+
+    # Validamos la contraseña y lanzamos un error si no cumple con los requisitos
+    if not validate_password(password):
+        raise APIException({"message": "La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y al menos un simbolo especial (@#$%^&+=*/)"}, status_code=400)
+
+    # if password != password_confirmation:
+    #     raise APIException({"message": "La contraseña y la confirmación de la contraseña no coinciden"}, status_code=400)
+
+    # Comprobamos si el correo electrónico ya está registrado
+    existing_user = User.query.filter_by(email=email).first()
+    if existing_user:
+        raise APIException({"message": "El correo electrónico ya está registrado"}, status_code=400)
+
+    # Encriptamos la contraseña antes de guardarla en la base de datos
+    password_escrypted = bcrypt.generate_password_hash(password, 10).decode('utf-8')
+
+    # Creamos un nuevo objeto de usuario y lo agregamos a la base de datos
+    new_user = User(email=email, name=name, last_name=last_name, password=password_escrypted)
+    db.session.add(new_user)
+    db.session.commit()
+
+
+    # Devolvemos una respuesta JSON con un mensaje y un código de estado HTTP 201 (creado)
+    return jsonify({"message": "Usuario creado correctamente"}), 201
+
+
+
 #2 - LOGIN DE USUARIO.
 #VER DOCUMENTACION ADICIONAL SOBRE ESTA RUTA EN: https://www.notion.so/dicttaapp-2-LOGIN-DE-USUARIO-b6b48b0b3ea34b23a55b8b3216cd2ac6?pvs=4
 

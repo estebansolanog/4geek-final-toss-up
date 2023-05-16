@@ -1,5 +1,6 @@
 import { favoritosStore, favoritosActions } from "./favoritos.js";
-
+//1) importamos los estados y acciones centralizadas del usuario desde userStore.
+import { userStore, userActions } from "./userStore";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -18,6 +19,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 			...favoritosStore,
+			...userStore,
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -53,13 +55,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ demo: demo });
 			},
 			...favoritosActions(getStore, getActions, setStore),
-			
+
 			useFetch: async (endpoint, body, method = "GET") => {
 				let url = process.env.BACKEND_URL + endpoint
 				console.log(url)
 				let response = await fetch(url, {
 					method: method,
-					headers: { "Content-Type": "application/json" },
+					headers: { "Content-Type": "application/json", "Authorization": "Bearer " + localStorage.getItem("token") },
 					body: body ? JSON.stringify(body) : null
 				})
 
@@ -79,6 +81,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				return response;
 			},
+			...userActions(getStore, getActions, setStore),
 		}
 	};
 };

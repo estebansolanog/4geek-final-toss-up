@@ -1,0 +1,50 @@
+.public-navbar {
+  /* background-color: rgb(249, 218, 167); */
+  background-color: rgb(79, 75, 75);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  height: 65px;
+}
+.private-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.form-control {
+  height: 100%;
+  padding: 1%;
+  margin: 0%;
+}
+.navbar-brand.active {
+  background-color: rgb(245, 154, 17);
+  border-radius: 5px;
+}
+
+.menu-group-1 {
+  text-decoration: none;
+}
+
+.menu-group-2 {
+  display: flex;
+  justify-content: space-between;
+
+  align-items: center;
+  justify-content: center;
+  width: 35%;
+}
+.menu-link {
+  width: 55%;
+}
+.menu-botton {
+  width: 45%;
+}
+.logo-container {
+  width: 5%;
+  padding-top: 10px;
+  margin: 0%;
+}
+
+.navbar-link {
+  text-decoration: none;
+}
