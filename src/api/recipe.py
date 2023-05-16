@@ -16,13 +16,15 @@ class Recipe(db.Model):
     calories = db.Column(db.Integer, nullable=True)
     description = db.Column(db.String(80), unique=False, nullable=False)
     instructions = db.Column(db.String(120), unique=True, nullable=False)
+    
     id_country = db.Column(db.Integer, db.ForeignKey('country.id_country'), nullable=False)
     id_category = db.Column(db.Integer, db.ForeignKey('category.id_category'), nullable=False)
     id_likes = db.relationship('Likes', backref='recipe', lazy=True)
+    recipe_ingredient = db.relationship('Recipe_ingredient', backref="recipe", lazy=True)
 
     # Relación muchos-a-muchos con Ingredient
     # id_ingredient = db.relationship('Ingredient', secondary=Recipe_ingredient, lazy='subquery',backref=db.backref('recipe', lazy=True))
-    recipe_ingredient = db.relationship('Recipe_ingredient', backref="recipe", lazy=True)
+    
 
     def serialize(self):
         return {

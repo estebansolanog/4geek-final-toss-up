@@ -1,7 +1,7 @@
   
 import os
 from flask_admin import Admin
-from .favoritos import Favorito
+# from .favoritos import Favorito
 from .ingredient import Ingredient
 from .countries import Country
 from .categories import Category
@@ -38,6 +38,7 @@ def setup_admin(app):
     admin.add_view(ModelView(Recipe, db.session))
     admin.add_view(ModelView(Likes, db.session))
     admin.add_view(ModelView(TokenBlokedList, db.session))
+    admin.add_view(ModelView(Recipe_ingredient, db.session))
 
 
     # You can duplicate that line to add mew models
