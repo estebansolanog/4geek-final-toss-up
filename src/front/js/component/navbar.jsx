@@ -97,10 +97,10 @@ export const Navbar = () => {
 
 
 
-        {store.userLogin ?
-          <button onClick={(e) => { handleLogout() }}>Logout</button>
+        {/* {store.userLogin ? */}
+        <button onClick={(e) => { handleLogout() }}>Logout</button>
 
-          : <></>}
+        {/* : <></>} */}
       </div>
     </nav>
   );

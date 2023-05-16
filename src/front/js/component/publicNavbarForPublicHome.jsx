@@ -33,7 +33,7 @@ export const PublicNavbarForPublicHome = () => {
     <nav className="navbar public-navbar navbar-expand-md">
       <div className="container-fluid">
         <div className="flex-column flex-md-row logo-container">
-          <Link to="/home" onClick={() => handleLinkClick('/home')}>
+          <Link to="/public" onClick={() => handleLinkClick('/public')}>
             <div className="navbar-brand col-1" href="#" style={{ height: "80px", width: "100px" }}>
               <img style={{ maxHeight: "100%", maxWidth: "100%" }} src={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159198/logoTossUp_backgroundless_v2_hgg3ta.png"} alt="" />
             </div>
@@ -67,11 +67,28 @@ export const PublicNavbarForPublicHome = () => {
             </Link>
 
           </div>
-          <ul className="dropdown-menu">
-            <li><a className="dropdown-item" href="#">Action</a></li>
-            <li><a className="dropdown-item" href="#">Another action</a></li>
-            <li><a className="dropdown-item" href="#">Something else here</a></li>
-          </ul>
+          <div className="nav-item dropdown">
+            <div className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Favoritos
+            </div>
+            <ul className="dropdown-menu list-unstyled" aria-labelledby="navbarDropdown">
+              {store.favoritos && store.favoritos.length > 0 ? <>
+                {store.favoritos.map((item, index) => {
+                  return <li key={index}>
+                    <Link to={item.link}>{item.name}</Link>
+                    <button onClick={() => actions.removerFavorito(item.name)}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                      </svg>
+                    </button>
+                  </li>
+                })}
+              </> : <></>}
+
+            </ul>
+
+
+          </div>
         </div>
       </div>
     </nav>
