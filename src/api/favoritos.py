@@ -10,6 +10,6 @@ class Favorito(db.Model):
     def serialize(self):
         return {
             "id_favorito": self.id_favorito,
-            "id_user": self.id_user,
-            "id_recipe": self.id_recipe,
+            # "id_user": self.id_user,
+            "id_recipe": self.id_recipe
         }

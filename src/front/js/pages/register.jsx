@@ -46,11 +46,11 @@ export const Register = () => {
     console.log("Email:", email, "Password:", password, "Name:");
     // Lógica de inicio de sesión
     actions.register(name, lastName, email, password);
-    // navigate("/login");
-    // console.log({
-    //   email: data.get("email"),
-    //   password: data.get("password"),
-    // });
+    navigate("/login");
+    console.log({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
   };
 
   return (

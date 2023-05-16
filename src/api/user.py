@@ -15,7 +15,7 @@ class User(db.Model):
     gender = db.Column(db.String(20), nullable=True)
     otp = db.Column(db.Integer, nullable=True)
     otp_active = db.Column(db.Boolean(), unique=False, nullable=True, default=False)
-    creation_date = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
+   
     recipe_chat = db.relationship("RecipeChat", backref="users", lazy=True)
     
     # Relación uno-a-muchos con Likes
@@ -34,7 +34,7 @@ class User(db.Model):
             "gender": self.gender,
             "otp": self.otp,
             "otp_active": self.otp_active,
-            "creation_date": self.creation_date,
+           
             # "favoritos": self.favoritos
             # do not serialize the password, its a security breach
         }
