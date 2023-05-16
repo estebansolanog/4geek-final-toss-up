@@ -39,7 +39,7 @@ export const PublicNavbar = () => {
             </div>
           </Link>
         </div>
-        <div className="menu-group-2">
+        <div className="menu-group-2 ">
           <div className="flex-column flex-md-row menu-link">
             <Link to="/login" onClick={() => handleLinkClick('/login')} className="navbar-link">
               <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/login' })}>Información</span>
@@ -65,30 +65,32 @@ export const PublicNavbar = () => {
                 Regístrate
               </button>
             </Link>
-          </div>
-          <div className="nav-item dropdown">
-            <div className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <button>Favoritos</button>
+
+            <div className="nav-item dropdown btn-favorito">
+              <div className="nav-link dropdown-toggle " id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <button>Favoritos</button>
+
+              </div>
+              <ul className="dropdown-menu list-unstyled" aria-labelledby="navbarDropdown">
+                {store.favoritos && store.favoritos.length > 0 ? <>
+                  {store.favoritos.map((item, index) => {
+                    return <li key={index}>
+                      <Link to={item.link}>{item.name}</Link>
+                      <button onClick={() => actions.removerFavorito(item.name)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                          <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                        </svg>
+                      </button>
+                    </li>
+                  })}
+                </> : <></>}
+
+              </ul>
+
 
             </div>
-            <ul className="dropdown-menu list-unstyled" aria-labelledby="navbarDropdown">
-              {store.favoritos && store.favoritos.length > 0 ? <>
-                {store.favoritos.map((item, index) => {
-                  return <li key={index}>
-                    <Link to={item.link}>{item.name}</Link>
-                    <button onClick={() => actions.removerFavorito(item.name)}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                      </svg>
-                    </button>
-                  </li>
-                })}
-              </> : <></>}
-
-            </ul>
-
-
           </div>
+
         </div>
       </div>
 

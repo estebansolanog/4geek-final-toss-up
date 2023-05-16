@@ -69,7 +69,8 @@ export const PublicNavbarForPublicHome = () => {
           </div>
           <div className="nav-item dropdown">
             <div className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Favoritos
+              <button>Favoritos</button>
+
             </div>
             <ul className="dropdown-menu list-unstyled" aria-labelledby="navbarDropdown">
               {store.favoritos && store.favoritos.length > 0 ? <>
