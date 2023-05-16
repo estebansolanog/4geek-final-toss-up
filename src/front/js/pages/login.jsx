@@ -51,7 +51,7 @@ export const Login = () => {
   const handleSignIn = (e) => {
     e.preventDefault();
     actions.login(email, password);
-    navigate("/demo");
+    navigate("/chatbot");
   };
 
   return (

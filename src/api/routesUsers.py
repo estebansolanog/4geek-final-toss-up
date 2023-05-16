@@ -106,8 +106,8 @@ def register_user():
     last_name = body["lastname"]
     email = body["email"]
     password = body["password"]
-    country = body["country"]
-    gender = body["gender"]
+    # country = body["country"]
+    # gender = body["gender"]
     
     # Si el cuerpo está vacío, lanzamos un error
     if body is None:
@@ -123,10 +123,10 @@ def register_user():
         raise APIException("You need to specify the email", status_code=400)
     if "password" not in body:
         raise APIException("You need to specify the password", status_code=400)
-    if "country" not in body:
-        raise APIException("You need to specify the country", status_code=400)
-    if "gender" not in body:
-        raise APIException("You need to specify the gender", status_code=400)
+    # if "country" not in body:
+    #     raise APIException("You need to specify the country", status_code=400)
+    # if "gender" not in body:
+    #     raise APIException("You need to specify the gender", status_code=400)
 
     # Verificamos que todos los campos requeridos estén presentes
 

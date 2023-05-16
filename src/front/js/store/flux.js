@@ -61,7 +61,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(url)
 				let response = await fetch(url, {
 					method: method,
-					headers: { "Content-Type": "application/json", "Authorization": "Bearer " + localStorage.getItem("token") },
+					headers: { "Content-Type": "application/json" },
 					body: body ? JSON.stringify(body) : null
 				})
 

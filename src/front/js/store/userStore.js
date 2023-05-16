@@ -86,7 +86,7 @@ export function userActions(getStore, getActions, setStore) {
             };
 
             let { respuestaJson, response } = await actions.useFetch(
-                "/api/register",
+                "/api/signup",
                 obj,
                 "POST"
             );
