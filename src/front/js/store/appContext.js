@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import getState from "./flux.js";
+import { NextUIProvider } from '@nextui-org/react';
 
 // Don't change, here is where we initialize our context, by default it's just going to be null.
 export const Context = React.createContext(null);
@@ -41,6 +42,21 @@ const injectContext = PassedComponent => {
 		);
 	};
 	return StoreWrapper;
+
+
+	// 1. import `NextUIProvider` component
+
+
+	function MyApp({ Component, pageProps }) {
+		return (
+			// 2. Use at the root of your app
+			<NextUIProvider>
+				<Component {...pageProps} />
+			</NextUIProvider>
+		);
+	}
+
+
 };
 
 export default injectContext;

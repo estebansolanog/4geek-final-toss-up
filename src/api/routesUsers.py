@@ -4,8 +4,8 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 from api.user import db, User
-from api.token_bloked_list import TokenBlokedList
-from api.favoritos import Favorito
+from .token_blocked_list import TokenBlokedList
+from api.favoritos import Favorite
 from api.utils import generate_sitemap, APIException
 
 from api.extensions import jwt, bcrypt
@@ -171,7 +171,7 @@ def user_login():
         return jsonify({"message": "usuario o contraseña incorrecta"})
 
     # access_token = create_access_token(identity=user.id)
-    access_token = create_access_token(identity=user.id_user, additional_claims={"users_id_user": user.id_user})
+    access_token = create_access_token(identity=user.id, additional_claims={"users_id": user.id})
     return jsonify({"token": access_token}), 200
 
 
@@ -183,6 +183,7 @@ def user_login():
 def myaccount():
     # Access the identity of the current user with get_jwt_identity
     current_user = get_jwt_identity()
+    print(current_app)
     user = User.query.get(current_user)
 
     #VALIDAR si el token existe como bloqueado, con una función previamente definiada.
@@ -224,7 +225,7 @@ def user_logout():
 def update_user():
     # Obtenemos el ID del usuario del token
     jwt_claims = get_jwt()
-    user_id = jwt_claims["users_id_user"]
+    user_id = jwt_claims["users_id"]
 
     # Obtenemos la información enviada en la petición
     data = request.get_json()
@@ -240,7 +241,7 @@ def update_user():
         return jsonify({"message": "El formato del correo electrónico es inválido."}), 400
 
     # Verificamos si el email ya está en uso por otro usuario
-    existing_user = User.query.filter(User.email == email, User.id_user != user_id).first()
+    existing_user = User.query.filter(User.email == email, User.id != user_id).first()
     if existing_user:
         return jsonify({"message": "El email ya está en uso."}), 409
 
@@ -270,7 +271,7 @@ def delete_user():
     # Obtenemos el ID del usuario de las reclamaciones del token JWT.
     jwt_claims = get_jwt()
     # user_id = jwt_claims["user_id"]
-    user_id = jwt_claims["users_id_user"]
+    user_id = jwt_claims["users_id"]
 
     # Buscamos al usuario en la base de datos utilizando el ID obtenido.
     user = User.query.get(user_id)

@@ -10,8 +10,8 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 from api.modelsChat import db, RecipeChat
 from api.user import User
-from api.token_bloked_list import TokenBlokedList
-from api.favoritos import Favorito
+from .token_blocked_list import TokenBlokedList
+from api.favoritos import Favorite
 from api.utils import generate_sitemap, APIException
 
 from api.extensions import jwt, bcrypt
@@ -65,7 +65,7 @@ def save_recipe():
 
     jwt_claims = get_jwt()
     print(jwt_claims)
-    user = jwt_claims["users_id_user"]
+    user = jwt_claims["users_id"]
     
     body = request.get_json()
     
@@ -98,7 +98,7 @@ def get_chat_history():
 
     jwt_claims = get_jwt()
     print(jwt_claims)
-    user_id = jwt_claims["users_id_user"]
+    user_id = jwt_claims["users_id"]
     
     recipes = RecipeChat.query.filter_by(user_id=user_id).all()
     recipes = list(map(lambda item: item.serialize(), recipes))
@@ -206,7 +206,7 @@ def generate_recipe():
     new_recipe_chat = RecipeChat(
         name="nombre de la receta",  # actualiza esto
         description=recipe_text,
-        user_id=1,  # actualiza esto
+        user_id=3,  # actualiza esto
         user_query=data['prompt'],
         image_of_recipe=image_cloudinary_url  # ahora esto es la URL de la imagen en Cloudinary
     )

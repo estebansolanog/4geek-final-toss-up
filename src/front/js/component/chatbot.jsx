@@ -4,6 +4,8 @@ import { useContext } from 'react';
 import { Context } from '../store/appContext';
 import "../../styles/chatbot.css"
 
+// import RecipeEditor from './RecipeEditor';
+
 import SendIcon from '@material-ui/icons/Send';
 
 const Chatbot = () => {
@@ -43,6 +45,7 @@ const Chatbot = () => {
     cargaDatos()
   }, [])
 
+  //Cada vez que se recarga la pagina, hace escroll hacia abajo para ver el ultimo mensaje.
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatHistory]);
@@ -74,6 +77,25 @@ const Chatbot = () => {
     fetchRecipe();
     setInputValue('');
   };
+
+  //Funcion para guardar la receta despues de editarla.
+  // const handleSave = (editedRecipe) => {
+  //   setRecipe(editedRecipe);
+  //   // Aquí también puedes hacer una petición a tu backend para guardar la receta editada.
+  //   try {
+  //     await axios.post('http://localhost:3001/chat/saveRecipe', {
+  //       description: editedRecipe,
+  //       user_query: inputValue
+  //     }, {
+  //       headers: {
+  //         'Authorization': `Bearer ${localStorage.getItem("token")}`
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error('Hubo un error al obtener la receta:', error);
+  //   }
+  //   fetchChatHistory();
+  // };
 
   return (
     <div className='container'>
@@ -170,36 +192,36 @@ export default Chatbot;
 //     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
 //   }, [chatHistory]);
 
-//   const fetchRecipe = async () => {
-//     setIsLoading(true);
-//     try {
-//       // const response = await axios.post('http://localhost:3001/chat/chatgpt', original
-//       const response = await axios.post('http://localhost:3001/chat/recipe', {
-//         prompt: inputValue
-//       });
+// const fetchRecipe = async () => {
+//   setIsLoading(true);
+//   try {
+//     // const response = await axios.post('http://localhost:3001/chat/chatgpt', original
+//     const response = await axios.post('http://localhost:3001/chat/recipe', {
+//       prompt: inputValue
+//     });
 
-//       // console.log(`Bearer ${localStorage.getItem("token")}`);
-//       // await axios.post('http://localhost:3001/chat/saveRecipe', {
-//       //   description: response.data.message,
-//       //   user_query: inputValue
-//       // }, {
-//       //   headers: {
-//       //     'Authorization': `Bearer ${localStorage.getItem("token")}`
-//       //   }
-//       // });
+//     // console.log(`Bearer ${localStorage.getItem("token")}`);
+//     // await axios.post('http://localhost:3001/chat/saveRecipe', {
+//     //   description: response.data.message,
+//     //   user_query: inputValue
+//     // }, {
+//     //   headers: {
+//     //     'Authorization': `Bearer ${localStorage.getItem("token")}`
+//     //   }
+//     // });
 
-//       // setRecipe(response.data.message);
-//       // Agregar la pregunta del usuario y la respuesta del bot al historial de chat
-//       setChatHistory(prevChatHistory => [...prevChatHistory, {
-//         user_query: inputValue,
-//         description: response.data.message,
-//         image_of_recipe: response.data.image_of_recipe
-//       }]);
-//     } catch (error) {
-//       console.error('Hubo un error al obtener la receta:', error);
-//     }
-//     setIsLoading(false);
-//   };
+//     // setRecipe(response.data.message);
+//     // Agregar la pregunta del usuario y la respuesta del bot al historial de chat
+//     setChatHistory(prevChatHistory => [...prevChatHistory, {
+//       user_query: inputValue,
+//       description: response.data.message,
+//       image_of_recipe: response.data.image_of_recipe
+//     }]);
+//   } catch (error) {
+//     console.error('Hubo un error al obtener la receta:', error);
+//   }
+//   setIsLoading(false);
+// };
 
 //   const handleInputChange = (event) => {
 //     setInputValue(event.target.value);
