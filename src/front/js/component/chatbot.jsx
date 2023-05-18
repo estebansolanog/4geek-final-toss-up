@@ -2,9 +2,12 @@ import React, { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useContext } from 'react';
 import { Context } from '../store/appContext';
+import Button from '@material-ui/core/Button';
+import EditRecipeModal from './EditRecipeModal.jsx';
 import "../../styles/chatbot.css"
 
-// import RecipeEditor from './RecipeEditor';
+import RecipeEditor from './RecipeEditor.jsx';
+// import EditRecipeModal from './EditRecipeModal.jsx';
 
 import SendIcon from '@material-ui/icons/Send';
 
@@ -16,6 +19,63 @@ const Chatbot = () => {
   const [chatHistory, setChatHistory] = useState([]);
   const [infoUsuario, setInfoUsuario] = useState(null)
   const messagesEndRef = useRef(null);
+
+  //relacionado con la ventana modal para editar la receta
+
+  const [selectedChat, setSelectedChat] = useState(null);
+
+  const handleEditClick = (chat) => {
+    setSelectedChat(chat);
+  };
+
+  const handleSave = async (editedChat) => {
+    // Aquí puedes hacer una petición a tu backend para actualizar el chat con los nuevos datos
+    try {
+      await axios.post('http://localhost:3001/chat/saveRecipe', editedChat, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+      fetchChatHistory();
+    } catch (error) {
+      console.error('Hubo un error al obtener la receta:', error);
+    }
+
+    setSelectedChat(null); // Cierra el modal al terminar de guardar
+  };
+
+  // const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  // const [currentRecipe, setCurrentRecipe] = useState(null);
+
+  // const handleEditClick = (recipe) => {
+  //   setCurrentRecipe(recipe);
+  //   setIsEditModalOpen(true);
+  // };
+
+  // const handleCloseModal = () => {
+  //   setIsEditModalOpen(false);
+  // };
+
+  // const handleSave = async (editedRecipe) => {
+  //   // setRecipe(editedRecipe);
+  //   // Aquí también puedes hacer una petición a tu backend para guardar la receta editada.
+  //   try {
+  //     await axios.post('http://localhost:3001/chat/saveRecipe', {
+  //       ...editedRecipe,
+  //       ...editedQuery
+  //     }, {
+  //       headers: {
+  //         'Authorization': `Bearer ${localStorage.getItem("token")}`
+  //       }
+  //     });
+  //     fetchChatHistory();
+  //   } catch (error) {
+  //     console.error('Hubo un error al obtener la receta:', error);
+  //   }
+  //   // Luego, cierra el modal.
+  //   setIsEditModalOpen(false);
+  // };
+  // FIn del código relacionado con la ventana modal para editar la receta
 
   useEffect(() => {
     const fetchChatHistory = async () => {
@@ -55,6 +115,10 @@ const Chatbot = () => {
     try {
       const response = await axios.post('http://localhost:3001/chat/recipe', {
         prompt: inputValue
+      }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        }
       });
 
       setChatHistory(prevChatHistory => [...prevChatHistory, {
@@ -78,25 +142,6 @@ const Chatbot = () => {
     setInputValue('');
   };
 
-  //Funcion para guardar la receta despues de editarla.
-  // const handleSave = (editedRecipe) => {
-  //   setRecipe(editedRecipe);
-  //   // Aquí también puedes hacer una petición a tu backend para guardar la receta editada.
-  //   try {
-  //     await axios.post('http://localhost:3001/chat/saveRecipe', {
-  //       description: editedRecipe,
-  //       user_query: inputValue
-  //     }, {
-  //       headers: {
-  //         'Authorization': `Bearer ${localStorage.getItem("token")}`
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error('Hubo un error al obtener la receta:', error);
-  //   }
-  //   fetchChatHistory();
-  // };
-
   return (
     <div className='container'>
       <h1>Receta</h1>
@@ -109,6 +154,18 @@ const Chatbot = () => {
               <p><strong>MarIA:</strong></p>
               {chat.image_of_recipe && <img className="responsive-image" src={chat.image_of_recipe} alt="recipe" />}
               <p style={{ whiteSpace: 'pre-wrap' }}> {chat.description}</p>
+              {/* <EditRecipeModal recipe={chat} onSave={handleSave} /> */}
+
+              <Button variant="outlined" color="primary" onClick={() => handleEditClick(chat)}>
+                Editar
+              </Button>
+              <EditRecipeModal
+                open={!!selectedChat}
+                onClose={() => setSelectedChat(null)}
+                chat={selectedChat}
+                onSave={handleSave}
+              />
+
             </div>
           </div>
 

@@ -1,0 +1,50 @@
+/* EditRecipeModal.css */
+
+.editRecipeModalContainer {
+  height: auto;
+  max-height: auto;
+  /* tus estilos aquí */
+}
+
+.editRecipeModalHeader {
+  border: 1px solid red;
+}
+
+.editRecipeModalBody {
+  /* tus estilos aquí */
+  /* un alto mínomo de 400 y un alto maximo 600 px */
+  width: 100%;
+  max-width: 100%;
+  min-height: 400px;
+  max-height: 600px;
+  /* ajusta el contenido interno al contenedor */
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5%;
+}
+
+.editRecipeModalInputUser {
+  width: 100%;
+  height: 100%;
+}
+
+.imageRecipe {
+  width: 80%;
+  height: 100%;
+  object-fit: cover;
+  background-color: red;
+}
+
+.inputUploadImage {
+  height: 50px;
+  width: 100%;
+  background-color: red;
+  z-index: 10;
+}
+-container_image_and_uploader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
