@@ -9,6 +9,8 @@ class RecipeChat(db.Model):
     description=db.Column(db.String(6144), unique=False, nullable=False)
     user_query=db.Column(db.String(280), unique=False, nullable=False)
     image_of_recipe=db.Column(db.String(512), unique=False, nullable=True)
+    share=db.Column(db.Boolean(), unique=False, nullable=False)
+    comments=db.Column(db.String(140), unique=False, nullable=True)
 
     user_id=db.Column(db.Integer, db.ForeignKey('users.id'))
     
