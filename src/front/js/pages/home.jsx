@@ -4,6 +4,7 @@ import "../../styles/home.css";
 import CardRecetas from "../component/cardRecetas.jsx";
 
 
+
 export const Home = () => {
   const { store, actions } = useContext(Context);
   const [listRecetas, setListRecetas] = useState({})
@@ -52,7 +53,7 @@ export const Home = () => {
     <div className="container-fluid mx-4 ">
       <ul className="row m-2 p-0">
         <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
-        <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
+        <li className="col md-3 sm-12my-2"><CardRecetas /></li>
         <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
         <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
         <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
@@ -60,6 +61,12 @@ export const Home = () => {
         <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
         <li className="col md-3 sm-12 my-2"><CardRecetas /></li>
       </ul>
+
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
     </div>
 
   );

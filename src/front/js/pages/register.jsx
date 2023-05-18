@@ -69,7 +69,7 @@ export const Register = () => {
             <br></br>
             <br></br>
 
-            <Typography variant="h5" align="center">
+            <Typography className="text-white" variant="h5" align="center">
               Registrate!
             </Typography>
 
@@ -138,6 +138,7 @@ export const Register = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              color="secondary"
               onClick={(e) => {
                 handleSubmit(e);
               }}
