@@ -15,7 +15,7 @@ class Recipe(db.Model):
     country_id = db.Column(db.Integer, db.ForeignKey('countries.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
     # user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id_user'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     likes = db.relationship('Like', backref='recipes', lazy=True)
     recipe_ingredients = db.relationship('RecipeIngredient', backref="recipes", lazy=True)
     favorites = db.relationship('Favorite', backref="recipes", lazy=True)

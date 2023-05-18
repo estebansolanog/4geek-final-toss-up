@@ -18,7 +18,7 @@ class User(db.Model):
     likes = db.relationship("Like", backref="users", lazy=True)
     favoritos = db.relationship("Favorite", backref="users", lazy=True)
     coments = db.relationship("Coment", backref="users", lazy=True)
-    recipes_chat = db.relationship("RecipeChat", backref="users", lazy=True)
+    # recipes_chat = db.relationship("RecipeChat", backref="users", lazy=True)
     def __repr__(self):
         return f"<User {self.id}>"
     def serialize(self):
