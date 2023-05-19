@@ -8,7 +8,7 @@ from .categories import Category
 from .recipe import Recipe
 from .likes import Likes
 from .user import User
-from api.token_bloked_list import TokenBlokedList
+from .token_bloked_list import TokenBlokedList
 from .recipe_ingredient import Recipe_ingredient
 # from .favoritos import Favorito
 # from .ingredient import Ingredient

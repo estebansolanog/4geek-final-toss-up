@@ -26,7 +26,6 @@ const NavbarSelector = () => {
   const { store, actions } = useContext(Context);
   const location = useLocation();
 
-import Chatbot from "./component/chatbot.jsx";
   if (location.pathname === '/public') {
     return <PublicNavbarForPublicHome />;
   } else if (store.userLogin) {

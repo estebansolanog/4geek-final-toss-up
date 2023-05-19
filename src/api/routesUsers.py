@@ -94,7 +94,7 @@ def handle_email():
 
 #1 - REGISTRO DE USUARIO.
 #VER DOCUMENTACION ADICIONAL SOBRE ESTA RUTA EN: https://www.notion.so/dicttaapp-1-REGISTRO-DE-USUARIO-7ed225b8b61a4461a68413a37253434c
-@api.route('/signup', methods=['POST'])
+""" @api.route('/signup', methods=['POST'])
 def register_user():
 
     # Obtenemos los datos del cuerpo de la solicitud
@@ -161,7 +161,7 @@ def register_user():
 
     # Devolvemos una respuesta JSON con un mensaje y un código de estado HTTP 201 (creado)
     return jsonify({"message": "Usuario creado correctamente"}), 201
-
+ """
 
 # Handle/serialize errors like a JSON object
 @api.errorhandler(APIException)
