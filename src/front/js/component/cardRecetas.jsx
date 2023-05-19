@@ -22,7 +22,7 @@ const CardRecetas = (props) => {
         <div className="card d-xs-none d-sm-none d-md-none" style={{ width: "18rem" }}>
             <img src={"https://media.istockphoto.com/id/931643150/vector/picture-icon.jpg?s=612x612&w=0&k=20&c=St-gpRn58eIa8EDAHpn_yO4CZZAnGD6wKpln9l3Z3Ok="} className="card-img" alt="..." />
             <div className="card-body bg bg-dark">
-                <h5 className="card-title text-white">Test</h5>
+                <h5 className="card-title text-white">CARDDDDDDDD</h5>
                 <p className="card-text text-warning">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 
                 <div className="d-flex justify-content-between">
@@ -56,7 +56,7 @@ const CardRecetas = (props) => {
         <div className="card d-none d-xs-block d-sm-block d-md-block " style={{ width: "25rem" }}>
             <img src={"https://media.istockphoto.com/id/931643150/vector/picture-icon.jpg?s=612x612&w=0&k=20&c=St-gpRn58eIa8EDAHpn_yO4CZZAnGD6wKpln9l3Z3Ok="} className="card-img" alt="..." />
             <div className="card-body bg bg-dark">
-                <h5 className="card-title text-white">Test</h5>
+                <h5 className="card-title text-white">CADRRRR</h5>
                 <p className="card-text text-warning">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 
                 <div className="d-flex justify-content-between">
