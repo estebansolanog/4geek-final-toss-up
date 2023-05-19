@@ -4,7 +4,7 @@ import "../../styles/navbarLogin.css";
 
 export const NavbarLogin = () => {
   return (
-    <div className="container-visitor">
+    <div className="container-visitor align-middle">
       <nav className="navbar navbar-light bg-light">
         <Link to="/landing">
           <span className="navbar-brand mb-0 h1">Inicio</span>
