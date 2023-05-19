@@ -7,13 +7,12 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.modelsChat import db
-from api.routesUsers import api
-from api.routesChat import chat
 from api.admin import setup_admin
 from api.commands import setup_commands
-from api.db import db
 from api.extensions import jwt, bcrypt
+from api.routesUsers import api
+from api.routesChat import chat
+from api.db import db
 #from models import Person
 
 ENV = os.getenv("FLASK_ENV")
