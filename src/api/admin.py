@@ -14,9 +14,8 @@ from .recipe_ingredient import Recipe_ingredient
 # from .ingredient import Ingredient
 # from .countries import Country
 # from .categories import Category
-from api.db import db
-from .modelsChat import db, User, RecipeChat
-from .favoritos import Favorito
+from .db import db
+from .modelsChat import RecipeChat
 from flask_admin.contrib.sqla import ModelView
 
 
