@@ -3,6 +3,7 @@ from .db import db
 # from .ingredient import Ingredient
 from .countries import Country
 from .categories import Category
+from .favoritos import Favorito
 # from .likes import Likes
 # from .recipe_ingredient import Recipe_ingredient
 
@@ -21,7 +22,7 @@ class Recipe(db.Model):
     id_category = db.Column(db.Integer, db.ForeignKey('category.id_category'), nullable=False)
 
     id_likes = db.Column(db.Integer, db.ForeignKey('likes.id_likes'), nullable=False)
-    id_favoritos = db.Column(db.Integer, db.ForeignKey('recipe.id_favoritos'), nullable=False)
+    id_favorito = db.Column(db.Integer, db.ForeignKey('favorito.id_favorito'), nullable=False)
 
     # Relación muchos-a-muchos con Ingredient
     # id_ingredient = db.relationship('Ingredient', secondary=Recipe_ingredient, lazy='subquery',backref=db.backref('recipe', lazy=True))
@@ -38,6 +39,7 @@ class Recipe(db.Model):
             "instructions": self.instructions,
             "id_country": self.id_country,
             "id_category": self.id_category,
-            "id_likes": len(self.likes),
+            "id_likes": len(self.id_likes),
+            "id_favorito": self.id_favorito,
             "id_ingredient": [ingredient.serialize() for ingredient in self.ingredients]
         }
