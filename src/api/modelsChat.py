@@ -10,10 +10,11 @@ class RecipeChat(db.Model):
     user_query=db.Column(db.String(280), unique=False, nullable=False)
     image_of_recipe=db.Column(db.String(512), unique=False, nullable=True)
     share=db.Column(db.Boolean(), unique=False, nullable=False)
-    comments=db.Column(db.String(140), unique=False, nullable=True)
+    
 
     user_id=db.Column(db.Integer, db.ForeignKey('users.id'))
     
+    coments=db.relationship('Coment', backref='recipe_chat', lazy=True)
     def __repr__(self):
         return f'<RecipeChat {self.description}>'
     
@@ -24,6 +25,8 @@ class RecipeChat(db.Model):
             "description": self.description,
             "user_id": self.user_id,
             "user_query": self.user_query,
-            "image_of_recipe": self.image_of_recipe
+            "image_of_recipe": self.image_of_recipe,
+            "share": self.share,
+            "coments": [coment.serialize() for coment in self.coments]
         }
         

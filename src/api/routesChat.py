@@ -66,6 +66,20 @@ def verificacionToken(identity):
 #     return '.' in filename and \
 #            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+@chat.route('/AllShareRecipes', methods=['GET'])
+@jwt_required()
+def get_all_share_recipes():
+
+    jwt_claims = get_jwt()
+    print(jwt_claims)
+    user = jwt_claims["users_id"]
+    print("el id del USUARIO:",user)
+
+    share_recipes = RecipeChat.query.filter_by(share=True).all()
+    share_recipes = list(map(lambda item: item.serialize(), share_recipes))
+    print(share_recipes)
+
+    return jsonify(share_recipes), 200
 
 @chat.route('/EditRecipeChat', methods=['POST'])
 @jwt_required()
@@ -149,7 +163,7 @@ def generate_recipe():
     print(user_id)
 
     data = request.get_json()
-    prompt = "Eres una pagina web de recetas que responde con descripcion de la receta, una lista de ingredientes y un paso a paso para preparar la receta solicitada por el usuario: "+ data['prompt']
+    prompt = "Eres una pagina web de recetas que responde con descripcion de la receta de una parráfo, una lista de ingredientes y un paso a paso para preparar la receta solicitada por el usuario: "+ data['prompt']
 
     # Genera la receta
     completion = openai.Completion.create(
@@ -188,7 +202,8 @@ def generate_recipe():
         description=recipe_text,
         user_id=user_id, 
         user_query=data['prompt'],
-        image_of_recipe=image_cloudinary_url  # ahora esto es la URL de la imagen en Cloudinary
+        image_of_recipe=image_cloudinary_url,  # ahora esto es la URL de la imagen en Cloudinary
+        share=False,
     )
 
     # Añadir y hacer commit a la nueva entrada
@@ -199,9 +214,62 @@ def generate_recipe():
     return jsonify({"recipe": recipe_text, "image_url": image_cloudinary_url, "recipe_id": new_recipe_chat.id})
 
 
+@chat.route('/ShareRecipeChat/<int:id>', methods=['PUT'])
+@jwt_required()
+def share_recipe_chat(id):
+    print("ID DE LA RECETA: ", id)
 
+    jwt_claims = get_jwt()
+    print(jwt_claims)
+    
+    
 
+   #comprobar si el user_id existe en las jwt_claims
+    if "users_id" not in jwt_claims:
+        return jsonify({"msg": "User not found"}), 401
+    user_id = jwt_claims["users_id"]
+    print("ID DEL USUARIO: ", user_id)
 
+    if user_id != jwt_claims["users_id"]:
+        return jsonify({"msg": "Unauthorized user"}), 401
+  
+    recipe = RecipeChat.query.filter_by(user_id=user_id, id=id).first()
+
+    if recipe:
+        recipe.share = True
+        db.session.commit()
+        return jsonify(recipe.serialize()), 200
+    else:
+        raise APIException("Recipe not found", status_code=404)
+    
+
+@chat.route('/UnShareRecipeChat/<int:id>', methods=['PUT'])
+@jwt_required()
+def unshare_recipe_chat(id):
+    print("ID DE LA RECETA: ", id)
+
+    jwt_claims = get_jwt()
+    print(jwt_claims)
+    
+    
+
+   #comprobar si el user_id existe en las jwt_claims
+    if "users_id" not in jwt_claims:
+        return jsonify({"msg": "User not found"}), 401
+    user_id = jwt_claims["users_id"]
+    print("ID DEL USUARIO: ", user_id)
+
+    if user_id != jwt_claims["users_id"]:
+        return jsonify({"msg": "Unauthorized user"}), 401
+  
+    recipe = RecipeChat.query.filter_by(user_id=user_id, id=id).first()
+
+    if recipe:
+        recipe.share = False
+        db.session.commit()
+        return jsonify(recipe.serialize()), 200
+    else:
+        raise APIException("Recipe not found", status_code=404)
 
 
 
