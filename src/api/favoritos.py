@@ -3,14 +3,14 @@ from .db import db
 
 class Favorito(db.Model):
     __tablename__="favorito"
-    id_favorito = db.Column(db.Integer, primary_key=True)
-    id_recipe = db.Column(db.Integer, db.ForeignKey('recipe.id_recipe'), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    id_recipe = db.Column(db.Integer, db.ForeignKey('recipes.id'), nullable=False)
 
     
 
     def serialize(self):
         return {
-            "id_favorito": self.id_favorito,
+            "id": self.id,
             "id_recipe": self.id_recipe
         }
     

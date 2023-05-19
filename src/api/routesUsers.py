@@ -5,7 +5,7 @@ import os
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 from api.user import db, User
 from .token_blocked_list import TokenBlokedList
-from api.favoritos import Favorite
+from api.favoritos import Favorito
 from api.utils import generate_sitemap, APIException
 
 from api.extensions import jwt, bcrypt

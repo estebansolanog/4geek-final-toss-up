@@ -15,7 +15,7 @@ class Like(db.Model):
     # id_recipe = db.Column(db.Integer, db.ForeignKey('recipe.id_recipe'), nullable=False)
     def serialize(self):
         return {
-            "id_likes": self.id_likes,
+            "id": self.id,
             "id_recipe": self.id_recipe,
             "number": self.number
         }
