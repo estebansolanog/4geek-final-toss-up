@@ -32,43 +32,12 @@ export const PublicNavbarForPublicHome = () => {
   return (
 
     <>
-      {store.userLogout ?
-        <nav className="navbar navbar-expand-lg bg-body-tertiary bg bg-black  d-xs-block d-sm-block d-md-block d-xs-block d-sm-block d-md-block">
-          <div className="container-fluid">
-            <div className="flex-column flex-md-row logo-container">
-              <Link to="/public" onClick={() => handleLinkClick('/public')}>
-                <div className="navbar-brand col-1" href="#" style={{ height: "80px", width: "100px" }}>
-                  <img style={{ maxHeight: "100%", maxWidth: "100%" }} src={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159198/logoTossUp_backgroundless_v2_hgg3ta.png"} alt="" />
-                </div>
-              </Link>
-            </div>
-            <button className="navbar-toggler btn btn-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="menu-group-2 navbar-nav me-auto mb-2 mb-lg-0">
-
-
-              </ul>
-
-              <Link to="/login" onClick={() => handleLinkClick('/login')} className="navbar-link">
-                <span className={classNames('navbar-brand mb-0 h1 text-warning col-1 ', { 'active': activeLink === '/login' })}>
-                  Iniciar Sesión
-                </span>
-              </Link>
-              <Link to="/register" onClick={() => handleLinkClick('/register')} className="navbar-link">
-                <span className={classNames('navbar-brand mb-0 h1 text-green col-1 ', { 'active': activeLink === '/register' })}> Regístrate</span>
-              </Link>
 
 
 
-            </div>
-          </div>
-        </nav>
 
 
 
-        : <></>}
 
       {store.userLogin ?
         <>
