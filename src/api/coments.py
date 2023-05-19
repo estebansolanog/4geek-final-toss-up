@@ -3,7 +3,7 @@ from .db import db
 
 from .user import User
 from .recipe import Recipe
-
+from .modelsChat import RecipeChat
 
 class Coment(db.Model):
     __tablename__="coments"
@@ -12,6 +12,8 @@ class Coment(db.Model):
     
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id'), nullable=False)
+    recipe_chat_id = db.Column(db.Integer, db.ForeignKey('recipe_chat.id'), nullable=False)
+
 
     def __repr__(self):
         return f"<Coment {self.id}>"

@@ -15,6 +15,8 @@ class Recipe(db.Model):
     calories = db.Column(db.Integer, nullable=True)
     description = db.Column(db.String(80), unique=False, nullable=False)
     instructions = db.Column(db.String(120), unique=True, nullable=False)
+    share = db.Column(db.Boolean(), unique=False, nullable=False)
+    image_of_recipe = db.Column(db.String(512), unique=False, nullable=True)
     
     country_id = db.Column(db.Integer, db.ForeignKey('countries.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
