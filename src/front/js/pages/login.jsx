@@ -128,12 +128,12 @@ export const Login = () => {
             <br />
             <Grid container direction="column" alignItems="center" justifyContent="center">
               <Grid item xs>
-                <Link href="#" variant="body2" style={{ color: "white" }}>
+                <Link href="Recover" variant="body2" style={{ color: "white" }}>
                   Olvidé mi contraseña
                 </Link>
               </Grid>
               <Grid item xs>
-                <Link href="#" variant="body2" style={{ color: "white" }}>
+                <Link href="register" variant="body2" style={{ color: "white" }}>
                   {"¿Aún no tienes una cuenta? Regístrate"}
                 </Link>
               </Grid>
