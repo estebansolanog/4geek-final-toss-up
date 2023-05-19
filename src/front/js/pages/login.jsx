@@ -5,8 +5,6 @@ import { Footer } from "../component/footerLogin";
 import { NavbarLogin } from "../component/navbarLogin";
 // import { NavbarVisitor } from "../component/navbarVisitor";
 import { useState, useEffect } from "react";
-// import CutFruitAndVegetables from "../../img/CutFruitAndVegetables.mp4";
-import Comida from "../../img/comida.mp4";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
@@ -58,8 +56,7 @@ export const Login = () => {
     <div className="landing-page">
       <div className="video-container">
         <video autoPlay muted loop>
-          <source src={Comida} type="video/mp4" />
-          <source src="https://www.example.com/tuvideo.mp4" type="video/mp4" />
+          <source src={"https://res.cloudinary.com/doqx408xv/video/upload/v1684159209/comida_chxnqx.mp4"} type="video/mp4" />
           Tu navegador no soporta la reproducción de video.
         </video>
       </div>

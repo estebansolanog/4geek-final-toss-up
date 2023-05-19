@@ -2,7 +2,7 @@
   /* background-color: rgb(249, 218, 167); */
   background-color: rgb(79, 75, 75);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  height: 65px;
+  height: 70px;
 }
 .private-form {
   display: flex;
@@ -27,17 +27,22 @@
 
 .menu-group-2 {
   display: flex;
-  justify-content: space-between;
-
+  justify-content: space-around;
+  
   align-items: center;
   justify-content: center;
-  width: 35%;
+  width: 60%;
 }
 .menu-link {
-  width: 55%;
+  width: 70%;
 }
 .menu-botton {
-  width: 45%;
+  display: flex;
+  justify-content: space-around;
+ 
+  width: 20%;
+  align-items: center;
+  justify-content: center;
 }
 .logo-container {
   width: 5%;
@@ -47,4 +52,10 @@
 
 .navbar-link {
   text-decoration: none;
+}
+
+.btn-favorito {
+  margin: 0%;
+  padding: 0%;
+  
 }
