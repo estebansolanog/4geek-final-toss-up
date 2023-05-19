@@ -3,11 +3,9 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-from api.db import db
-from api.user import User
-from api.token_bloked_list import TokenBlokedList
-from api.favoritos import Favorito
-from api.countries import Country
+from api.user import db, User
+from .token_blocked_list import TokenBlokedList
+from api.favoritos import Favorite
 from api.utils import generate_sitemap, APIException
 
 from api.extensions import jwt, bcrypt
@@ -17,13 +15,6 @@ from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 import re
 
-# se utiliza para enviar correos electrónicos utilizando el protocolo SMTP (Simple Mail Transfer Protocol).
-import smtplib
-import ssl
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email import encoders
 #RUTAS QUE ENCONTRARÁ EN ESTE ARCHIVO: 1) USER REGISTER, 2) USER LOGIN, 3) USER DELETE, 4) USER UPDATE, 5) USER ACOUNT, 6) USER LOGOUT 
 
 #PARA OPERACIONES CON FECHAS Y HORAS.
@@ -282,30 +273,28 @@ def register_user():
 #2 - LOGIN DE USUARIO.
 #VER DOCUMENTACION ADICIONAL SOBRE ESTA RUTA EN: https://www.notion.so/dicttaapp-2-LOGIN-DE-USUARIO-b6b48b0b3ea34b23a55b8b3216cd2ac6?pvs=4
 
-@api.route('/login', methods=["POST"])  # Corrected the methods parameter
-def login():
-    print("login function called")  # Agrega esta línea para depurar
+@api.route('/signin', methods=["POST"])  # Corrected the methods parameter
+def user_login():
+    print("user_login function called")  # Agrega esta línea para depurar
 
     # Obtenemos los datos del cuerpo de la solicitud    
-    body = request.get_json()
     email = request.get_json()["email"]
     password = request.get_json()["password"]
 
     user = User.query.filter_by(email=email).first()
 
     if user is None:
-        return jsonify({"message": "Login failed"}), 401
+        return jsonify({"message": "usuario o contraseña incorrecta"})
+ 
+    if not bcrypt.check_password_hash(user.password, password): #se compara la contrese encriptada, contra la contraseña encrytada que llega desde el usuario.
+        return jsonify({"message": "usuario o contraseña incorrecta"})
 
     # Validación del email.    
-
-    if "email" not in body:
-        raise APIException("You need to specify the email", status_code=400)
-    
-    if not bcrypt.check_password_hash(user.password, password): #se compara la contrese encriptada, contra la contraseña encrytada que llega desde el usuario.
-        return jsonify({"message": "usuario o contraseña incorrecta"}), 401
+    if email != user.email:
+        return jsonify({"message": "usuario o contraseña incorrecta"})
 
     # access_token = create_access_token(identity=user.id)
-    access_token = create_access_token(identity=user.id_user, additional_claims={"users_id_user": user.id_user})
+    access_token = create_access_token(identity=user.id, additional_claims={"users_id": user.id})
     return jsonify({"token": access_token}), 200
 
 
@@ -317,6 +306,7 @@ def login():
 def myaccount():
     # Access the identity of the current user with get_jwt_identity
     current_user = get_jwt_identity()
+    print(current_app)
     user = User.query.get(current_user)
 
     #VALIDAR si el token existe como bloqueado, con una función previamente definiada.
@@ -353,13 +343,12 @@ def user_logout():
 
 #5 - EDITAR UN USUARIO.
 #VER DOCUMENTACION ADICIONAL DE ESTA RUTA EN: https://www.notion.so/dicttaapp-5-myaccount-update-be57cae02ef3417d95adea63217cd1b8?pvs=4
-
 @api.route('/myaccount/update', methods=['POST'])
 @jwt_required()  # Requiere un token válido para acceder a la ruta.
 def update_user():
     # Obtenemos el ID del usuario del token
     jwt_claims = get_jwt()
-    user_id = jwt_claims["users_id_user"]
+    user_id = jwt_claims["users_id"]
 
     # Obtenemos la información enviada en la petición
     data = request.get_json()
@@ -375,7 +364,7 @@ def update_user():
         return jsonify({"message": "El formato del correo electrónico es inválido."}), 400
 
     # Verificamos si el email ya está en uso por otro usuario
-    existing_user = User.query.filter(User.email == email, User.id_user != user_id).first()
+    existing_user = User.query.filter(User.email == email, User.id != user_id).first()
     if existing_user:
         return jsonify({"message": "El email ya está en uso."}), 409
 
@@ -391,39 +380,9 @@ def update_user():
     else:
         return jsonify({"message": "Usuario no encontrado."}), 404
 
-@api.route('/getuser', methods=['GET'])
-def get_user():
-    body = request.get_json()
-    id = body ["id"] if 'id' in body else None
-    email = body ["email"] if 'email' in body else None
-    name = body["name"] if 'name' in body else None
-    last_name = body["last_name"] if 'last_name' in body else None
-    country = body["country"] if 'country' in body else None
-    creation_date = body["creation_date"] if 'creation_date' in body else None
-    is_active = body["is_active"] if 'is_active' in body else None
-    gender = body["gender"] if 'gender' in body else None
+    
 
-    users = User.query
-    if id:
-        users = users.filter_by(id=id)
-    if email:
-        users = users.filter_by(email=email)
-    if name:
-        users = users.filter_by(name=name)
-    if last_name:
-        users = users.filter_by(last_name=last_name)
-    if country:
-        users = users.filter_by(country=country)
-    if creation_date:
-        users = users.filter_by(creation_date=creation_date)
-    if is_active:
-        users = users.filter_by(is_active=is_active)
-    if gender:
-        users = users.filter_by(is_active=gender)
-    users = users.all()
-    print(users)
-    users=list(map(lambda item: item.serialize(), users))
-    return jsonify(users)
+
 
 #6 - ELIMINAR UN USARIO
 #VER DOCUMENTACION ADICIONAL DE ESTA RUTA EN: https://www.notion.so/dicttaap-6-myaccount-delete-cbd5495b91854d069be30f53aa00ff26?pvs=4
@@ -435,7 +394,7 @@ def delete_user():
     # Obtenemos el ID del usuario de las reclamaciones del token JWT.
     jwt_claims = get_jwt()
     # user_id = jwt_claims["user_id"]
-    user_id = jwt_claims["users_id_user"]
+    user_id = jwt_claims["users_id"]
 
     # Buscamos al usuario en la base de datos utilizando el ID obtenido.
     user = User.query.get(user_id)
@@ -448,3 +407,24 @@ def delete_user():
     return jsonify({"message": "usuario borrado"}), 200
 
 
+
+#------------------------------ul----------------------------
+#LAS SIGUIENTES SON RUTAS DEMUESTRAS, NO TIENEN QUE VER CON EL FUNCIONAMIENTO DE LA APLICACION:
+
+# @api.route('/hello', methods=['POST', 'GET'])
+# def handle_hello():
+#     password_encrypted = bcrypt.generate_password_hash("123",10).decode("utf-8")
+#     response_body = {
+#         "message": password_encrypted
+#     }
+
+#     return jsonify(response_body), 200
+
+# @api.route('/hola', methods=['POST', 'GET'])
+# def handle_hola():
+
+#     response_body = {
+#         "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
+#     }
+
+#     return jsonify(response_body), 200

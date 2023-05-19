@@ -1,19 +1,22 @@
 from flask_sqlalchemy import SQLAlchemy
 from .db import db
+
 from .recipe import Recipe
 from .ingredient import Ingredient
-# Recipe_ingredient = db.Table('recipe_ingredient',
-#     db.Column('id_recipe', db.Integer, db.ForeignKey('recipe.id_recipe'), primary_key=True),
-#     db.Column('id_ingredient', db.Integer, db.ForeignKey('ingredient.id_ingredient'), primary_key=True)
-# )
 
-# class Recipe_ingredient(db.Model):
-#     __tablename__ = 'recipe_ingredient'
-#     id=db.Column(db.Integer, primary_key=True)
-#     id_recipe = db.Column(db.Integer, db.ForeignKey('recipe.id_recipe'), nullable=False)
-#     id_ingredient = db.Column(db.Integer, db.ForeignKey('ingredient.id_ingredient', nullable=False))
+class RecipeIngredient(db.Model):
+    __tablename__ = 'recipe_ingredients'
+    id = db.Column(db.Integer, primary_key=True)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id'), primary_key=True)
+    ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id'), primary_key=True)
 
-class Recipe_ingredient(db.Model):
-    __tablename__ = 'recipe_ingredient'
-    id_recipe = db.Column(db.Integer, db.ForeignKey('recipe.id_recipe'), primary_key=True)
-    id_ingredient = db.Column(db.Integer, db.ForeignKey('ingredient.id_ingredient'), primary_key=True)
+    def __repr__(self):
+        return f"<RecipeIngredient {self.id}>"
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "recipe_id": self.recipe_id,
+            "ingredient_id": self.ingredient_id
+        }
+

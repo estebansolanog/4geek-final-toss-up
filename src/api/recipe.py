@@ -1,6 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
 from .db import db
-# from .ingredient import Ingredient
 from .countries import Country
 from .categories import Category
 from .favoritos import Favorito
@@ -9,9 +8,9 @@ from .favoritos import Favorito
 
 
 class Recipe(db.Model):
-    __tablename__="recipe"
-    id_recipe = db.Column(db.Integer, primary_key=True)
-    name_recipe = db.Column(db.String(120), unique=True, nullable=False)
+    __tablename__="recipes"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), unique=False, nullable=False)
     time = db.Column(db.Integer, nullable=True)
     difficulty = db.Column(db.String(120), unique=False, nullable=False)
     calories = db.Column(db.Integer, nullable=True)
@@ -30,8 +29,8 @@ class Recipe(db.Model):
 
     def serialize(self):
         return {
-            "id_recipe": self.id_recipe,
-            "name_recipe": self.name_recipe,
+            "id": self.id,
+            "name": self.name,
             "time": self.time,
             "difficulty": self.difficulty,
             "calories": self.calories,

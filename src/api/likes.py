@@ -1,11 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
 from .db import db
 from .recipe import Recipe
+from .user import User
 
 
-class Likes(db.Model):
+class Like(db.Model):
     __tablename__="likes"
-    id_likes = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     number = db.Column(db.Integer, nullable=False)
     id_recipe = db.relationship('Recipe', backref='likes', lazy=True)
 

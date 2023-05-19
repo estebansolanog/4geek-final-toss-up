@@ -46,7 +46,7 @@ export const Register = () => {
     console.log("Email:", email, "Password:", password, "Name:");
     // Lógica de inicio de sesión
     actions.register(name, lastName, email, password);
-    navigate("/login");
+    // navigate("/login");
     // console.log({
     //   email: data.get("email"),
     //   password: data.get("password"),
@@ -69,7 +69,7 @@ export const Register = () => {
             <br></br>
             <br></br>
 
-            <Typography variant="h5" align="center">
+            <Typography className="text-white" variant="h5" align="center">
               Registrate!
             </Typography>
 
@@ -138,6 +138,7 @@ export const Register = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              color="secondary"
               onClick={(e) => {
                 handleSubmit(e);
               }}
