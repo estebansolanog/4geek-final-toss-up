@@ -25,7 +25,7 @@ class Recipe(db.Model):
 
     # Relación muchos-a-muchos con Ingredient
     # id_ingredient = db.relationship('Ingredient', secondary=Recipe_ingredient, lazy='subquery',backref=db.backref('recipe', lazy=True))
-    recipe_ingredient = db.relationship('RecipeIngredient', backref="recipe", lazy=True)
+    recipe_ingredient = db.relationship('RecipeIngredient', backref="recipes", lazy=True)
 
     def serialize(self):
         return {
