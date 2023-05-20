@@ -1,9 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from .db import db
 
-from .recipe import Recipe
-from .ingredient import Ingredient
-
 class RecipeIngredient(db.Model):
     __tablename__ = 'recipe_ingredients'
     id = db.Column(db.Integer, primary_key=True)

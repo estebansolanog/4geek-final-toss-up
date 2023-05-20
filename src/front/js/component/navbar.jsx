@@ -51,28 +51,6 @@ export const Navbar = () => {
                   <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/chatbot' })}>Crear</span>
                 </Link>
               </div>
-
-
-              <form className="private-form">
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Que quieres preparar hoy?"
-                  aria-label="Search"
-                />
-                <button className="btn btn-warning" type="submit">
-                  Buscar
-                </button>
-              </form>
-
-              <div className="flex-column flex-md-row menu-group-2" >
-                <Link to="/login" onClick={() => handleLinkClick('/login')}>
-                  <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/login' })}><i className="fa-regular fa-bell"></i></span>
-                </Link>
-                <Link to="/register" onClick={() => handleLinkClick('/register')} className="navbar-link">
-                  <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/register' })}>{infoUsuario}</span>
-                </Link>
-              </div>
               <div className="nav-item dropdown">
                 <div className="nav-link dropdown-toggle text-warning" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-egg-fried" viewBox="0 0 16 16">
@@ -98,6 +76,29 @@ export const Navbar = () => {
 
 
               </div>
+
+
+              <form className="private-form">
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="Que quieres preparar hoy?"
+                  aria-label="Search"
+                />
+                <button className="btn btn-warning" type="submit">
+                  Buscar
+                </button>
+              </form>
+
+              <div className="flex-column flex-md-row menu-group-2" >
+                <Link to="/login" onClick={() => handleLinkClick('/login')}>
+                  <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/login' })}><i className="fa-regular fa-bell"></i></span>
+                </Link>
+                <Link to="/register" onClick={() => handleLinkClick('/register')} className="navbar-link">
+                  <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/register' })}>{infoUsuario}</span>
+                </Link>
+              </div>
+
 
 
 
