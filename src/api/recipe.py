@@ -21,7 +21,6 @@ class Recipe(db.Model):
     id_country = db.Column(db.Integer, db.ForeignKey('countries.id'), nullable=False)
     id_category = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
     id_likes = db.Column(db.Integer, db.ForeignKey('likes.id'), nullable=False)
-    id_favorito = db.Column(db.Integer, db.ForeignKey('favorito.id'), nullable=False)
 
     # Relación muchos-a-muchos con Ingredient
     # id_ingredient = db.relationship('Ingredient', secondary=Recipe_ingredient, lazy='subquery',backref=db.backref('recipe', lazy=True))
@@ -39,6 +38,5 @@ class Recipe(db.Model):
             "id_country": self.id_country,
             "id_category": self.id_category,
             "id_likes": len(self.id_likes),
-            "id_favorito": self.id_favorito,
             "id_ingredient": [ingredient.serialize() for ingredient in self.ingredients]
         }

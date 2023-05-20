@@ -39,7 +39,6 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type = True)
 db.init_app(app)
-
 with app.app_context():
         db.create_all()
 

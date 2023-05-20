@@ -428,3 +428,46 @@ def delete_user():
 #     }
 
 #     return jsonify(response_body), 200
+api.route('/getfavorito', methods=['GET'])
+def get_favorito():
+    favorito = Favorito.query.all()
+    favorito = list(map(lambda item: item.serialize(), favorito))
+
+    return jsonify("hola"), 200
+
+@api.route('/postfavorito', methods=['POST'])
+def register_paper():
+    body = request.get_json()
+    user_id = body["user_id"]
+    recipe_id = body["recipe_id"]
+
+    #if body is None:
+    #    raise APIException("You need to specify the request body as json object", status_code=400)
+    #if "user_id" not in body:
+    #    raise APIException("You need to specify the user id", status_code=400)
+    #if "recipe_id" not in body:
+    #    raise APIException("You need to specify the recipe id", status_code=400)
+  
+    
+    
+    new_favorite = Favorito(user_id=user_id, recipe_id=recipe_id )
+
+    db.session.add(new_favorite)
+    db.session.commit()
+
+    return jsonify({"msg":"Favorite successfully created"}), 201
+
+@api.route('/deletefavoritos', methods=['DELETE'])
+def delete_specific_favorite():
+    body = request.get_json()   
+    favorite_id = body["id"]
+
+    favorito = Favorito.query.get(favorite_id)
+
+    if favorito is None:
+        return jsonify({"error": "Favorite not found"}), 404
+
+    db.session.delete(favorito)
+    db.session.commit()  
+  
+    return jsonify({"msg": "Favorite deleted"}), 200    
