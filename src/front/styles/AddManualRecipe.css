@@ -1,0 +1,25 @@
+.container {
+  border: 1px solid red;
+  padding: 5%;
+  padding-top: 0;
+  color: black;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.button-group button {
+  width: 100%;
+  margin: 0 5px;
+}
+
+.recipe-name {
+  border: 1px solid red;
+}
+
+.recipe-description {
+  height: 400px;
+}

@@ -13,7 +13,7 @@ class User(db.Model):
     gender = db.Column(db.String(20), nullable=True)
     otp = db.Column(db.Integer, nullable=True)
     otp_active = db.Column(db.Boolean(), unique=False, nullable=True, default=False)
-    recipe_chat = db.relationship("RecipeChat", foreign_keys='RecipeChat.user_id', backref="users", lazy=True)
+    recipe_chat = db.relationship("RecipeChat", backref="users", lazy=True)
 
 
 
