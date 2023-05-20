@@ -126,7 +126,7 @@ export const PublicNavbar = () => {
             </span>
           </Link>
           <Link to="/register" onClick={() => handleLinkClick('/register')} className="navbar-link">
-            <span className={classNames('navbar-brand mb-0 h1 text-green col-1 ', { 'active': activeLink === '/register' })}> Regístrate</span>
+            <span className={classNames('navbar-brand mb-0 h1 text-primary col-1 ', { 'active': activeLink === '/register' })}> Regístrate</span>
           </Link>
 
 
