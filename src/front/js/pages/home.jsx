@@ -64,7 +64,7 @@ const Home = () => {
       <div>
         {chatHistory && chatHistory.length > 0 ? chatHistory.map((chat, index) => (
           <div key={index}>
-            <div>
+            <div div className="card ">
               {chat.image_of_recipe && <img className="responsive-image" src={chat.image_of_recipe} alt="recipe" />}
               <p style={{ whiteSpace: 'pre-wrap' }}> {chat.description}</p>
 
