@@ -1,5 +1,5 @@
 .container {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   padding: 5%;
   padding-top: 0;
   color: black;
@@ -16,9 +16,9 @@
   margin: 0 5px;
 }
 
-.recipe-name {
-  border: 1px solid red;
-}
+/* .recipe-name {
+  /* border: 1px solid red; */
+/* } */ 
 
 .recipe-description {
   height: 400px;
