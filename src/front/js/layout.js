@@ -20,7 +20,7 @@ import PublicNavbarForPublicHome from "./component/publicNavbarForPublicHome.jsx
 import LandingPage from "./pages/landing.jsx";
 import PublicHome from "./pages/publicHome.jsx";
 import Chatbot from "./component/chatbot.jsx";
-
+import AddManualRecipe from "./component/AddManualRecipe.jsx";
 // Crear un nuevo componente para la selección del Navbar
 const NavbarSelector = () => {
   const { store, actions } = useContext(Context);
@@ -58,6 +58,7 @@ const Layout = () => {
             <Route element={<Login />} path="/login" />
             <Route element={<Register />} path="/register" />
             <Route element={<PublicHome />} path="/public" />
+            <Route element={<AddManualRecipe />} path="/addRecipe" />
             <Route path="/" element={<>{store.userLogin ? <Home /> : <LandingPage />}</>}
             />
             {/* <Route element={<CardCarousel />} path="/cardCarousel" /> */}
