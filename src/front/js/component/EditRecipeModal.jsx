@@ -6,8 +6,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import axios from 'axios';
-
 import "../../styles/EditRecipeModal.css"
 
 const EditRecipeModal = ({ open, onClose, chat, onSave }) => {
@@ -93,7 +91,8 @@ const EditRecipeModal = ({ open, onClose, chat, onSave }) => {
 
           {/* Subir nueva imagen */}
           <label htmlFor="Subir imagen"></label>
-          <input className='' style={{ display: 'block', width: '100%' }} type="file" onChange={handleImageChange} />
+          {/* <input className='' style={{ display: 'block', width: '100%' }} type="file" onChange={handleImageChange} /> */}
+          <input className='' style={{ display: 'block', width: '100%' }} type="file" />
 
           {/* <input className='inputUploadImage' type="file" onChange={handleImageChange} /> */}
         </div>

@@ -5,7 +5,9 @@ class Country(db.Model):
     __tablename__="countries"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
-    id_recipe = db.relationship('Recipe', backref='country', lazy=True)
+    
+    #Relacion comentada dado que no esta en uso
+    # id_recipe = db.relationship('Recipe', backref='country', lazy=True)
     
     def serialize(self):
         return {

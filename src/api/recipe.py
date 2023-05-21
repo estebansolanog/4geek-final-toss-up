@@ -11,14 +11,17 @@ class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=False, nullable=False)
     time = db.Column(db.Integer, nullable=True)
-    difficulty = db.Column(db.String(120), unique=False, nullable=False)
+    difficulty = db.Column(db.String(120), unique=False, nullable=True)
     calories = db.Column(db.Integer, nullable=True)
     description = db.Column(db.String(80), unique=False, nullable=False)
-    instructions = db.Column(db.String(120), unique=True, nullable=False)
+    instructions = db.Column(db.String(120), unique=False, nullable=True)
+    share = db.Column(db.Boolean(), unique=False, nullable=False)
+    image_of_recipe = db.Column(db.String(512), unique=False, nullable=True)
     
-    country_id = db.Column(db.Integer, db.ForeignKey('countries.id'), nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
-    # user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    #Relaciones comentadas dado que no estan en uso
+    # country_id = db.Column(db.Integer, db.ForeignKey('countries.id'), nullable=True)
+    # category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=True)
+
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  
     
     likes = db.relationship('Like', backref='recipes', lazy=True)
@@ -38,12 +41,16 @@ class Recipe(db.Model):
             "calories": self.calories,
             "description": self.description,
             "instructions": self.instructions,
-            "country_id": self.country_id,
-            "category_id": self.category_id,
-            "likes": len(self.likes),
+            "share": self.share,
+            "image_of_recipe": self.image_of_recipe,
+            # "country_id": self.country_id,
+            # "category_id": self.category_id,
+            "user_id": self.user_id,
+            "likes": [like.serialize() for like in self.likes],
             "recipe_ingredients": [recipe_ingredient.serialize() for recipe_ingredient in self.recipe_ingredients],
-            "favorites": len(self.favorites),
-            "coments": len(self.coments)
+            "favorites": [favorite.serialize() for favorite in self.favorites],
+            "coments": [coment.serialize() for coment in self.coments]
+            
         }
 
 # from flask_sqlalchemy import SQLAlchemy
