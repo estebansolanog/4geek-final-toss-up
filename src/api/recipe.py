@@ -36,7 +36,7 @@ class Recipe(db.Model):
             "description": self.description,
             "instructions": self.instructions,
             "id_country": self.id_country,
-            "id_category": self.id_category,
+        "id_category": self.id_category,
             "id_likes": len(self.id_likes),
             "id_ingredient": [ingredient.serialize() for ingredient in self.ingredients]
         }

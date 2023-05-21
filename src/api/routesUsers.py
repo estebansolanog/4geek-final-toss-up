@@ -2,17 +2,30 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
+import re
+
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-from api.user import db, User
+from api.user import User
+from api.db import db
 from .token_blocked_list import TokenBlokedList
 from api.favoritos import Favorito
+from api.recipe import Recipe
 from api.utils import generate_sitemap, APIException
+from datetime import datetime
+from itsdangerous import URLSafeTimedSerializer
 
 from api.extensions import jwt, bcrypt
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
+
+import ssl
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+
 
 #RUTAS QUE ENCONTRARÁ EN ESTE ARCHIVO: 1) USER REGISTER, 2) USER LOGIN, 3) USER DELETE, 4) USER UPDATE, 5) USER ACOUNT, 6) USER LOGOUT 
 
@@ -409,6 +422,65 @@ def delete_user():
 
 #------------------------------ul----------------------------
 
+@api.route('/postrecipe', methods=['POST'])
+def create_postrecipe():
+    body = request.get_json()
+
+    if body is None:
+        return jsonify({"error": "You need to specify the request body as a JSON object"}), 400
+
+    required_fields = ["name", "time", "dificulty", "description", "instructions", "ingredients", "country_name", "category_name"]
+    for field in required_fields:
+        if field not in body:
+            return jsonify({"error": f"You need to specify the '{field}' field"}), 400
+
+    name = body["name"]
+    time = body["time"]
+    dificulty = body["dificulty"]
+    description = body["description"]
+    instructions = body["instructions"]
+    ingredients = body["ingredients"]
+    country_name = body["country_name"]
+    category_name = body["category_name"]
+
+    new_recipe = Recipe(
+        name=name,
+        date=date,
+        time=time,
+        dificulty=dificulty,
+        description=description,
+        instructions=instructions,
+        ingredients=ingredients,
+        country_name=country_name,
+        category_name=category_name
+    )
+
+    
+    db.session.add(new_recipe)
+    db.session.commit()
+
+    return jsonify({"msg": "Recipe created successfully"}), 201
+
+""" @api.route('/editrecipe', methods=['PUT']) """
+
+
+
+@api.route('/deleterecipe', methods=['DELETE'])
+def delete_specific_nutrition():
+    body = request.get_json()   
+    recipe_id = body["id"]
+
+    recipe = Recipe.query.get(recipe_id)
+
+    if recipe is None:
+        return jsonify({"error": "Recipe not found"}), 404
+
+    db.session.delete(recipe)
+    db.session.commit()  
+  
+    return jsonify({"msg": "Recipé deleted"}), 200
+
+
 api.route('/getfavorito', methods=['GET'])
 def get_favorito():
     favorito = Favorito.query.all()
@@ -457,3 +529,16 @@ def delete_specific_favorite():
     db.session.commit()  
   
     return jsonify({"msg": "Favorite deleted"}), 200    
+
+s = URLSafeTimedSerializer("any key works")
+
+@api.route('/new_password', methods=['PUT'])
+def new_password():
+    body=request.get_json()
+    token=body["token"]
+    user_id = s.loads(token.replace('_','.'), max_age=1800)
+    user = User.query.get(user_id)
+    password = body['password']
+    user.password = bcrypt.generate_password_hash(password, 10).decode('utf-8')
+    db.session.commit()
+    return jsonify({'message': 'Password reset successfully'})
