@@ -48,7 +48,7 @@ const Home = () => {
       <div className="recetas-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '20PX' }}>
 
         <div>
-          {chatHistory && chatHistory.length > 0 ? chatHistory.map((chat, index) => (
+          {chatHistory && chatHistory.length > 0 ? [...chatHistory].reverse().map((chat, index) => (
             <div key={index}>
               <div className="card d-none d-xs-block d-sm-block d-md-block" style={{ width: "40rem" }}>
                 {chat.image_of_recipe && <img className="responsive-image" src={chat.image_of_recipe} alt="recipe" />}
