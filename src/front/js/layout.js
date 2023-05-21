@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 //Componetes
 import ScrollToTop from "./component/scrollToTop";
 import Home from "./pages/home.jsx";
+import MyAccount from "./pages/myAccount.jsx";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
@@ -53,7 +54,7 @@ const Layout = () => {
           {/* <Navbar /> */}
           <Routes>
             <Route element={<Chatbot />} path="/chatbot" />
-            <Route element={<Home />} path="/home" />
+            <Route element={<MyAccount />} path="/myaccount" />
             <Route element={<Demo />} path="/demo" />
             <Route element={<Receta />} path="/receta" />
             <Route element={<Login />} path="/login" />
