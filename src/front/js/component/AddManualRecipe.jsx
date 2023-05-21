@@ -7,12 +7,13 @@ function AddManualRecipe() {
     const [recipeDescription, setRecipeDescription] = useState('');
     const [recipeImage, setRecipeImage] = useState(null);
 
+    //Ruta para guardar la receta
     const handleSaveClick = (e) => {
         e.preventDefault();
 
         let body = new FormData();
         body.append('image_of_recipe', recipeImage);
-        body.append('user_query', recipeName);
+        body.append('name', recipeName);
         body.append('description', recipeDescription);
         const options = {
             body,
@@ -22,7 +23,28 @@ function AddManualRecipe() {
             }
         };
 
-        fetch(`http://localhost:3001/chat/AddRecipe`, options)
+        fetch(`http://localhost:3001/rrecipe/AddRecipe`, options)
+            .then(resp => resp.json())
+            .then(data => console.log("Success!!!!", data))
+            .catch(error => console.error("ERRORRRRRR!!!", error));
+    };
+    //Ruta para guardar y compartir la receta
+    const handleSaveAndShareClick = (e) => {
+        e.preventDefault();
+
+        let body = new FormData();
+        body.append('image_of_recipe', recipeImage);
+        body.append('name', recipeName);
+        body.append('description', recipeDescription);
+        const options = {
+            body,
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            }
+        };
+
+        fetch(`http://localhost:3001/rrecipe/AddAndShareRecipe`, options)
             .then(resp => resp.json())
             .then(data => console.log("Success!!!!", data))
             .catch(error => console.error("ERRORRRRRR!!!", error));
@@ -73,8 +95,10 @@ function AddManualRecipe() {
                         required
                     />
                 </div>
-                <button type="submit" className="btn btn-primary" onClick={handleSaveClick} >Guardar</button>
                 <button type="button" className="btn btn-alert" onClick={handleCancelClick}>Cancelar</button>
+                <button type="submit" className="btn btn-primary" onClick={handleSaveClick} >Guardar</button>
+                <button type="submit" className="btn btn-primary" onClick={handleSaveAndShareClick} >Guardar y Compartir</button>
+
             </form>
         </div>
     );

@@ -10,7 +10,7 @@ class RecipeChat(db.Model):
     user_query=db.Column(db.String(280), unique=False, nullable=False)
     image_of_recipe=db.Column(db.String(512), unique=False, nullable=True)
     share=db.Column(db.Boolean(), unique=False, nullable=False)
-    
+    generated_by_ia=db.Column(db.Boolean(), unique=False, nullable=False)
 
     user_id=db.Column(db.Integer, db.ForeignKey('users.id'))
     
@@ -27,6 +27,7 @@ class RecipeChat(db.Model):
             "user_query": self.user_query,
             "image_of_recipe": self.image_of_recipe,
             "share": self.share,
+            "generated_by_ia": self.generated_by_ia,
             "coments": [coment.serialize() for coment in self.coments]
         }
 

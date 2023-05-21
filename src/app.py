@@ -12,6 +12,7 @@ from api.commands import setup_commands
 from api.extensions import jwt, bcrypt
 from api.routesUsers import api
 from api.routesChat import chat
+from api.routesRecipe import rrecipe
 from api.db import db
 #from models import Person
 
@@ -55,6 +56,7 @@ setup_commands(app)
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(chat, url_prefix='/chat')
+app.register_blueprint(rrecipe, url_prefix='/rrecipe')
 
 
 
