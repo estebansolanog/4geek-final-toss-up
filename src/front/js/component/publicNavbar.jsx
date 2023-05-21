@@ -105,7 +105,7 @@ export const PublicNavbar = () => {
     <nav className="navbar navbar-expand-lg bg-body-tertiary bg bg-black  d-xs-block d-sm-block d-md-block d-xs-block d-sm-block d-md-block">
       <div className="container-fluid">
         <div className="flex-column flex-md-row logo-container">
-          <Link to="/public" onClick={() => handleLinkClick('/public')}>
+          <Link to="/landingPage" onClick={() => handleLinkClick('/landingPage')}>
             <div className="navbar-brand col-1" href="#" style={{ height: "80px", width: "100px" }}>
               <img style={{ maxHeight: "100%", maxWidth: "100%" }} src={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159198/logoTossUp_backgroundless_v2_hgg3ta.png"} alt="" />
             </div>
@@ -126,7 +126,7 @@ export const PublicNavbar = () => {
             </span>
           </Link>
           <Link to="/register" onClick={() => handleLinkClick('/register')} className="navbar-link">
-            <span className={classNames('navbar-brand mb-0 h1 text-green col-1 ', { 'active': activeLink === '/register' })}> Regístrate</span>
+            <span className={classNames('navbar-brand mb-0 h1 text-primary col-1 ', { 'active': activeLink === '/register' })}> Regístrate</span>
           </Link>
 
 

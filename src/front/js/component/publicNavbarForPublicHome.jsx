@@ -44,7 +44,7 @@ export const PublicNavbarForPublicHome = () => {
         <nav className="navbar private-navbar navbar-expand-md d-none d-xs-block d-sm-block d-md-block">
           <div className="container-fluid">
             <div className="flex-column flex-md-row logo-container">
-              <Link to="/public" onClick={() => handleLinkClick('/public')}>
+              <Link to="/landingPage" onClick={() => handleLinkClick('/landingPage')}>
                 <div className="navbar-brand col-1" href="#" style={{ padding: "", height: "50px", width: "100px" }}>
                   <img style={{ maxHeight: "100%", maxWidth: "100%" }} src={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159198/logoTossUp_backgroundless_v3_mlv32j.png"} alt="" />
                 </div>
