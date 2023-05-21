@@ -37,15 +37,15 @@ export const Navbar = () => {
           <nav className="navbar private-navbar navbar-expand-md d-none d-xs-block d-sm-block d-md-block">
             <div className="container-fluid">
               <div className="flex-column flex-md-row logo-container">
-                <Link to="/public" onClick={() => handleLinkClick('/public')}>
-                  <div className="navbar-brand col-1" href="#" style={{ padding: "", height: "50px", width: "100px" }}>
-                    <img style={{ maxHeight: "100%", maxWidth: "100%" }} src={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159198/logoTossUp_backgroundless_v3_mlv32j.png"} alt="" />
-                  </div>
-                </Link>
+
+                <div className="navbar-brand col-1" href="#" style={{ padding: "", height: "50px", width: "100px" }}>
+                  <img style={{ maxHeight: "100%", maxWidth: "100%" }} src={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159198/logoTossUp_backgroundless_v3_mlv32j.png"} alt="" />
+                </div>
+
               </div>
               <div className="menu-group-1 flex-column flex-md-row">
-                <Link to="/public" onClick={() => handleLinkClick('/login')} className="navbar-link">
-                  <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/public' })}>Inicio</span>
+                <Link to="/home" onClick={() => handleLinkClick('/home')} className="navbar-link">
+                  <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/home' })}>Inicio</span>
                 </Link>
                 <Link to="/chatbot" onClick={() => handleLinkClick('/receta')} className="navbar-link">
                   <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/chatbot' })}>Crear</span>

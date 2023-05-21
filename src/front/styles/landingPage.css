@@ -1,6 +1,6 @@
-.carousel-container {
+/* .carousel-container {
   height: 650px;
-}
+} */
 
 .fa-angle-down {
   width: 40px;
@@ -84,6 +84,12 @@
   font-weight: 700;
   margin-top: 20px;
 }
+
+.search-text-title-mini {
+  font-size: 33px;
+  font-weight: 700;
+  margin-top: 20px;
+}
 .my-link {
   text-decoration: none;
   color: inherit;
@@ -92,4 +98,10 @@
 .search-text-paragraph {
   font-size: 25px;
   font-weight: 400;
+}
+
+
+.search-text-paragraph-mini {
+  font-size: 20px;
+  font-weight: 300;
 }
