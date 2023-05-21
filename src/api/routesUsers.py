@@ -10,7 +10,12 @@ from api.db import db
 from .token_blocked_list import TokenBlokedList
 from api.favoritos import Favorito
 from api.recipe import Recipe
+from api.categories import Category
+from api.countries import Country
+from api.ingredient import Ingredient
+from api.likes import Like
 from api.utils import generate_sitemap, APIException
+from api.recipe_ingredient import Recipeingredient
 from datetime import datetime
 from itsdangerous import URLSafeTimedSerializer
 
@@ -441,8 +446,8 @@ def create_postrecipe():
     description = body["description"]
     instructions = body["instructions"]
     ingredients = body["ingredients"]
-    country_name = body["country_name"]
-    category_name = body["category_name"]
+    country_id = body["country_id"]
+    category_id = body["category_id"]
 
     new_recipe = Recipe(
         name=name,
@@ -452,17 +457,26 @@ def create_postrecipe():
         description=description,
         instructions=instructions,
         ingredients=ingredients,
-        country_name=country_name,
-        category_name=category_name
+        country_id=country_id,
+        category_id=category_id
     )
 
-    
+     # Añadir ingredientes a la receta
+    for ingredient_data in ingredients:
+        ingredient_name = ingredient_data["name"]
+        ingredient_quantity = ingredient_data["quantity"]
+        new_ingredient = Recipeingredient(name=ingredient_name, quantity=ingredient_quantity)
+        new_recipe.ingredients.append(new_ingredient)
+
+    # Añadir relación con favoritos
+    new_favorito = Favorito(recipe=new_recipe)
+    new_recipe.favoritos.append(new_favorito)
+
+
     db.session.add(new_recipe)
     db.session.commit()
 
     return jsonify({"msg": "Recipe created successfully"}), 201
-
-""" @api.route('/editrecipe', methods=['PUT']) """
 
 @api.route('/editrecipe/<int:recipe_id>', methods=['PUT'])
 def edit_recipe(recipe_id):
@@ -490,10 +504,10 @@ def edit_recipe(recipe_id):
         recipe.instructions = body["instructions"]
     if "ingredients" in body:
         recipe.ingredients = body["ingredients"]
-    if "country_name" in body:
-        recipe.country_name = body["country_name"]
-    if "category_name" in body:
-        recipe.category_name = body["category_name"]
+    if "country_id" in body:
+        recipe.country_id = body["country_id"]
+    if "category_id" in body:
+        recipe.category_id = body["category_id"]
 
     # Guardamos los cambios en la base de datos
     db.session.commit()
@@ -502,7 +516,7 @@ def edit_recipe(recipe_id):
 
 @api.route('/deleterecipe', methods=['DELETE'])
 def delete_specific_nutrition():
-    body = request.get_json()   
+    body = request.get_json()
     recipe_id = body["id"]
 
     recipe = Recipe.query.get(recipe_id)
@@ -511,48 +525,81 @@ def delete_specific_nutrition():
         return jsonify({"error": "Recipe not found"}), 404
 
     db.session.delete(recipe)
-    db.session.commit()  
-  
-    return jsonify({"msg": "Recipé deleted"}), 200
+    db.session.commit()
 
+    return jsonify({"msg": "Recipe deleted"}), 200
 
-api.route('/getfavorito', methods=['GET'])
+@api.route('/getrecipe/<int:recipe_id>', methods=['GET'])
+def get_recipe(recipe_id):
+    # Verificamos si la receta existe en la base de datos
+    recipe = Recipe.query.get(recipe_id)
+    if recipe is None:
+        return jsonify({"error": "Recipe not found"}), 404
+
+    # Construimos el objeto JSON con la información de la receta
+    recipe_data = {
+        "id": recipe.id,
+        "name": recipe.name,
+        "time": recipe.time,
+        "difficulty": recipe.difficulty,
+        "description": recipe.description,
+        "instructions": recipe.instructions,
+        "ingredients": recipe.ingredients,
+        "country_name": recipe.country_name,
+        "category_name": recipe.category_name
+    }
+
+    return jsonify(recipe_data), 200
+
+@api.route('/getfavorito', methods=['GET'])
+@jwt_required()  # Requiere un token válido para acceder a la ruta.
 def get_favorito():
-    favorito = Favorito.query.all()
-    favorito = list(map(lambda item: item.serialize(), favorito))
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    if user is None:
+        return {"message": "Usuario no encontrado"}
+    favoritos = Favorito.query.filter_by(user_id=user_id).all()
+    lista_favoritos = []
+    # Obtenemos el ID del usuario del token
+    for favorito in favoritos:
+        lista_favoritos.append({
+            "id": favorito.id,
+            "nombre": favorito.nombre,
+            # Agrega más campos si es necesario
+        })
 
-    return jsonify("hola"), 200
+    return lista_favoritos, 200
+    # Aquí debes agregar la lógica para obtener los favoritos del usuario con el ID user_id
+
 
 @api.route('/postfavorito', methods=['POST'])
-def register_paper():
+def post_favorito():
     body = request.get_json()
     user_id = body["user_id"]
     recipe_id = body["recipe_id"]
 
     if body is None:
-        raise APIException("You need to specify the request body as json object", status_code=400)
+        raise APIException("You need to specify the request body as a JSON object", status_code=400)
     if "user_id" not in body:
-        raise APIException("You need to specify the user id", status_code=400)
+        raise APIException("You need to specify the user ID", status_code=400)
     if "recipe_id" not in body:
-        raise APIException("You need to specify the recipe id", status_code=400)
-  
-    
-    favorito = Favorito.query.filter_by(id=id).first()
+        raise APIException("You need to specify the recipe ID", status_code=400)
+
+    favorito = Favorito.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()
     if favorito is not None:
-        raise APIException("favorito already exists", status_code=409)
-    
-    
-    
-    new_favorite = Favorito(user_id=user_id, recipe_id=recipe_id )
+        raise APIException("Favorite already exists", status_code=409)
+
+    new_favorite = Favorito(user_id=user_id, recipe_id=recipe_id)
 
     db.session.add(new_favorite)
     db.session.commit()
 
-    return jsonify({"msg":"Favorite successfully created"}), 201
+    return jsonify({"msg": "Favorite successfully created"}), 201
+
 
 @api.route('/deletefavoritos', methods=['DELETE'])
 def delete_specific_favorite():
-    body = request.get_json()   
+    body = request.get_json()
     favorite_id = body["id"]
 
     favorito = Favorito.query.get(favorite_id)
@@ -561,11 +608,232 @@ def delete_specific_favorite():
         return jsonify({"error": "Favorite not found"}), 404
 
     db.session.delete(favorito)
-    db.session.commit()  
-  
-    return jsonify({"msg": "Favorite deleted"}), 200    
+    db.session.commit()
+
+    return jsonify({"msg": "Favorite deleted"}), 
 
 s = URLSafeTimedSerializer("any key works")
+
+@api.route('/newcategory', methods=['POST'])
+def new_category():
+    body = request.get_json()
+    name = body["name"]
+
+    if body is None:
+        raise APIException("You need to specify the request body as a JSON object", status_code=400)
+      
+    if "name" not in body:
+        raise APIException("You need to specify the name", status_code=400)
+
+    new_category = Category.query.filter_by(name=name).first()
+    if new_category is not None:
+        raise APIException("Category already exists", status_code=409)
+
+    new_category = Category(name=name)
+
+    db.session.add(new_category)
+    db.session.commit()
+
+    return jsonify({"msg": "Category successfully created"}), 201
+ 
+@api.route('/getcategory', methods=['GET'])
+def get_category():
+    id = request.args.get("id", None)
+    name = request.args.get("name", None)
+    
+    category_query = Category.query
+    if id:
+        category_query = category_query.filter_by(id=id)
+    if name:
+        category_query = category_query.filter_by(name=name)
+        
+    categories = category_query.all()
+    categories = [category.serialize() for category in categories]
+    
+    return jsonify(categories)
+
+@api.route('/deletecategory', methods=['DELETE'])
+def delete_specific_category():
+    body = request.get_json()   
+    category_id = body["id"]
+
+    category = Category.query.get(category_id)
+
+    if category is None:
+        return jsonify({"error": "Category not found"}), 404
+
+    db.session.delete(category)
+    db.session.commit()  
+  
+    return jsonify({"msg": "Category deleted"}), 200
+
+
+@api.route('/newcountry', methods=['POST'])
+def new_country():
+    body = request.get_json()
+    name = body["name"]
+
+    if body is None:
+        raise APIException("You need to specify the request body as a JSON object", status_code=400)
+      
+    if "name" not in body:
+        raise APIException("You need to specify the name", status_code=400)
+
+    new_country = Country.query.filter_by(name=name).first()
+    if new_country is not None:
+        raise APIException("Country already exists", status_code=409)
+
+    new_country = Country(name=name)
+
+    db.session.add(new_country)
+    db.session.commit()
+
+    return jsonify({"msg": "Country successfully created"}), 201
+
+
+@api.route('/getcountry', methods=['GET'])
+def get_country():
+    id = request.args.get("id", None)
+    name = request.args.get("name", None)
+    
+    country = Country.query
+    if id:
+        country = country.filter_by(id=id)
+    if name:
+        country = country.filter_by(name=name)
+        
+    country = country.all()
+    country_data = [item.serialize() for item in country]
+    
+    return jsonify(country_data)
+
+
+@api.route('/deletecountry', methods=['DELETE'])
+def delete_specific_country():
+    body = request.get_json()   
+    country_id = body["id"]
+
+    country = Country.query.get(country_id)
+
+    if country is None:
+        return jsonify({"error": "Country not found"}), 404
+
+    db.session.delete(country)
+    db.session.commit()  
+  
+    return jsonify({"msg": "Country deleted"}), 200
+
+@api.route('/newingredient', methods=['POST'])
+def new_ingredient():
+    body = request.get_json()
+    name = body["name"]
+
+    if body is None:
+        raise APIException("You need to specify the request body as a JSON object", status_code=400)
+      
+    
+    if "name" not in body:
+        raise APIException("You need to specify the name of the ingredient", status_code=400)
+
+    new_ingredient = Ingredient.query.filter_by(name=name).first()
+    if new_ingredient is not None:
+        raise APIException("Ingredient already exists", status_code=409)
+
+    new_ingredient = Ingredient(name=name)
+
+    db.session.add(new_ingredient)
+    db.session.commit()
+
+    return jsonify({"msg": "Ingredient successfully created"}), 201
+
+ 
+@api.route('/getingredient', methods=['GET'])
+def get_ingredient():
+    id = request.args.get("id", None)
+    name = request.args.get("name", None)
+    
+    ingredient = Ingredient.query
+    if id:
+        ingredient = ingredient.filter_by(id=id)
+    if name:
+        ingredient = ingredient.filter_by(name=name)
+        
+    ingredient = ingredient.all()
+    ingredient = list(map(lambda item: item.serialize(), ingredient))
+    return jsonify(ingredient)
+
+@api.route('/putingredient/<int:ingredient_id>', methods=['PUT'])
+def put_ingredient(ingredient_id):
+    body = request.get_json()
+
+    if body is None:
+        raise APIException("You need to specify the request body as a JSON object", status_code=400)
+
+    ingredient = Ingredient.query.get(ingredient_id)
+    if ingredient is None:
+        raise APIException("Ingredient not found", status_code=404)
+
+    # Actualizar los campos del ingrediente si están presentes en el body
+    if "name" in body:
+        ingredient.name = body["name"]
+
+    db.session.commit()
+
+    return jsonify({"msg": "Ingredient successfully updated"}), 200
+
+@api.route('/deleteingredient/<int:ingredient_id>', methods=['DELETE'])
+def delete_ingredient(ingredient_id):
+    ingredient = Ingredient.query.get(ingredient_id)
+    if ingredient is None:
+        raise APIException("Ingredient not found", status_code=404)
+
+    db.session.delete(ingredient)
+    db.session.commit()
+
+    return jsonify({"msg": "Ingredient deleted"}), 200
+
+@api.route('/newlike', methods=['POST'])
+def new_like():
+    body = request.get_json()
+    recipe_id = body["recipe_id"]
+
+    if body is None:
+        raise APIException("You need to specify the request body as a JSON object", status_code=400)
+      
+    if "recipe_id" not in body:
+        raise APIException("You need to specify the ID of the recipe", status_code=400)
+
+    recipe = Recipe.query.get(recipe_id)
+    if recipe is None:
+        raise APIException("Recipe not found", status_code=404)
+
+    recipe.likes += 1
+    db.session.commit()
+
+    return jsonify({"msg": "Like added successfully"}), 200
+
+@api.route('/deletelike', methods=['DELETE'])
+def delete_like():
+    body = request.get_json()
+    recipe_id = body["recipe_id"]
+
+    if body is None:
+        raise APIException("You need to specify the request body as a JSON object", status_code=400)
+
+    if "recipe_id" not in body:
+        raise APIException("You need to specify the ID of the recipe", status_code=400)
+
+    recipe = Recipe.query.get(recipe_id)
+    if recipe is None:
+        raise APIException("Recipe not found", status_code=404)
+
+    if recipe.likes > 0:
+        recipe.likes -= 1
+        db.session.commit()
+
+    return jsonify({"msg": "Like deleted successfully"}), 200
+
+
 
 @api.route('/new_password', methods=['PUT'])
 def new_password():
@@ -577,3 +845,4 @@ def new_password():
     user.password = bcrypt.generate_password_hash(password, 10).decode('utf-8')
     db.session.commit()
     return jsonify({'message': 'Password reset successfully'})
+
