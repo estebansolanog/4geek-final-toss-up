@@ -18,6 +18,7 @@ from api.extensions import jwt, bcrypt
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt
 from flask_jwt_extended import JWTManager
 
 import ssl
@@ -463,7 +464,41 @@ def create_postrecipe():
 
 """ @api.route('/editrecipe', methods=['PUT']) """
 
+@api.route('/editrecipe/<int:recipe_id>', methods=['PUT'])
+def edit_recipe(recipe_id):
+    # Verificamos si la receta existe en la base de datos
+    recipe = Recipe.query.get(recipe_id)
+    if recipe is None:
+        return jsonify({"error": "Recipe not found"}), 404
 
+    # Obtenemos los datos enviados en el cuerpo de la solicitud
+    body = request.get_json()
+
+    if body is None:
+        return jsonify({"error": "You need to specify the request body as a JSON object"}), 400
+
+    # Actualizamos los campos necesarios
+    if "name" in body:
+        recipe.name = body["name"]
+    if "time" in body:
+        recipe.time = body["time"]
+    if "difficulty" in body:
+        recipe.difficulty = body["difficulty"]
+    if "description" in body:
+        recipe.description = body["description"]
+    if "instructions" in body:
+        recipe.instructions = body["instructions"]
+    if "ingredients" in body:
+        recipe.ingredients = body["ingredients"]
+    if "country_name" in body:
+        recipe.country_name = body["country_name"]
+    if "category_name" in body:
+        recipe.category_name = body["category_name"]
+
+    # Guardamos los cambios en la base de datos
+    db.session.commit()
+
+    return jsonify({"msg": "Recipe updated successfully"}), 200
 
 @api.route('/deleterecipe', methods=['DELETE'])
 def delete_specific_nutrition():
