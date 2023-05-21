@@ -13,7 +13,6 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
-import re
 
 #RUTAS QUE ENCONTRARÁ EN ESTE ARCHIVO: 1) USER REGISTER, 2) USER LOGIN, 3) USER DELETE, 4) USER UPDATE, 5) USER ACOUNT, 6) USER LOGOUT 
 
@@ -409,25 +408,7 @@ def delete_user():
 
 
 #------------------------------ul----------------------------
-#LAS SIGUIENTES SON RUTAS DEMUESTRAS, NO TIENEN QUE VER CON EL FUNCIONAMIENTO DE LA APLICACION:
 
-# @api.route('/hello', methods=['POST', 'GET'])
-# def handle_hello():
-#     password_encrypted = bcrypt.generate_password_hash("123",10).decode("utf-8")
-#     response_body = {
-#         "message": password_encrypted
-#     }
-
-#     return jsonify(response_body), 200
-
-# @api.route('/hola', methods=['POST', 'GET'])
-# def handle_hola():
-
-#     response_body = {
-#         "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
-#     }
-
-#     return jsonify(response_body), 200
 api.route('/getfavorito', methods=['GET'])
 def get_favorito():
     favorito = Favorito.query.all()
@@ -441,13 +422,18 @@ def register_paper():
     user_id = body["user_id"]
     recipe_id = body["recipe_id"]
 
-    #if body is None:
-    #    raise APIException("You need to specify the request body as json object", status_code=400)
-    #if "user_id" not in body:
-    #    raise APIException("You need to specify the user id", status_code=400)
-    #if "recipe_id" not in body:
-    #    raise APIException("You need to specify the recipe id", status_code=400)
+    if body is None:
+        raise APIException("You need to specify the request body as json object", status_code=400)
+    if "user_id" not in body:
+        raise APIException("You need to specify the user id", status_code=400)
+    if "recipe_id" not in body:
+        raise APIException("You need to specify the recipe id", status_code=400)
   
+    
+    favorito = Favorito.query.filter_by(id=id).first()
+    if favorito is not None:
+        raise APIException("favorito already exists", status_code=409)
+    
     
     
     new_favorite = Favorito(user_id=user_id, recipe_id=recipe_id )
