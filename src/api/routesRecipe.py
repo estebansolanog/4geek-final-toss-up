@@ -92,21 +92,14 @@ def add_recipe():
         public_id = f'{request.form.get("name").replace(" ", "_")}_{timestamp}',
     )['url']  # Extract the 'url' from the returned dictionary
 
-    new_recipe_chat = Recipe(
+    new_recipe_chat = RecipeChat(
         name=request.form.get("name"),  # actualiza esto
-        time=0,
-        difficulty="facil",
-        calories=0,
         description=request.form.get("description"),
-        instructions="instrucciones de la receta",
-        share=False,
+        user_query=request.form.get("name"),
         image_of_recipe=image_cloudinary_url,  # now this is the URL of the image in Cloudinary
-        # country_id=countries_id,
-        # category_id=categories_id,
+        share=False,
+        generated_by_ia=False,
         user_id=user,
-        # user_query=request.form.get("user_query"),        
-        
-        
     )
 
     # Añadir y hacer commit a la nueva entrada
@@ -140,21 +133,14 @@ def add_and_share_recipe():
         public_id = f'{request.form.get("name").replace(" ", "_")}_{timestamp}',
     )['url']  # Extract the 'url' from the returned dictionary
 
-    new_recipe_chat = Recipe(
+    new_recipe_chat = RecipeChat(
         name=request.form.get("name"),  # actualiza esto
-        time=0,
-        difficulty="facil",
-        calories=0,
         description=request.form.get("description"),
-        instructions="instrucciones de la receta",
-        share=True,
+        user_query=request.form.get("name"),
         image_of_recipe=image_cloudinary_url,  # now this is the URL of the image in Cloudinary
-        # country_id=countries_id,
-        # category_id=categories_id,
+        share=True,
+        generated_by_ia=False,
         user_id=user,
-        # user_query=request.form.get("user_query"),        
-        
-        
     )
 
     # Añadir y hacer commit a la nueva entrada

@@ -12,6 +12,8 @@ const EditRecipeModal = ({ open, onClose, chat, onSave }) => {
   const [editedRecipe, setEditedRecipe] = useState('');
   const [editedQuery, setEditedQuery] = useState('');
   const [editedImage, setEditedImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+
   const [id, setId] = useState('');
 
   useEffect(() => {
@@ -32,6 +34,27 @@ const EditRecipeModal = ({ open, onClose, chat, onSave }) => {
     body.append('user_query', editedQuery);
     body.append('id', id);
 
+    const handleSaveAndShareClick = (e) => {
+      e.preventDefault();
+
+      let body = new FormData();
+      body.append('image_of_recipe', recipeImage);
+      body.append('name', recipeName);
+      body.append('description', recipeDescription);
+      const options = {
+        body,
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        }
+      };
+
+      fetch(`http://localhost:3001/rrecipe/AddAndShareRecipe`, options)
+        .then(resp => resp.json())
+        .then(data => console.log("Success!!!!", data))
+        .catch(error => console.error("ERRORRRRRR!!!", error));
+    };
+
 
     const options = {
       body,
@@ -47,6 +70,10 @@ const EditRecipeModal = ({ open, onClose, chat, onSave }) => {
     fetch(`http://localhost:3001/chat/EditRecipeChat`, options)
       .then(resp => resp.json())
       .then(data => console.log("Success!!!!", data))
+      .then(data => {
+        console.log("Success!!!!", data);
+        onSave(); // <-- Llamamos a 'onSave' aquí
+      })
       .catch(error => console.error("ERRORRRRRR!!!", error));
   };
 
@@ -55,8 +82,14 @@ const EditRecipeModal = ({ open, onClose, chat, onSave }) => {
     if (e.target.files.length > 0) {
       // Guarda el archivo de imagen en sí, no su URL
       setEditedImage(e.target.files[0]);
+
+      // Leer el archivo de imagen y establecer la URL de previsualización
+      const reader = new FileReader();
+      reader.addEventListener('load', () => setPreviewImage(reader.result));
+      reader.readAsDataURL(e.target.files[0]);
     }
   };
+
 
 
 
@@ -86,25 +119,30 @@ const EditRecipeModal = ({ open, onClose, chat, onSave }) => {
           onChange={event => setEditedRecipe(event.target.value)}
         />
 
-        <div className='container_image_and_uploader'>        {/* Imagen actual */}
-          {editedImage && <img className='imageRecipe' src={editedImage} alt="current" />}
+        <div className='container_image_and_uploader'>
+          {/* Muestra la imagen de previsualización si está disponible, de lo contrario muestra la imagen original */}
+          <img className='imageRecipe'
+            src={previewImage || editedImage}
+            alt="current"
+            style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+          />
 
           {/* Subir nueva imagen */}
           <label htmlFor="Subir imagen"></label>
-          {/* <input className='' style={{ display: 'block', width: '100%' }} type="file" onChange={handleImageChange} /> */}
-          <input className='' style={{ display: 'block', width: '100%' }} type="file" />
-
-          {/* <input className='inputUploadImage' type="file" onChange={handleImageChange} /> */}
+          <input className='' style={{ display: 'block', width: '100%' }} type="file" onChange={handleImageChange} />
         </div>
 
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={onClose} color="secondary">
           Cancelar
         </Button>
         <Button onClick={handleSaveClick} color="primary">
           Guardar
         </Button>
+        {/* <Button onClick={handleSaveAndShareClick} color="primary">
+          Guardar y Compartir
+        </Button> */}
       </DialogActions>
     </Dialog>
   );

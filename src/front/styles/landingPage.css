@@ -27,14 +27,30 @@
 .container-carousel {
   position: relative;
   width: 100%;
-  height: 100%;
+  display: flex;
+  justify-content: center;
+  /* border: 1px solid red; */
+  padding: 0%;
+  margin: 0%;
   overflow: hidden;
+}
+.carousel-container {
+  height: 100%;
+  /* border: 1px solid red; */
+  padding: 0%;
+  margin: 0%;
+}
+.carousel-item {
+  height: 100%;
+  border: 1px solid red;
+  padding: 0%;
+  margin: 0%;
 }
 .button-carousel {
   position: absolute;
   font-size: 20px;
   cursor: pointer;
-  width: 99%;
+  width: 100%;
 }
 
 #search {
@@ -99,7 +115,6 @@
   font-size: 25px;
   font-weight: 400;
 }
-
 
 .search-text-paragraph-mini {
   font-size: 20px;

@@ -21,6 +21,7 @@ const Chatbot = () => {
   const [chatHistory, setChatHistory] = useState([]);
   const [infoUsuario, setInfoUsuario] = useState(null)
   const messagesEndRef = useRef(null);
+  const [refresh, setRefresh] = useState(false);
 
   const [selectedChat, setSelectedChat] = useState(null); //Para manejar el click en el botón de compartir y abrir la ventana modal para editar la receta
   // const [refresh, setRefresh] = useState(false);
@@ -131,6 +132,11 @@ const Chatbot = () => {
     setSelectedChat(chat);
   };
 
+  // La función para refrescar el componente una vez se da guardar en la ventana modal
+  const refreshComponent = () => {
+    setRefresh(refresh + 1);
+  };
+
   const handleSave = async (editedChat) => {
     // Aquí puedes hacer una petición a tu backend para actualizar el chat con los nuevos datos
     try {
@@ -145,9 +151,9 @@ const Chatbot = () => {
     }
 
     setSelectedChat(null); // Cierra el modal al terminar de guardar
+    refreshComponent(); // Refresca el componente para mostrar los cambios
   };
 
-  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     const fetchChatHistory = async () => {
@@ -243,6 +249,8 @@ const Chatbot = () => {
     fetchRecipe();
     setInputValue('');
   };
+
+
 
   return (
     <div className='container-maria'>

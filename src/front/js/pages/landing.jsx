@@ -3,14 +3,15 @@ import { Carousel } from "react-bootstrap";
 import CardCarousel from "../component/cardCarrousel.jsx";
 import { Link } from "react-router-dom";
 import "../../styles/landingPage.css";
+import { Height } from "@material-ui/icons";
 // import "../../styles/publicNavbar.css";
 const LandingPage = () => {
   return (
     <>
-      <div className="d-none d-xs-block d-sm-block d-md-block">
-        <div id="top" style={{ display: "flex" }} className="container-carousel">
+      <div className="">
+        <div id="top" style={{ display: "flex", height: "80vh" }} className="container-carousel">
           <Carousel fade className="carousel-container">
-            <Carousel.Item>
+            <Carousel.Item className="carousel-item">
               <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159201/img10_udvzky.jpg"} />
             </Carousel.Item>
             <Carousel.Item>
@@ -130,7 +131,7 @@ const LandingPage = () => {
               <CardCarousel url={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159201/img10_udvzky.jpg"} />
             </Carousel.Item>
           </Carousel>
-        </div>
+        </div >
 
         <div style={{
           position: "absolute",
@@ -162,7 +163,7 @@ const LandingPage = () => {
         {/* <button type="button" className="btn btn-link button-carousel">Aquí te mostramos como funciona</button> */}
         {/* <button type="button" class="btn btn-light button-carousel">Aquí te mostramos como funciona</button> */}
         <a href="#search">
-          <button type="button" className="btn btn-light button-carousel"></button>
+          <button type="button" className="btn btn-light button-carousel">Aquí te mostramos como funciona</button>
         </a>
 
         <div id="search">
@@ -180,7 +181,7 @@ const LandingPage = () => {
             </button>
           </div>
         </div>
-      </div>
+      </div >
 
 
 

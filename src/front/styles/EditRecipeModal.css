@@ -41,7 +41,7 @@
   background-color: red;
   z-index: 10;
 }
--container_image_and_uploader {
+.container_image_and_uploader {
   display: flex;
   flex-direction: column;
   justify-content: center;
