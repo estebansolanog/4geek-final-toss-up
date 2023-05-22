@@ -15,7 +15,7 @@ class Ingredient(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "recipe_ingredients": [recipe_ingredient.id for recipe_ingredient in self.recipe_ingredients]
+            "recipe_ingredients": [ri.serialize() for ri in self.recipe_ingredients]
         }
     
 

@@ -437,7 +437,7 @@ def create_postrecipe():
     if body is None:
         return jsonify({"error": "You need to specify the request body as a JSON object"}), 400
 
-    required_fields = ["name", "time", "dificulty", "description", "instructions", "recipe_ingredient", "country_name", "category_name"]
+    required_fields = ["name", "time", "difficulty", "description", "instructions", "ingredients", "country_name", "category_name"]
     for field in required_fields:
         if field not in body:
             return jsonify({"error": f"You need to specify the '{field}' field"}), 400
@@ -450,29 +450,37 @@ def create_postrecipe():
     ingredients = body["ingredients"]
     country_name = body["country_name"]
     category_name = body["category_name"]
-    recipe_ingredient= body["recipe_ingredient"]
+
     new_recipe = Recipe(
         name=name,
         time=time,
         difficulty=difficulty,
         description=description,
         instructions=instructions,
-        recipe_ingredient=recipe_ingredient,
-        country_name=country_name,
-        category_name=category_name
+        id_country=None,  # Replace with the actual country ID
+        id_category=None  # Replace with the actual category ID
     )
 
-     # Añadir ingredientes a la receta
+   # Obtener el país y la categoría del cuerpo de la solicitud
+    country_name = body["country_name"]
+    category_name = body["category_name"]
+
+    # Buscar el país en la base de datos por su nombre
+    country = Country.query.filter_by(name=country_name).first()
+    if country:
+        new_recipe.id_country = country.id
+
+    # Buscar la categoría en la base de datos por su nombre
+    category = Category.query.filter_by(name=category_name).first()
+    if category:
+        new_recipe.id_category = category.id
+ 
+    # Añadir ingredientes a la receta
     for ingredient_data in ingredients:
         ingredient_name = ingredient_data["name"]
         ingredient_quantity = ingredient_data["quantity"]
         new_ingredient = RecipeIngredient(name=ingredient_name, quantity=ingredient_quantity)
-        new_recipe.ingredients.append(new_ingredient)
-
-    # Añadir relación con favoritos
-    new_favorito = Favorito(recipe=new_recipe)
-    new_recipe.favoritos.append(new_favorito)
-
+        new_recipe.recipe_ingredients.append(new_ingredient)
 
     db.session.add(new_recipe)
     db.session.commit()
@@ -503,12 +511,10 @@ def edit_recipe(recipe_id):
         recipe.description = body["description"]
     if "instructions" in body:
         recipe.instructions = body["instructions"]
-    if "ingredients" in body:
-        recipe.ingredients = body["ingredients"]
     if "country_id" in body:
-        recipe.country_id = body["country_id"]
+        recipe.id_country = body["country_id"]
     if "category_id" in body:
-        recipe.category_id = body["category_id"]
+        recipe.id_category = body["category_id"]
 
     # Guardamos los cambios en la base de datos
     db.session.commit()
@@ -516,9 +522,12 @@ def edit_recipe(recipe_id):
     return jsonify({"msg": "Recipe updated successfully"}), 200
 
 @api.route('/deleterecipe', methods=['DELETE'])
-def delete_specific_nutrition():
+def delete_specific_recipe():
     body = request.get_json()
-    recipe_id = body["id"]
+    recipe_id = body.get("id")
+
+    if not recipe_id:
+        return jsonify({"error": "You need to specify the 'id' field"}), 400
 
     recipe = Recipe.query.get(recipe_id)
 
@@ -529,6 +538,7 @@ def delete_specific_nutrition():
     db.session.commit()
 
     return jsonify({"msg": "Recipe deleted"}), 200
+
 
 @api.route('/getrecipe/<int:recipe_id>', methods=['GET'])
 def get_recipe(recipe_id):
@@ -545,9 +555,9 @@ def get_recipe(recipe_id):
         "difficulty": recipe.difficulty,
         "description": recipe.description,
         "instructions": recipe.instructions,
-        "ingredients": recipe.ingredients,
-        "country_name": recipe.country_name,
-        "category_name": recipe.category_name
+        "country_name": recipe.id_country,
+        "category_name": recipe.id_category,
+        "recipe_ingredients": [ri.serialize() for ri in recipe.recipe_ingredients]
     }
 
     return jsonify(recipe_data), 200

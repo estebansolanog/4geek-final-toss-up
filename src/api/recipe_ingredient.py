@@ -9,11 +9,10 @@ class RecipeIngredient(db.Model):
 
     def __repr__(self):
         return f"<RecipeIngredient {self.id}>"
-    
+
     def serialize(self):
         return {
             "id": self.id,
             "recipe_id": self.recipe_id,
             "ingredient_id": self.ingredient_id
         }
-
