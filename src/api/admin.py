@@ -2,9 +2,7 @@
 import os
 from flask_admin import Admin
 from .favoritos import Favorito
-from .ingredient import Ingredient
 from .token_bloked_list import TokenBlokedList
-from .recipe_ingredient import RecipeIngredient
 from .db import db
 from .modelsChat import RecipeChat
 from flask_admin.contrib.sqla import ModelView
@@ -15,7 +13,6 @@ from .countries import Country
 from .categories import Category 
 from .likes import Like
 from .coments import Coment
-from .recipe_ingredient import RecipeIngredient
 
 def setup_admin(app):
     app.secret_key = os.environ.get('FLASK_APP_KEY', 'sample key')
@@ -26,14 +23,12 @@ def setup_admin(app):
     # Add your models here, for example this is how we add a the User model to the admin
     admin.add_view(ModelView(User, db.session))
     admin.add_view(ModelView(Favorito, db.session))
-    admin.add_view(ModelView(Ingredient, db.session))
     admin.add_view(ModelView(Country, db.session))
     admin.add_view(ModelView(Category, db.session))
     admin.add_view(ModelView(RecipeChat, db.session))
     admin.add_view(ModelView(Recipe, db.session))
     admin.add_view(ModelView(Like, db.session))
     admin.add_view(ModelView(TokenBlokedList, db.session))
-    admin.add_view(ModelView(RecipeIngredient, db.session))
     admin.add_view(ModelView(Coment, db.session))
 
 

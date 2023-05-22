@@ -457,6 +457,7 @@ def create_postrecipe():
         difficulty=difficulty,
         description=description,
         instructions=instructions,
+        ingredients=ingredients, 
         id_country=None,  # Replace with the actual country ID
         id_category=None  # Replace with the actual category ID
     )
@@ -475,12 +476,6 @@ def create_postrecipe():
     if category:
         new_recipe.id_category = category.id
  
-    # Añadir ingredientes a la receta
-    for ingredient_data in ingredients:
-        ingredient_name = ingredient_data["name"]
-        ingredient_quantity = ingredient_data["quantity"]
-        new_ingredient = RecipeIngredient(name=ingredient_name, quantity=ingredient_quantity)
-        new_recipe.recipe_ingredients.append(new_ingredient)
 
     db.session.add(new_recipe)
     db.session.commit()
@@ -511,10 +506,13 @@ def edit_recipe(recipe_id):
         recipe.description = body["description"]
     if "instructions" in body:
         recipe.instructions = body["instructions"]
+    if "ingredients" in body:
+        recipe.ingredients = body["ingredients"]
     if "country_id" in body:
         recipe.id_country = body["country_id"]
     if "category_id" in body:
         recipe.id_category = body["category_id"]
+    
 
     # Guardamos los cambios en la base de datos
     db.session.commit()
@@ -557,8 +555,8 @@ def get_recipe(recipe_id):
         "instructions": recipe.instructions,
         "country_name": recipe.id_country,
         "category_name": recipe.id_category,
-        "recipe_ingredients": [ri.serialize() for ri in recipe.recipe_ingredients]
-    }
+        "ingredients" : recipe.ingredients   
+        }
 
     return jsonify(recipe_data), 200
 
@@ -782,77 +780,6 @@ def delete_specific_country():
     db.session.commit()  
   
     return jsonify({"msg": "Country deleted"}), 200
-
-@api.route('/newingredient', methods=['POST'])
-def new_ingredient():
-    body = request.get_json()
-    name = body["name"]
-
-    if body is None:
-        raise APIException("You need to specify the request body as a JSON object", status_code=400)
-      
-    
-    if "name" not in body:
-        raise APIException("You need to specify the name of the ingredient", status_code=400)
-
-    new_ingredient = Ingredient.query.filter_by(name=name).first()
-    if new_ingredient is not None:
-        raise APIException("Ingredient already exists", status_code=409)
-
-    new_ingredient = Ingredient(name=name)
-
-    db.session.add(new_ingredient)
-    db.session.commit()
-
-    return jsonify({"msg": "Ingredient successfully created"}), 201
-
- 
-@api.route('/getingredient', methods=['GET'])
-def get_ingredient():
-    id = request.args.get("id", None)
-    name = request.args.get("name", None)
-    
-    ingredient = Ingredient.query
-    if id:
-        ingredient = ingredient.filter_by(id=id)
-    if name:
-        ingredient = ingredient.filter_by(name=name)
-        
-    ingredient = ingredient.all()
-    ingredient = list(map(lambda item: item.serialize(), ingredient))
-    return jsonify(ingredient)
-
-@api.route('/putingredient/<int:ingredient_id>', methods=['PUT'])
-def put_ingredient(ingredient_id):
-    body = request.get_json()
-
-    if body is None:
-        raise APIException("You need to specify the request body as a JSON object", status_code=400)
-
-    ingredient = Ingredient.query.get(ingredient_id)
-    if ingredient is None:
-        raise APIException("Ingredient not found", status_code=404)
-
-    # Actualizar los campos del ingrediente si están presentes en el body
-    if "name" in body:
-        ingredient.name = body["name"]
-
-    db.session.commit()
-
-    return jsonify({"msg": "Ingredient successfully updated"}), 200
-
-@api.route('/deleteingredient', methods=['DELETE'])
-def delete_ingredient(ingredient_id):
-    body = request.get_json()   
-    ingredient_id = body["id"]
-    ingredient = Ingredient.query.get(ingredient_id)
-    if ingredient is None:
-        raise APIException("Ingredient not found", status_code=404)
-
-    db.session.delete(ingredient)
-    db.session.commit()
-
-    return jsonify({"msg": "Ingredient deleted"}), 200
 
 @api.route('/newlike', methods=['POST'])
 def new_like():
