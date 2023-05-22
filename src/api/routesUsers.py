@@ -813,7 +813,7 @@ def new_like():
 
     return jsonify({"msg": "Like added successfully"}), 200
 
-@api.route('/deletelike', methods=['DELETE'])
+@api.route('/deletelike', methods=['PUT'])
 def delete_like():
     body = request.get_json()
     recipe_id = body["recipe_id"]
