@@ -6,7 +6,7 @@
 .info {
   margin-bottom: 20px;
 }
-label {
+/* label {
   font-weight: bold;
   display: inline-block;
   width: 120px;
@@ -14,9 +14,9 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="password"] {
-  width: 200px;
-  padding: 5px;
-}
+  width: auto;
+  padding: auto;
+} */
 .profile-pic {
   display: inline-block;
   margin-bottom: 20px;
@@ -26,9 +26,9 @@ input[type="password"] {
   height: 200px;
   border-radius: 50%;
 }
-input[type="file"] {
+/* input[type="file"] {
   display: none;
-}
+} */
 .upload-btn {
   width: 200px;
   background-color: #4caf50;
