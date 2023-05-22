@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import classNames from 'classnames';
 import "../../styles/publicNavbarForPublicHome.css";
 import Logo from "../../img/logoTossUp_backgroundless_v2.png";
+import { useNavigate } from "react-router-dom";
 
 export const PublicNavbarForPublicHome = () => {
   const { store, actions } = useContext(Context);
@@ -13,6 +14,8 @@ export const PublicNavbarForPublicHome = () => {
   const handleLinkClick = (path) => {
     setActiveLink(path);
   };
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const cargaDatos = async () => {
@@ -28,6 +31,13 @@ export const PublicNavbarForPublicHome = () => {
     }
     cargaDatos()
   }, [])
+
+  const handleLogout = () => {
+    actions.logout()
+    navigate("/")
+
+  }
+
 
   return (
 

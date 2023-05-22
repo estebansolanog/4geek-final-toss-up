@@ -55,9 +55,13 @@ export const Register = () => {
 
   return (
     <div className="landing-page">
-      <div className="video-container ">
-        <img className="ho opacity-image" src="https://cdn.shopify.com/s/files/1/0899/2262/articles/Restaurantes_Comida_Internacional.JPG?v=1555022012"></img>
+      <div className="video-container">
+        <video autoPlay muted loop>
+          <source src={"https://res.cloudinary.com/doqx408xv/video/upload/v1684159209/comida_chxnqx.mp4"} type="video/mp4" />
+          Tu navegador no soporta la reproducción de video.
+        </video>
       </div>
+
       <div className="container-fluid">
         <Container component="main" maxWidth="xs">
           <form onSubmit={handleSubmit} className={classes.container} >

@@ -152,6 +152,22 @@ def add_and_share_recipe():
 
 
 
+@rrecipe.route('/AllManuelRecipes', methods=['GET'])
+@jwt_required()
+def get_all_manual_recipes():
+
+    jwt_claims = get_jwt()
+    print(jwt_claims)
+    user = jwt_claims["users_id"]
+    print("el id del USUARIO:",user)
+
+    manual_recipes = RecipeChat.query.filter_by(generated_by_ia=False).all()
+    manual_recipes = list(map(lambda item: item.serialize(), manual_recipes))
+    print(manual_recipes)
+
+    return jsonify(manual_recipes), 200
+
+
 @rrecipe.route('/AllShareRecipesManual', methods=['GET'])
 @jwt_required()
 def get_all_share_recipes_manual():
