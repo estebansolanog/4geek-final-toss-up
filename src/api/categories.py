@@ -6,7 +6,8 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
 
-    recipes = db.relationship('Recipe', backref='categories', lazy=True)
+    #Relacion comentada dado que no esta en uso
+    # recipes = db.relationship('Recipe', backref='categories', lazy=True)
 
     def __repr__(self):
         return f"<Category {self.id}>"

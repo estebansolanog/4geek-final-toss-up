@@ -49,7 +49,7 @@ export const Login = () => {
   const handleSignIn = (e) => {
     e.preventDefault();
     actions.login(email, password);
-    navigate("/chatbot");
+    navigate("/");
   };
 
   return (

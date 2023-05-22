@@ -1,6 +1,6 @@
-.carousel-container {
+/* .carousel-container {
   height: 650px;
-}
+} */
 
 .fa-angle-down {
   width: 40px;
@@ -27,14 +27,30 @@
 .container-carousel {
   position: relative;
   width: 100%;
-  height: 100%;
+  display: flex;
+  justify-content: center;
+  /* border: 1px solid red; */
+  padding: 0%;
+  margin: 0%;
   overflow: hidden;
+}
+.carousel-container {
+  height: 100%;
+  /* border: 1px solid red; */
+  padding: 0%;
+  margin: 0%;
+}
+.carousel-item {
+  height: 100%;
+  border: 1px solid red;
+  padding: 0%;
+  margin: 0%;
 }
 .button-carousel {
   position: absolute;
   font-size: 20px;
   cursor: pointer;
-  width: 99%;
+  width: 100%;
 }
 
 #search {
@@ -84,6 +100,12 @@
   font-weight: 700;
   margin-top: 20px;
 }
+
+.search-text-title-mini {
+  font-size: 33px;
+  font-weight: 700;
+  margin-top: 20px;
+}
 .my-link {
   text-decoration: none;
   color: inherit;
@@ -92,4 +114,9 @@
 .search-text-paragraph {
   font-size: 25px;
   font-weight: 400;
+}
+
+.search-text-paragraph-mini {
+  font-size: 20px;
+  font-weight: 300;
 }

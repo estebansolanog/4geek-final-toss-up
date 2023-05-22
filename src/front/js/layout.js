@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 //Componetes
 import ScrollToTop from "./component/scrollToTop";
 import Home from "./pages/home.jsx";
+import MyAccount from "./pages/myAccount.jsx";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
@@ -20,16 +21,16 @@ import PublicNavbarForPublicHome from "./component/publicNavbarForPublicHome.jsx
 import LandingPage from "./pages/landing.jsx";
 import PublicHome from "./pages/publicHome.jsx";
 import Chatbot from "./component/chatbot.jsx";
-
+import AddManualRecipe from "./component/AddManualRecipe.jsx";
 // Crear un nuevo componente para la selección del Navbar
 const NavbarSelector = () => {
   const { store, actions } = useContext(Context);
   const location = useLocation();
 
-  if (location.pathname === '/public') {
-    return <PublicNavbarForPublicHome />;
-  } else if (store.userLogin) {
+  if ((store.userLogin) === true) {
     return <Navbar />;
+  } else if ((store.userLogin) === false && (location.pathname) === '/public') {
+    return <PublicNavbarForPublicHome />;
   } else {
     return <PublicNavbar />;
   }
@@ -52,14 +53,20 @@ const Layout = () => {
 
           {/* <Navbar /> */}
           <Routes>
-            <Route element={<Chatbot />} path="/chatbot" />
-            <Route element={<Demo />} path="/demo" />
-            <Route element={<Receta />} path="/receta" />
+            {/* <Route element={<Chatbot />} path="/chatbot" /> */}
+            {/* <Route element={<MyAccount />} path="/myaccount" /> */}
+            {/* <Route element={<Demo />} path="/demo" /> */}
+            {/* <Route element={<Receta />} path="/receta" /> */}
             <Route element={<Login />} path="/login" />
+            {/* <Route element={<LandingPage />} path="/landingPage" /> */}
             <Route element={<Register />} path="/register" />
             <Route element={<PublicHome />} path="/public" />
-            <Route path="/" element={<>{store.userLogin ? <Home /> : <LandingPage />}</>}
-            />
+            {/* <Route element={<AddManualRecipe />} path="/addRecipe" /> */}
+            <Route path="/" element={<>{store.userLogin ? <Home /> : <LandingPage />}</>} />
+            <Route path="/chatbot" element={<>{store.userLogin ? <Chatbot /> : <Login />}</>} />
+            <Route path="/demo" element={<>{store.userLogin ? <Demo /> : <Login />}</>} />
+            <Route path="/addRecipe" element={<>{store.userLogin ? <AddManualRecipe /> : <Login />}</>} />
+            <Route path="/receta" element={<>{store.userLogin ? <Receta /> : <Login />}</>} />
             {/* <Route element={<CardCarousel />} path="/cardCarousel" /> */}
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<h1>Not found!</h1>} />

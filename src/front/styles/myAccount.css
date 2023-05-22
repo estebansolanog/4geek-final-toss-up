@@ -1,0 +1,47 @@
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.info {
+  margin-bottom: 20px;
+}
+/* label {
+  font-weight: bold;
+  display: inline-block;
+  width: 120px;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: auto;
+  padding: auto;
+} */
+.profile-pic {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+.profile-pic img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+/* input[type="file"] {
+  display: none;
+} */
+.upload-btn {
+  width: 200px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.upload-btn:hover {
+  background-color: #45a049;
+}

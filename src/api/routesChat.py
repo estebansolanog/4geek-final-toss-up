@@ -66,6 +66,89 @@ def verificacionToken(identity):
 #     return '.' in filename and \
 #            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+@chat.route('/AddRecipe', methods=['POST'])
+@jwt_required()
+def add_recipe():
+
+    jwt_claims = get_jwt()
+    print(jwt_claims)
+    user = jwt_claims["users_id"]
+    print("el id del USUARIO:",user)
+
+    if 'image_of_recipe' not in request.files:
+        raise APIException("No image to upload")
+    if 'description' not in request.form:
+        raise APIException("No description to upload")
+    if 'user_query' not in request.form:
+        raise APIException("No user_query to upload")
+    
+    # Consigue un timestamp y formatea como string
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    image_cloudinary_url = cloudinary.uploader.upload(
+        request.files['image_of_recipe'],
+        public_id = f'{request.form.get("user_query").replace(" ", "_")}_{timestamp}',
+    )['url']  # Extract the 'url' from the returned dictionary
+
+    new_recipe_chat = RecipeChat(
+        name="nombre de la receta",  # actualiza esto
+        description=request.form.get("description"),
+        user_id=user, 
+        user_query=request.form.get("user_query"),
+        image_of_recipe=image_cloudinary_url,  # now this is the URL of the image in Cloudinary
+        share=False,
+        generated_by_ia=True,
+    )
+
+    # Añadir y hacer commit a la nueva entrada
+    db.session.add(new_recipe_chat)
+    db.session.commit()
+
+    # Retornar la receta, la URL de la imagen y el ID de la receta en la respuesta
+    return jsonify({"recipe": request.form.get("user_query"), "image_url": image_cloudinary_url, "recipe_id": new_recipe_chat.id})
+
+
+# @chat.route('/AddRecipe', methods=['POST'])
+# @jwt_required()
+# def add_recipe():
+
+#     jwt_claims = get_jwt()
+#     print(jwt_claims)
+#     user = jwt_claims["users_id"]
+#     print("el id del USUARIO:",user)
+
+#     if 'image_of_recipe' not in request.files:
+#         raise APIException("No image to upload")
+#     if 'description' not in request.form:
+#         raise APIException("No description to upload")
+#     if 'user_query' not in request.form:
+#         raise APIException("No user_query to upload")
+    
+#     # Consigue un timestamp y formatea como string
+#     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+#     image_cloudinary_url = cloudinary.uploader.upload(
+#         request.files['image_of_recipe'],
+#         public_id = f'{request.form.get("user_query").replace(" ", "_")}_{timestamp}',
+#     )
+
+#     new_recipe_chat = RecipeChat(
+#         name="nombre de la receta",  # actualiza esto
+#         description=request.form.get("description"),
+#         user_id=user, 
+#         user_query=request.form.get("user_query"),
+#         image_of_recipe=image_cloudinary_url,  # ahora esto es la URL de la imagen en Cloudinary
+#         share=False,
+#     )
+
+#     # Añadir y hacer commit a la nueva entrada
+#     db.session.add(new_recipe_chat)
+#     db.session.commit()
+
+#     # Retornar la receta, la URL de la imagen y el ID de la receta en la respuesta
+#     return jsonify({"recipe": request.form.get("user_query"), "image_url": image_cloudinary_url, "recipe_id": new_recipe_chat.id})
+
+
 @chat.route('/AllShareRecipes', methods=['GET'])
 @jwt_required()
 def get_all_share_recipes():
@@ -146,7 +229,7 @@ def get_chat_history():
     print(jwt_claims)
     user_id = jwt_claims["users_id"]
     
-    recipes = RecipeChat.query.filter_by(user_id=user_id).all()
+    recipes = RecipeChat.query.filter_by(user_id=user_id, generated_by_ia=True).all()
     recipes = list(map(lambda item: item.serialize(), recipes))
     print(recipes)
 
@@ -204,6 +287,7 @@ def generate_recipe():
         user_query=data['prompt'],
         image_of_recipe=image_cloudinary_url,  # ahora esto es la URL de la imagen en Cloudinary
         share=False,
+        generated_by_ia=True,
     )
 
     # Añadir y hacer commit a la nueva entrada
@@ -344,3 +428,28 @@ def image_recipe():
     # Retornar la ruta de la imagen y el ID de la receta en la respuesta
     return jsonify({"image_path": image_path, "recipe_id": new_recipe_chat.id})
 
+#Ruta para eliminar una receta del chatbot
+@chat.route('/DeleteRecipeChat/<int:id>', methods=['DELETE'])
+@jwt_required()  # Requiere un token válido para acceder a la ruta.
+def delete_recipe_chat(id):
+
+    # Obtenemos el ID del usuario de las reclamaciones del token JWT.
+    jwt_claims = get_jwt()
+    # user_id = jwt_claims["user_id"]
+    if "users_id" not in jwt_claims:
+        return jsonify({"msg": "User not found"}), 401
+    
+    user_id = jwt_claims["users_id"]
+
+    if user_id != jwt_claims["users_id"]:
+        return jsonify({"msg": "Unauthorized user"}), 401
+    
+    # Buscamos al usuario en la base de datos utilizando el ID obtenido.
+    recipe = RecipeChat.query.filter_by(user_id=user_id, id=id).first()
+
+    # Eliminamos la receta de la base de datos y guardamos los cambios.
+    db.session.delete(recipe)
+    db.session.commit()
+
+    # Retornamos un mensaje en formato JSON y el código de estado HTTP 200 (OK).
+    return jsonify({"message": "receta borrada"}), 200
