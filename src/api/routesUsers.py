@@ -599,8 +599,17 @@ def get_recipes():
     recipes=list(map(lambda item: item.serialize(), recipes))
 
     # Construimos el objeto JSON con la información de la receta
-
-    return jsonify(recipes), 200
+    recipe_data = {
+        "id": recipes.id,
+        "name": recipes.name,
+        "time": recipes.time,
+        "difficulty": recipes.difficulty,
+        "description": recipes.description,
+        "instructions": recipes.instructions,
+        "country_name": recipes.id_country,
+        "category_name": recipes.id_category,
+    }
+    return jsonify(recipe_data), 200
 
 @api.route('/getfavorito', methods=['GET'])
 @jwt_required()  # Requiere un token válido para acceder a la ruta.
