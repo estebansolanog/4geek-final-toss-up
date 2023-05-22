@@ -15,7 +15,7 @@ from api.countries import Country
 from api.ingredient import Ingredient
 from api.likes import Like
 from api.utils import generate_sitemap, APIException
-from api.recipe_ingredient import Recipeingredient
+from api.recipe_ingredient import RecipeIngredient
 from datetime import datetime
 from itsdangerous import URLSafeTimedSerializer
 
@@ -234,6 +234,8 @@ def get_all_users():
 
 #1 - REGISTRO DE USUARIO.
 #VER DOCUMENTACION ADICIONAL SOBRE ESTA RUTA EN: https://www.notion.so/dicttaapp-1-REGISTRO-DE-USUARIO-7ed225b8b61a4461a68413a37253434c
+s = URLSafeTimedSerializer("any key works")
+
 @api.route('/register', methods=['POST'])
 def register_user():
 
@@ -435,37 +437,36 @@ def create_postrecipe():
     if body is None:
         return jsonify({"error": "You need to specify the request body as a JSON object"}), 400
 
-    required_fields = ["name", "time", "dificulty", "description", "instructions", "ingredients", "country_name", "category_name"]
+    required_fields = ["name", "time", "dificulty", "description", "instructions", "recipe_ingredient", "country_name", "category_name"]
     for field in required_fields:
         if field not in body:
             return jsonify({"error": f"You need to specify the '{field}' field"}), 400
 
     name = body["name"]
     time = body["time"]
-    dificulty = body["dificulty"]
+    difficulty = body["difficulty"]
     description = body["description"]
     instructions = body["instructions"]
     ingredients = body["ingredients"]
-    country_id = body["country_id"]
-    category_id = body["category_id"]
-
+    country_name = body["country_name"]
+    category_name = body["category_name"]
+    recipe_ingredient= body["recipe_ingredient"]
     new_recipe = Recipe(
         name=name,
-        date=date,
         time=time,
-        dificulty=dificulty,
+        difficulty=difficulty,
         description=description,
         instructions=instructions,
-        ingredients=ingredients,
-        country_id=country_id,
-        category_id=category_id
+        recipe_ingredient=recipe_ingredient,
+        country_name=country_name,
+        category_name=category_name
     )
 
      # Añadir ingredientes a la receta
     for ingredient_data in ingredients:
         ingredient_name = ingredient_data["name"]
         ingredient_quantity = ingredient_data["quantity"]
-        new_ingredient = Recipeingredient(name=ingredient_name, quantity=ingredient_quantity)
+        new_ingredient = RecipeIngredient(name=ingredient_name, quantity=ingredient_quantity)
         new_recipe.ingredients.append(new_ingredient)
 
     # Añadir relación con favoritos

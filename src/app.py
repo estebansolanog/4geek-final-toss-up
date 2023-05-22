@@ -64,7 +64,7 @@ setup_commands(app)
 app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(chat, url_prefix='/chat')
 
-
+s = URLSafeTimedSerializer(app.config["JWT_SECRET_KEY"])
 
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
