@@ -560,6 +560,46 @@ def get_recipe(recipe_id):
 
     return jsonify(recipe_data), 200
 
+@api.route('/getrecipes', methods=['GET'])
+def get_recipes():
+
+    id = request.args.get("id")
+    name = request.args.get("name") 
+    time = request.args.get("time") 
+    difficulty = request.args.get("difficulty")
+    description = request.args.get("description")
+    instructions = request.args.get("instructions")
+    ingredients = request.args.get("ingredients")
+    country_name = request.args.get("country_name")
+    category_name = request.args.get("category_name")
+
+    recipes = Recipe.query
+    if id:
+        recipes = recipes.filter_by(id=id)
+    if name:
+        recipes = recipes.filter_by(name=name)
+    if time:
+        recipes = recipes.filter_by(time=time)
+    if difficulty:
+        recipes = recipes.filter_by(difficulty=difficulty)
+    if description:
+        recipes = recipes.filter_by(description=description)
+    if instructions:
+        recipes = recipes.filter_by(instructions=instructions)
+    if ingredients:
+        recipes = recipes.filter_by(ingredients=ingredients)
+    if country_name:
+        recipes = recipes.filter_by(country_name=country_name)
+    if category_name:
+        recipes = recipes.filter_by(category_name=category_name)
+        
+    recipes=recipes.all()
+    recipes=list(map(lambda item: item.serialize(), recipes))
+
+    # Construimos el objeto JSON con la información de la receta
+
+    return jsonify(recipes), 200
+
 @api.route('/getfavorito', methods=['GET'])
 @jwt_required()  # Requiere un token válido para acceder a la ruta.
 def get_favorito():
