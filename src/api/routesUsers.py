@@ -12,10 +12,8 @@ from api.favoritos import Favorito
 from api.recipe import Recipe
 from api.categories import Category
 from api.countries import Country
-from api.ingredient import Ingredient
 from api.likes import Like
 from api.utils import generate_sitemap, APIException
-from api.recipe_ingredient import RecipeIngredient
 from datetime import datetime
 from itsdangerous import URLSafeTimedSerializer
 
@@ -437,7 +435,7 @@ def create_postrecipe():
     if body is None:
         return jsonify({"error": "You need to specify the request body as a JSON object"}), 400
 
-    required_fields = ["name", "time", "difficulty", "description", "instructions", "ingredients", "country_name", "category_name"]
+    required_fields = ["name", "time", "difficulty", "description", "ingredients" , "instructions", "country_name", "category_name"]
     for field in required_fields:
         if field not in body:
             return jsonify({"error": f"You need to specify the '{field}' field"}), 400
@@ -447,10 +445,9 @@ def create_postrecipe():
     difficulty = body["difficulty"]
     description = body["description"]
     instructions = body["instructions"]
-    ingredients = body["ingredients"]
     country_name = body["country_name"]
     category_name = body["category_name"]
-
+    ingredients = body["ingredients"]
     new_recipe = Recipe(
         name=name,
         time=time,
@@ -458,24 +455,8 @@ def create_postrecipe():
         description=description,
         instructions=instructions,
         ingredients=ingredients, 
-        id_country=None,  # Replace with the actual country ID
-        id_category=None  # Replace with the actual category ID
+ # Replace with the actual category ID
     )
-
-   # Obtener el país y la categoría del cuerpo de la solicitud
-    country_name = body["country_name"]
-    category_name = body["category_name"]
-
-    # Buscar el país en la base de datos por su nombre
-    country = Country.query.filter_by(name=country_name).first()
-    if country:
-        new_recipe.id_country = country.id
-
-    # Buscar la categoría en la base de datos por su nombre
-    category = Category.query.filter_by(name=category_name).first()
-    if category:
-        new_recipe.id_category = category.id
- 
 
     db.session.add(new_recipe)
     db.session.commit()
@@ -597,17 +578,7 @@ def get_recipes():
     recipes=list(map(lambda item: item.serialize(), recipes))
 
     # Construimos el objeto JSON con la información de la receta
-    recipe_data = {
-        "id": recipes.id,
-        "name": recipes.name,
-        "time": recipes.time,
-        "difficulty": recipes.difficulty,
-        "description": recipes.description,
-        "instructions": recipes.instructions,
-        "country_name": recipes.id_country,
-        "category_name": recipes.id_category,
-    }
-    return jsonify(recipe_data), 200
+    return jsonify(recipes), 200
 
 @api.route('/getfavorito', methods=['GET'])
 @jwt_required()  # Requiere un token válido para acceder a la ruta.
@@ -669,6 +640,7 @@ def delete_specific_favorite():
     db.session.commit()
 
     return jsonify({"msg": "Favorite deleted"}), 
+
 
 s = URLSafeTimedSerializer("any key works")
 

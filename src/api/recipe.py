@@ -12,8 +12,6 @@ class Recipe(db.Model):
     description = db.Column(db.String(100), nullable=False)
     instructions = db.Column(db.String(200), unique=True, nullable=False)
     ingredients = db.Column(db.String(120), unique=True, nullable=True)
-
-
     id_country = db.Column(db.Integer, db.ForeignKey('countries.id'), nullable=True)
     id_category = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=True)
     id_likes = db.Column(db.Integer, db.ForeignKey('likes.id'), nullable=True)
