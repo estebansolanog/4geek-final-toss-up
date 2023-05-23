@@ -1,12 +1,15 @@
 import React, { useContext } from "react";
 import "../../styles/login.css";
 import { Footer } from "../component/footerLogin";
+import { useLocation } from "react-router-dom";
 
 import { NavbarLogin } from "../component/navbarLogin";
 // import { NavbarVisitor } from "../component/navbarVisitor";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+
+
 
 import {
   Container,
@@ -39,18 +42,47 @@ export const Login = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(email);
-  }, [email]);
-  useEffect(() => {
-    console.log(password);
-  }, [password]);
+  //PARA MANEJAR EL ENRUTAMIENTO A LA RUTA PREVIA A HACER LOGIN POR PARTE DEL USUARIO.
+  // const location = useLocation();
+  // // const history = useHistory();
+  // const handleSignIn = async (e) => {
+  //   e.preventDefault();
+  //   const result = await actions.login(email, password);
+
+  //   // Dependiendo de cómo esté configurada tu función 'login', es posible que necesites verificar si la autenticación fue exitosa antes de navegar. Por ejemplo:
+  //   if (result.success) {
+  //     const { from } = location.state || { from: { pathname: "/" } };
+  //     navigate(from.pathname);
+  //   } else {
+  //     // manejar error de inicio de sesión
+  //   }
+  // };
+
+  // const handleSignIn = async (e) => {
+  //   e.preventDefault();
+  //   const result = await actions.login(email, password);
+
+  //   // Dependiendo de cómo esté configurada tu función 'login', es posible que necesites verificar si la autenticación fue exitosa antes de navegar. Por ejemplo:
+  //   if (result.success) {
+  //     const { from } = location.state || { from: { pathname: "/" } };
+  //     navigate(from.pathname);
+  //   } else {
+  //     // manejar error de inicio de sesión
+  //   }
+  // };
+
 
   const handleSignIn = (e) => {
     e.preventDefault();
     actions.login(email, password);
     navigate("/");
   };
+  useEffect(() => {
+    console.log(email);
+  }, [email]);
+  useEffect(() => {
+    console.log(password);
+  }, [password]);
 
   return (
     <div className="landing-page">

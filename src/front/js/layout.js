@@ -22,6 +22,8 @@ import LandingPage from "./pages/landing.jsx";
 import PublicHome from "./pages/publicHome.jsx";
 import Chatbot from "./component/chatbot.jsx";
 import AddManualRecipe from "./component/AddManualRecipe.jsx";
+// import WithAuth from "./component/Auth/withAuth.jsx";
+
 // Crear un nuevo componente para la selección del Navbar
 const NavbarSelector = () => {
   const { store, actions } = useContext(Context);
@@ -56,7 +58,7 @@ const Layout = () => {
             {/* <Route element={<Chatbot />} path="/chatbot" /> */}
             {/* <Route element={<MyAccount />} path="/myaccount" /> */}
             {/* <Route element={<Demo />} path="/demo" /> */}
-            {/* <Route element={<Receta />} path="/receta" /> */}
+            <Route element={<AddManualRecipe />} path="/addRecipe" />
             <Route element={<Login />} path="/login" />
             {/* <Route element={<LandingPage />} path="/landingPage" /> */}
             <Route element={<Register />} path="/register" />
@@ -65,9 +67,14 @@ const Layout = () => {
             <Route path="/" element={<>{store.userLogin ? <Home /> : <LandingPage />}</>} />
             <Route path="/chatbot" element={<>{store.userLogin ? <Chatbot /> : <Login />}</>} />
             <Route path="/demo" element={<>{store.userLogin ? <Demo /> : <Login />}</>} />
-            <Route path="/addRecipe" element={<>{store.userLogin ? <AddManualRecipe /> : <Login />}</>} />
+            {/* <Route path="/addRecipe" element={<>{store.userLogin ? <AddManualRecipe /> : <Login />}</>} /> */}
             <Route path="/receta" element={<>{store.userLogin ? <Receta /> : <Login />}</>} />
             {/* <Route element={<CardCarousel />} path="/cardCarousel" /> */}
+            {/* <Route path="/chatbot" element={WithAuth(Chatbot)} />
+            {/* <Route path="/chatbot" element={WithAuth(Chatbot)} />
+            <Route path="/demo" element={WithAuth(Demo)} />
+            <Route path="/addRecipe" element={WithAuth(AddManualRecipe)} />
+            <Route path="/receta" element={WithAuth(Receta)} /> */}
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>

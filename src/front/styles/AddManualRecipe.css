@@ -1,19 +1,19 @@
 .container_manual-recipe {
-  padding-left: 33%;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   margin-bottom: 20px;
 }
-
+/* 
 .recipe-add-form {
   width: 100%;
   display: flex;
   padding-right: 10%;
   flex-direction: column;
-}
+} */
 
-.container-add-recipe-manual {
+/* .container-add-recipe-manual {
   width: 100%;
 }
 
@@ -24,7 +24,7 @@
 
 .container-add-recipe-manual-title {
   width: 100%;
-  /* padding-right:%; */
+  padding-right:%;
   display: flex;
   justify-content: center;
 }
@@ -40,26 +40,34 @@
 
 .recipe-description {
   height: 300px;
-}
+} */
 
 /* Seccion de histórico de recetas*/
 
 .container-add-recipe-manual-history {
   display: flex;
   justify-content: top;
+  align-items: center;
   flex-direction: column;
-  width: 440px;
-  height: 600px;
+  width: 600px;
+  /* height: 600px;
   overflow-y: auto;
-  overflow-x: hidden;
-  border: 1px solid red;
+  overflow-x: hidden; */
+  /* border: 1px solid red; */
 }
 
+.container-add-recipe-manual-history-upper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+}
 .recetas-container {
   width: 100%;
 }
-/*
- .card-history-manual {
+/* 
+.card-history-manual {
   width: 100%;
 }
 
@@ -72,3 +80,11 @@
   justify-content: center;
   margin-top: 20px;
 } */
+
+.container-chatless {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
