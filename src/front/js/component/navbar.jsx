@@ -15,6 +15,10 @@ export const Navbar = () => {
     setActiveLink(path);
   };
 
+  const handleLogout = () => {
+    actions.logout();
+  };
+
   useEffect(() => {
     const cargaDatos = async () => {
       // let { respuestaJson, response } = await actions.useFetch("/api/protected")

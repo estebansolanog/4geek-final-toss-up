@@ -164,7 +164,7 @@ def get_all_share_recipes():
 
     return jsonify(share_recipes), 200
 
-@chat.route('/EditRecipeChat', methods=['POST'])
+@chat.route('/EditRecipeChat', methods=['PUT'])
 @jwt_required()
 def edit_recipe_chat():
 

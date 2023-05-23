@@ -2,4 +2,13 @@
   height: 300px;
 }
 
+.recetas-container {
+  margin-bottom: 4%;
+}
 
+.divider {
+  margin-top: 4%;
+  margin-bottom: 4%;
+  background: #b1adad;
+  height: 1px;
+}

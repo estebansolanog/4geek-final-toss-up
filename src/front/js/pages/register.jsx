@@ -55,9 +55,13 @@ export const Register = () => {
 
   return (
     <div className="landing-page">
-      <div className="video-container ">
-        <img className="ho opacity-image" src="https://cdn.shopify.com/s/files/1/0899/2262/articles/Restaurantes_Comida_Internacional.JPG?v=1555022012"></img>
+      <div className="video-container">
+
+        <img src={"https://buenazo.cronosmedia.glr.pe/original/2022/10/27/635b20574d2f5c508f58567d.jpg"} />
+
+
       </div>
+
       <div className="container-fluid">
         <Container component="main" maxWidth="xs">
           <form onSubmit={handleSubmit} className={classes.container} >
