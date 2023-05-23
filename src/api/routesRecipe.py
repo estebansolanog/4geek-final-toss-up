@@ -161,7 +161,7 @@ def get_all_manual_recipes():
     user = jwt_claims["users_id"]
     print("el id del USUARIO:",user)
 
-    manual_recipes = RecipeChat.query.filter_by(generated_by_ia=False).all()
+    manual_recipes = RecipeChat.query.filter_by(generated_by_ia=False, user_id=user).all()
     manual_recipes = list(map(lambda item: item.serialize(), manual_recipes))
     print(manual_recipes)
 
