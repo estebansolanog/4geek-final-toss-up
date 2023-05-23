@@ -46,7 +46,7 @@ export const Register = () => {
     console.log("Email:", email, "Password:", password, "Name:");
     // Lógica de inicio de sesión
     actions.register(name, lastName, email, password);
-    navigate("/login");
+    // navigate("/login");
     // console.log({
     //   email: data.get("email"),
     //   password: data.get("password"),
@@ -56,10 +56,10 @@ export const Register = () => {
   return (
     <div className="landing-page">
       <div className="video-container">
-        <video autoPlay muted loop>
-          <source src={"https://res.cloudinary.com/doqx408xv/video/upload/v1684159209/comida_chxnqx.mp4"} type="video/mp4" />
-          Tu navegador no soporta la reproducción de video.
-        </video>
+
+        <img src={"https://buenazo.cronosmedia.glr.pe/original/2022/10/27/635b20574d2f5c508f58567d.jpg"} />
+
+
       </div>
 
       <div className="container-fluid">
