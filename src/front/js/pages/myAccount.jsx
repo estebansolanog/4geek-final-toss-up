@@ -39,6 +39,35 @@ const MyAccount = () => {
         e.preventDefault();
         actions.userUpdate(name, lastName, email);
 
+        let body = new FormData();
+        body.append('name', name);
+        body.append('last_name', lastName);
+        body.append('password', password);
+        const options = {
+            body,
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            }
+        };
+
+        fetch(`http://localhost:3001/myaccount/update`, options)
+            .then(resp => resp.json())
+            .then(data => console.log("Success!!!!", data))
+            .then(data => {
+                console.log("Success!!!!", data);
+                setRecipeName('');
+                setRecipeDescription('');
+                setRecipeImage(null);
+                setFormKey(Math.random());
+            })
+            .catch(error => {
+                console.error("ERRORRRRRR!!!", error)
+                setRecipeName('');
+                setRecipeDescription('');
+                setRecipeImage(null)
+                setFormKey(Math.random());
+            });
     };
     //FIN FUNCION Y RUTA PARA GUARDAR DATOS DEL USUARIO
 
