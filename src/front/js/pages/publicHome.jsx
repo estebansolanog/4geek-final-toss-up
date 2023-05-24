@@ -203,7 +203,7 @@ const PublicHome = () => {
         </Fab>
         <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
           <MuiAlert onClose={handleCloseSnackbar} severity="info" elevation={6} variant="filled">
-            Debes iniciar sesión para poder crear recetas
+            Debes iniciar sesión para desactivar esta funcionalidad
           </MuiAlert>
         </Snackbar>
       </div>

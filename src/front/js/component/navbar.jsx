@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/navbar.css";
 import Logo from "../../img/logoTossUp_backgroundless_v3.png";
 
+import { Dropdown } from 'react-bootstrap';
+
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const [activeLink, setActiveLink] = useState('/');
@@ -101,9 +103,27 @@ export const Navbar = () => {
                 <Link to="/login" onClick={() => handleLinkClick('/login')}>
                   <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/login' })}><i className="fa-regular fa-bell"></i></span>
                 </Link>
-                <Link to="/register" onClick={() => handleLinkClick('/register')} className="navbar-link">
+                {/* <Link to="/register" onClick={() => handleLinkClick('/register')} className="navbar-link">
                   <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/register' })}>{infoUsuario}</span>
-                </Link>
+                </Link> */}
+                <Dropdown>
+                  <Dropdown.Toggle variant="secundary" id="dropdown-basic">
+                    <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/register' })}>{infoUsuario}</span>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item>
+                      <Link to="/myaccount">
+                        Mi Cuenta
+                      </Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <Link to="/allMyRecipes">
+                        Mis Recetas
+                      </Link>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               </div>
 
 
@@ -173,9 +193,19 @@ export const Navbar = () => {
                     <Link to="/login" onClick={() => handleLinkClick('/login')}>
                       <span className={classNames('navbar-brand mb-0 h1 text-warning col-1', { 'active': activeLink === '/login' })}><i className="fa-regular fa-bell"></i></span>
                     </Link>
-                    <Link to="/register" onClick={() => handleLinkClick('/register')} className="navbar-link">
+                    {/* <Link to="/register" onClick={() => handleLinkClick('/register')} className="navbar-link">
                       <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/register' })}>{infoUsuario}</span>
-                    </Link>
+                    </Link> */}
+                    <Dropdown>
+                      <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/register' })}>{infoUsuario}</span>
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => handleLinkClick('/mi-cuenta')}>Mi cuenta</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleLinkClick('/mis-recetas')}>Mis recetas</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
                   </div>
 
 

@@ -14,8 +14,8 @@ const MyAccount = () => {
     const { store, actions } = useContext(Context);
     const [name, setName] = useState("")
     const [lastName, setLastName] = useState("")
-    const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
     const [pfp, setPFP] = useState("https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/1200px-Unknown_person.jpg");
 
     useEffect(() => {
@@ -27,9 +27,9 @@ const MyAccount = () => {
     useEffect(() => {
         console.log(email);
     }, [email]);
-    useEffect(() => {
-        console.log(password);
-    }, [password]);
+    // useEffect(() => {
+    //     console.log(password);
+    // }, [password]);
     useEffect(() => {
         console.log(pfp);
     }, [pfp]);
@@ -37,38 +37,16 @@ const MyAccount = () => {
     //FUNCION Y RUTA PARA GUARDAR DATOS DEL USUARIO
     const handleSaveClick = (e) => {
         e.preventDefault();
+        actions.userUpdate(name, lastName, email);
 
-        let body = new FormData();
-        body.append('name', name);
-        body.append('last_name', lastName);
-        body.append('password', password);
-        const options = {
-            body,
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("token")}`,
-            }
-        };
-
-        fetch(`http://localhost:3001/rrecipe/AddRecipe`, options)
-            .then(resp => resp.json())
-            .then(data => console.log("Success!!!!", data))
-            .then(data => {
-                console.log("Success!!!!", data);
-                setRecipeName('');
-                setRecipeDescription('');
-                setRecipeImage(null);
-                setFormKey(Math.random());  // Esto es para que se resetee el formulario
-            })
-            .catch(error => {
-                console.error("ERRORRRRRR!!!", error)
-                setRecipeName('');
-                setRecipeDescription('');
-                setRecipeImage(null)
-                setFormKey(Math.random());  // Esto es para que se resetee el formulario
-            });
     };
     //FIN FUNCION Y RUTA PARA GUARDAR DATOS DEL USUARIO
+
+    //FUNCION Y RUTA PARA BORRAR CUENTA
+    const deleteAccount = (e) => {
+        e.preventDefault();
+        actions.deleteAccount();
+    }
 
 
     useEffect(() => {
@@ -82,8 +60,8 @@ const MyAccount = () => {
                 console.log(respuestaJson.name)
                 setLastName(respuestaJson.last_name)
                 console.log(respuestaJson.last_name)
-                setPassword(respuestaJson.password)
-                console.log(respuestaJson.password)
+                // setPassword(respuestaJson.password)
+                // console.log(respuestaJson.password)
                 setEmail(respuestaJson.email)
                 console.log(respuestaJson.email)
             }
@@ -106,20 +84,20 @@ const MyAccount = () => {
                         <img src={pfp} alt="Profile Picture"></img>
                         <   br></br>
                         <input type="text" id="profile-pic-upload" onChange={(e) => setPFP(e.target.value)}></input>
-                        <label for="profile-pic-upload" className="upload-btn" >↑ Edit Picture ↑</label>
+                        <label htmlFor="profile-pic-upload" className="upload-btn" >↑ Edit Picture ↑</label>
                     </div>
                     <div className="info d-flex flex-column">
                         <div className="d-flex">
                             <TextField
                                 label="Name"
                                 type="name"
-                                value={name}
+                                value={name || ""}
                                 onChange={(e) => setName(e.target.value)}
                                 margin="normal"
                                 required
                                 fullWidth
                                 InputProps={{
-                                    placeholder: { name },
+                                    placeholder: name,
                                     style: { color: "black" },
                                 }}
                             />
@@ -127,34 +105,34 @@ const MyAccount = () => {
                         <div className="d-flex">
                             <TextField
                                 label="Last Name"
-                                type="lastName"
-                                value={lastName}
+                                type="text"
+                                value={lastName || ""}
                                 onChange={(e) => setLastName(e.target.value)}
                                 margin="normal"
                                 required
                                 fullWidth
                                 InputProps={{
-                                    placeholder: { lastName },
+                                    placeholder: lastName,
                                     style: { color: "black" },
                                 }}
                             />
                         </div>
                         <div className="d-flex">
                             <TextField
-                                label="Password"
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                label="Email"
+                                type="email"
+                                value={email || ""}
+                                onChange={(e) => setEmail(e.target.value)}
                                 margin="normal"
                                 required
                                 fullWidth
                                 InputProps={{
-                                    placeholder: "Contraseña",
+                                    placeholder: email,
                                     style: { color: "black" },
                                 }}
                             />
                         </div>
-                        <Button onClick={handleSaveClick} id="edit-btn" >Edit</Button>
+                        <Button onClick={(e) => { handleSaveClick(e) }} id="edit-btn" >Guardar</Button>
                     </div>
                 </div>
                 <br />
@@ -170,6 +148,9 @@ const MyAccount = () => {
                 <br />
                 <br />
                 <br />
+                <div className="delete-account">
+                    <button className="btn btn-secondary" style={{ color: "secondary" }} onClick={(e) => { deleteAccount(e) }}>Borrar mi cuenta</button>
+                </div>
                 <Footer />
             </div>
         </div>

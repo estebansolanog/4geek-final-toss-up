@@ -401,7 +401,6 @@ def update_user():
     
 
 
-
 #6 - ELIMINAR UN USARIO
 #VER DOCUMENTACION ADICIONAL DE ESTA RUTA EN: https://www.notion.so/dicttaap-6-myaccount-delete-cbd5495b91854d069be30f53aa00ff26?pvs=4
 

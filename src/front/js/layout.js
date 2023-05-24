@@ -22,6 +22,7 @@ import LandingPage from "./pages/landing.jsx";
 import PublicHome from "./pages/publicHome.jsx";
 import Chatbot from "./component/chatbot.jsx";
 import AddManualRecipe from "./component/AddManualRecipe.jsx";
+import AllMyRecipes from "./pages/AllMyRecipes.jsx";
 // import WithAuth from "./component/Auth/withAuth.jsx";
 
 // Crear un nuevo componente para la selección del Navbar
@@ -33,7 +34,7 @@ const NavbarSelector = () => {
     return <Navbar />;
   } else if ((store.userLogin) === false && (location.pathname) === '/public') {
     return <PublicNavbarForPublicHome />;
-  } else {
+  } else if ((store.userLogin) === false) {
     return <PublicNavbar />;
   }
 };
@@ -59,16 +60,17 @@ const Layout = () => {
             <Route element={<MyAccount />} path="/myaccount" />
             {/* <Route element={<Demo />} path="/demo" /> */}
             <Route element={<AddManualRecipe />} path="/addRecipe" />
+            <Route element={<AllMyRecipes />} path="/allMyRecipes" />
             <Route element={<Login />} path="/login" />
             {/* <Route element={<LandingPage />} path="/landingPage" /> */}
             <Route element={<Register />} path="/register" />
             <Route element={<PublicHome />} path="/public" />
             {/* <Route element={<AddManualRecipe />} path="/addRecipe" /> */}
             <Route path="/" element={<>{store.userLogin ? <Home /> : <LandingPage />}</>} />
-            <Route path="/chatbot" element={<>{store.userLogin ? <Chatbot /> : <Login />}</>} />
-            <Route path="/demo" element={<>{store.userLogin ? <Demo /> : <Login />}</>} />
+            <Route path="/chatbot" element={<>{store.userLogin ? <Chatbot /> : <Chatbot />}</>} />
+            <Route path="/demo" element={<>{store.userLogin ? <Demo /> : <Demo />}</>} />
             {/* <Route path="/addRecipe" element={<>{store.userLogin ? <AddManualRecipe /> : <Login />}</>} /> */}
-            <Route path="/receta" element={<>{store.userLogin ? <Receta /> : <Login />}</>} />
+            <Route path="/receta" element={<>{store.userLogin ? <Receta /> : <Receta />}</>} />
             {/* <Route element={<CardCarousel />} path="/cardCarousel" /> */}
             {/* <Route path="/chatbot" element={WithAuth(Chatbot)} />
             {/* <Route path="/chatbot" element={WithAuth(Chatbot)} />
