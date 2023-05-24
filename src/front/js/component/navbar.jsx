@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import classNames from 'classnames';
+import { useNavigate } from "react-router-dom";
 
 import "../../styles/navbar.css";
 import Logo from "../../img/logoTossUp_backgroundless_v3.png";
@@ -10,6 +11,7 @@ export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const [activeLink, setActiveLink] = useState('/');
   const [infoUsuario, setInfoUsuario] = useState(null)
+  const navigate = useNavigate();
 
   const handleLinkClick = (path) => {
     setActiveLink(path);
@@ -17,6 +19,7 @@ export const Navbar = () => {
 
   const handleLogout = () => {
     actions.logout();
+    navigate("/public");
   };
 
   useEffect(() => {
