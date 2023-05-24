@@ -1,90 +1,47 @@
-.container_manual-recipe {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-bottom: 20px;
-}
-/* 
-.recipe-add-form {
-  width: 100%;
-  display: flex;
-  padding-right: 10%;
-  flex-direction: column;
-} */
-
-/* .container-add-recipe-manual {
-  width: 100%;
-}
-
-.container-add-recipe-mual-single {
-  width: 100%;
-  padding-right: 10%;
-}
-
-.container-add-recipe-manual-title {
-  width: 100%;
-  padding-right:%;
-  display: flex;
-  justify-content: center;
-}
-
-.container-add-recipe-manual-button {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-right: 10%;
-}
-
-.recipe-description {
-  height: 300px;
-} */
-
-/* Seccion de histórico de recetas*/
-
-.container-add-recipe-manual-history {
-  display: flex;
-  justify-content: top;
-  align-items: center;
-  flex-direction: column;
-  width: 600px;
-  /* height: 600px;
-  overflow-y: auto;
-  overflow-x: hidden; */
-  /* border: 1px solid red; */
-}
-
 .container-add-recipe-manual-history-upper {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
   width: 100%;
+  height: 80px;
 }
 .recetas-container {
-  width: 100%;
-}
-/* 
-.card-history-manual {
-  width: 100%;
-}
-
-.recetas-container {
-  width: 100%;
-}
-.container-add-recipe-manual-history-title {
   width: 100%;
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
-} */
+  align-items: center;
+  flex-direction: column;
+}
+
+.recetas-container-boby {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 600px;
+  /* border: 1px solid red; */
+}
 
 .container-chatless {
+  padding-top: 10%;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.link-to-myaccount {
+  cursor: pointer;
+}
+
+.container-add-recipe-manual-history-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-manual-recipe_button-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

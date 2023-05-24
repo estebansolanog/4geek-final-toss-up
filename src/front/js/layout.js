@@ -59,7 +59,7 @@ const Layout = () => {
           {/* <Navbar /> */}
           <Routes>
             {/* <Route element={<Chatbot />} path="/chatbot" /> */}
-            {/* <Route element={<MyAccount />} path="/myaccount" /> */}
+            <Route element={<MyAccount />} path="/myaccount" />
             {/* <Route element={<Demo />} path="/demo" /> */}
             <Route element={<AddManualRecipe />} path="/addRecipe" />
             <Route element={<Login />} path="/login" />

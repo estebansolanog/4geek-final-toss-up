@@ -1,0 +1,26 @@
+.editRecipeModalInput {
+  background-color: rgb(170, 170, 170);
+  height: 250px;
+  overflow: auto;
+  padding: 0%;
+  margin: 0%;
+}
+
+.editRecipeModalInputUser {
+  background-color: rgb(170, 170, 170);
+  margin: 0%;
+  padding: 0%;
+}
+.imageRecipe {
+  background-color: rgb(170, 170, 170);
+  padding: 0%;
+  margin: 0%;
+}
+.container-add-recipe-manual-button {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border: 1px solid rgb(170, 170, 170);
+  padding: 0%;
+  margin: 0%;
+}

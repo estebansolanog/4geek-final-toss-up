@@ -24,11 +24,13 @@ class RecipeChat(db.Model):
             "name": self.name,
             "description": self.description,
             "user_id": self.user_id,
+             "user_name": self.user.name if self.user else None,
             "user_query": self.user_query,
             "image_of_recipe": self.image_of_recipe,
             "share": self.share,
             "generated_by_ia": self.generated_by_ia,
             "coments": [coment.serialize() for coment in self.coments]
+
         }
 
 

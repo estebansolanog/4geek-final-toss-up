@@ -83,7 +83,7 @@ export const PublicNavbarForPublicHome = () => {
               </button>
             </form>
 
-            <div className="flex-column flex-md-row menu-group-2" >
+            {/* <div className="flex-column flex-md-row menu-group-2" >
               <Link to="" onClick={() => handleLinkClick('')}>
 
               </Link>
@@ -92,6 +92,25 @@ export const PublicNavbarForPublicHome = () => {
                   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
                 </svg></span>
               </Link>
+            </div> */}
+
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul className="menu-group-2 navbar-nav me-auto mb-2 mb-lg-0">
+
+
+              </ul>
+
+              <Link to="/login" onClick={() => handleLinkClick('/login')} className="navbar-link">
+                <span className={classNames('navbar-brand mb-0 h1 text-warning col-1 ', { 'active': activeLink === '/login' })}>
+                  Iniciar Sesión
+                </span>
+              </Link>
+              <Link to="/register" onClick={() => handleLinkClick('/register')} className="navbar-link">
+                <span className={classNames('navbar-brand mb-0 h1 text-primary col-1 ', { 'active': activeLink === '/register' })}> Regístrate</span>
+              </Link>
+
+
+
             </div>
 
 

@@ -11,6 +11,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { Divider } from "@material-ui/core";
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import CommentIcon from '@material-ui/icons/Comment';
+import "../../styles/home.css"
 
 const useStyles = makeStyles((theme) => ({
   plusButton: {
@@ -97,34 +100,50 @@ const Home = () => {
             <div key={index}>
 
               <div className="recetas-container card d-none d-xs-block d-sm-block d-md-block" style={{ width: "40rem" }}>
-                <p className="card-title text-black">Por: <strong>{infoUsuario}</strong></p>
+                <p className="card-title text-black">Por: <strong>{chat.user_name}</strong></p>
                 {chat.image_of_recipe && <img className="responsive-image" src={chat.image_of_recipe} alt="recipe" />}
                 <div className="card-body bg bg-dark">
-                  <h5 className="card-title text-white">{chat.user_query}</h5>
+                  {store.userLogin ?
+                    <div className="home_name-and-icons">
+                      <h5 className="card-title text-white">{chat.user_query}</h5>
+                      <div className="home_name-and-icons_icons">
+                        <CommentIcon style={{ color: 'white', fontSize: "1.5rem" }} />
+                        <FavoriteIcon style={{ color: 'white', fontSize: "1.5rem" }} />
+                      </div>
+                    </div> : <div className="home_name-and-icons">
+                      <h5 className="card-title text-white">{chat.user_query}</h5>
+                      <div className="home_name-and-icons_icons">
+                        <CommentIcon style={{ color: 'gray', fontSize: "1.5rem" }} />
+                        <FavoriteIcon style={{ color: 'gray', fontSize: "1.5rem" }} />
+                      </div>
+                    </div>
+                  }
                   {expandedChatIndex === index ? (
                     <p className="card-text text-warning" style={{ whiteSpace: 'pre-wrap' }}>{chat.description}</p>
                   ) : (
                     <p className="card-text text-warning" style={{ maxHeight: '3em', overflow: 'hidden', textOverflow: 'ellipsis' }}>{chat.description}</p>
                   )}
-                  {chat.description && chat.description.split('\n').length > 3 && (
-                    <Button className="btn-link text-warning" onClick={() => handleToggleExpandChat(index)}>
-                      {expandedChatIndex === index ? "Ver menos" : "Ver más"}
+                  <div className="home_button-group">
+                    {chat.description && chat.description.split('\n').length > 3 && (
+                      <Button className="btn-link text-warning" onClick={() => handleToggleExpandChat(index)}>
+                        {expandedChatIndex === index ? "Ver menos" : "Ver más"}
+                      </Button>
+                    )}
+                    <Button className="btn-warning rounded" color="warning" onClick={handleOpenSocialShareMenu}>
+                      <i className="fa-solid fa-ellipsis-vertical btn-warning p-3 rounded"></i>
                     </Button>
-                  )}
-                  <Button className="btn-warning rounded" color="warning" onClick={handleOpenSocialShareMenu}>
-                    <i className="fa-solid fa-ellipsis-vertical btn-warning p-3 rounded"></i>
-                  </Button>
-                  <Menu
-                    id="social-share-menu"
-                    anchorEl={socialShareAnchorEl}
-                    keepMounted
-                    open={Boolean(socialShareAnchorEl)}
-                    onClose={handleCloseSocialShareMenu}
-                  >
-                    <MenuItem onClick={() => handleSocialShare('Facebook', chat)}><ShareIcon />Facebook</MenuItem>
-                    <MenuItem onClick={() => handleSocialShare('Twitter', chat)}><ShareIcon />Twitter</MenuItem>
-                    <MenuItem onClick={() => handleSocialShare('WhatsApp', chat)}><ShareIcon />WhatsApp</MenuItem>
-                  </Menu>
+                    <Menu
+                      id="social-share-menu"
+                      anchorEl={socialShareAnchorEl}
+                      keepMounted
+                      open={Boolean(socialShareAnchorEl)}
+                      onClose={handleCloseSocialShareMenu}
+                    >
+                      <MenuItem onClick={() => handleSocialShare('Facebook', chat)}><ShareIcon />Facebook</MenuItem>
+                      <MenuItem onClick={() => handleSocialShare('Twitter', chat)}><ShareIcon />Twitter</MenuItem>
+                      <MenuItem onClick={() => handleSocialShare('WhatsApp', chat)}><ShareIcon />WhatsApp</MenuItem>
+                    </Menu>
+                  </div>
                 </div>
               </div>
               <div className="divider"></div>
@@ -152,25 +171,27 @@ const Home = () => {
                   ) : (
                     <p className="card-text text-warning" style={{ maxHeight: '3em', overflow: 'hidden', textOverflow: 'ellipsis' }}>{chat.description}</p>
                   )}
-                  {chat.description && chat.description.split('\n').length > 3 && (
-                    <Button className="btn-link text-warning" onClick={() => handleToggleExpandChat(index)}>
-                      {expandedChatIndex === index ? "Ver menos" : "Ver más"}
+                  <div className="home_button-group">
+                    {chat.description && chat.description.split('\n').length > 3 && (
+                      <Button className="btn-link text-warning" onClick={() => handleToggleExpandChat(index)}>
+                        {expandedChatIndex === index ? "Ver menos" : "Ver más"}
+                      </Button>
+                    )}
+                    <Button className="btn-warning rounded" color="warning" onClick={handleOpenSocialShareMenu}>
+                      <i className="fa-solid fa-ellipsis-vertical btn-warning p-3 rounded"></i>
                     </Button>
-                  )}
-                  <Button className="btn-warning rounded" color="warning" onClick={handleOpenSocialShareMenu}>
-                    <i className="fa-solid fa-ellipsis-vertical btn-warning p-3 rounded"></i>
-                  </Button>
-                  <Menu
-                    id="social-share-menu"
-                    anchorEl={socialShareAnchorEl}
-                    keepMounted
-                    open={Boolean(socialShareAnchorEl)}
-                    onClose={handleCloseSocialShareMenu}
-                  >
-                    <MenuItem onClick={() => handleSocialShare('Facebook', chat)}><ShareIcon />Facebook</MenuItem>
-                    <MenuItem onClick={() => handleSocialShare('Twitter', chat)}><ShareIcon />Twitter</MenuItem>
-                    <MenuItem onClick={() => handleSocialShare('WhatsApp', chat)}><ShareIcon />WhatsApp</MenuItem>
-                  </Menu>
+                    <Menu
+                      id="social-share-menu"
+                      anchorEl={socialShareAnchorEl}
+                      keepMounted
+                      open={Boolean(socialShareAnchorEl)}
+                      onClose={handleCloseSocialShareMenu}
+                    >
+                      <MenuItem onClick={() => handleSocialShare('Facebook', chat)}><ShareIcon />Facebook</MenuItem>
+                      <MenuItem onClick={() => handleSocialShare('Twitter', chat)}><ShareIcon />Twitter</MenuItem>
+                      <MenuItem onClick={() => handleSocialShare('WhatsApp', chat)}><ShareIcon />WhatsApp</MenuItem>
+                    </Menu>
+                  </div>
                 </div>
               </div>
             </div>

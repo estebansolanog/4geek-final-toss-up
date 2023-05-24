@@ -5,19 +5,32 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import "../../styles/EditRecipeManualModal.css"
 
-import "../../styles/EditRecipeModal.css"
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  editRecipeModalContainer: {
+    width: '600px',
+  },
+  editRecipeModalInputUser: {
+    height: "100px",
+    color: "red",
+  },
+}));
 
 const EditRecipeManualModal = ({ open, onClose, onSave }) => {
   const [previewImage, setPreviewImage] = useState(null);
-  // const [editedImage, setEditedImage] = useState(null);
-  // const [editedRecipe, setEditedRecipe] = useState('');
-  // const [editedQuery, setEditedQuery] = useState('');
+
   const [recipeName, setRecipeName] = useState('');
   const [recipeDescription, setRecipeDescription] = useState('');
   const [recipeImage, setRecipeImage] = useState(null);
-  const [formKey, setFormKey] = useState(Math.random());
+
   const [id, setId] = useState('');
+
+  const [refresh, setRefresh] = useState(false);
+
+  const classes = useStyles();
 
   //FUNCION Y RUTA PARA GUARDAR RECETA
   const handleSaveClick = (e) => {
@@ -40,17 +53,14 @@ const EditRecipeManualModal = ({ open, onClose, onSave }) => {
       .then(data => console.log("Success!!!!", data))
       .then(data => {
         console.log("Success!!!!", data);
-        setRecipeName('');
-        setRecipeDescription('');
-        setRecipeImage(null);
-        setFormKey(Math.random());  // Esto es para que se resetee el formulario
+        onClose();
+        setRefresh(prevRefresh => !prevRefresh); // Agrega esta línea aquí
+        onSave()
+
+
       })
       .catch(error => {
         console.error("ERRORRRRRR!!!", error)
-        setRecipeName('');
-        setRecipeDescription('');
-        setRecipeImage(null)
-        setFormKey(Math.random());  // Esto es para que se resetee el formulario
       });
   };
   //FIN FUNCION Y RUTA PARA GUARDAR RECETA
@@ -76,17 +86,13 @@ const EditRecipeManualModal = ({ open, onClose, onSave }) => {
       .then(data => console.log("Success!!!!", data))
       .then(data => {
         console.log("Success!!!!", data);
-        setRecipeName('');
-        setRecipeDescription('');
-        setRecipeImage(null);
-        setFormKey(Math.random());  // Esto es para que se resetee el formulario
+        onClose();
+        setRefresh(prevRefresh => !prevRefresh); // Agrega esta línea aquí
+        onSave()
+
       })
       .catch(error => {
         console.error("ERRORRRRRR!!!", error)
-        setRecipeName('');
-        setRecipeDescription('');
-        setRecipeImage(null)
-        setFormKey(Math.random());  // Esto es para que se resetee el formulario
       });
   };
   //FIN DE FUNCION Y RUTA PARA GUARDAR Y COMPARTIR RECETA
@@ -111,27 +117,28 @@ const EditRecipeManualModal = ({ open, onClose, onSave }) => {
   };
 
   return (
-    <Dialog open={open} className='editRecipeModalContainer'>
-      <DialogTitle>Editar Receta</DialogTitle>
-      <DialogContent className='editRecipeModalBody'>
-        <TextField className='editRecipeModalInputUser'
+    <Dialog open={open} >
+      <DialogTitle>Agregar Receta</DialogTitle>
+      <DialogContent className={classes.editRecipeModalContainer}>
+        <TextField className="editRecipeModalInputUser"
           autoFocus
           margin="dense"
           id="query"
-          label="Consulta"
+          label="Nombre de receta"
           type="text"
           fullWidth
           // value={editedQuery}
           onChange={event => setRecipeName(event.target.value)}
         />
-        <TextField className='editRecipeModalInput'
+        <TextField
+          className='editRecipeModalInput'
           margin="dense"
           id="recipe"
-          label="Receta"
+          label="Descripcion de receta"
           type="text"
           fullWidth
           multiline
-          minRows={4}
+          minRows={12}
           // value={editedRecipe}
           onChange={event => setRecipeDescription(event.target.value)}
         />
@@ -140,8 +147,8 @@ const EditRecipeManualModal = ({ open, onClose, onSave }) => {
           {/* Muestra la imagen de previsualización si está disponible, de lo contrario muestra la imagen original */}
           <img className='imageRecipe'
             src={previewImage || recipeImage}
-            alt="current"
-            style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+            alt="Agrega una imagen"
+            style={{ width: '100px', height: '100px', objectFit: 'cover', color: "gray" }}
           />
 
           {/* Subir nueva imagen */}
@@ -151,17 +158,7 @@ const EditRecipeManualModal = ({ open, onClose, onSave }) => {
 
       </DialogContent>
       <DialogActions>
-        {/* <Button onClick={onClose} color="secondary">
-          Cancelar
-        </Button>
-        <Button onClick={handleSaveClick} color="primary">
-          Guardar
-        </Button>
-        {/* <Button onClick={handleSaveAndShareClick} color="primary">
-          Guardar y Compartir
-        </Button> */}
-
-        <div className='container-add-recipe-manual-button '>
+        <div className='container-add-recipe-manual-button'>
           <Button onClick={onClose} color="secondary">Cancelar</Button>
           <div>
             <Button onClick={handleSaveClick} color="primary" >Guardar</Button>

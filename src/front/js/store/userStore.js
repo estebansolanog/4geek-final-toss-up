@@ -105,15 +105,15 @@ export function userActions(getStore, getActions, setStore) {
             return store.usuario;
         },
 
-        userUpdate: async (name, lastName, email) => {
+        userUpdate: async (name, lastName, password) => {
             const store = getStore();
             const actions = getActions();
-            console.log("Es la encargada de hacer el login del usuario", email, name);
+            console.log("Es la encargada de hacer el login del usuario", password, name, lastName);
 
             let obj = {
                 name: name,
                 last_name: lastName,
-                email: email,
+                password: password,
             };
 
             let { respuestaJson, response } = await actions.useFetch(
@@ -141,28 +141,28 @@ export function userActions(getStore, getActions, setStore) {
             return store.usuario;
         },
 
-        // userUpdate: async (name, lastName, email) => {
-        //   const store = getStore();
-        //   const actions = getActions();
-        //   console.log("Es la encargada de hacer el login del usuario", email, name);
+        userUpdate: async (name, lastName, email) => {
+            const store = getStore();
+            const actions = getActions();
+            console.log("Es la encargada de hacer el login del usuario", email, name);
 
-        //   let obj = {
-        //     name: name,
-        //     last_name: lastName,
-        //     email: email,
-        //   };
+            let obj = {
+                name: name,
+                last_name: lastName,
+                email: email,
+            };
 
-        //   let { respuestaJson, response } = await actions.useFetch(
-        //     "/api/myaccount/update",
-        //     obj,
-        //     "POST"
-        //   );
+            let { respuestaJson, response } = await actions.useFetch(
+                "/api/myaccount/update",
+                obj,
+                "POST"
+            );
 
-        //   console.log(response.ok);
-        //   console.log(respuestaJson);
+            console.log(response.ok);
+            console.log(respuestaJson);
 
-        //   return store.usuario;
-        // },
+            return store.usuario;
+        },
 
         logout: async () => {
             let actions = getActions();
