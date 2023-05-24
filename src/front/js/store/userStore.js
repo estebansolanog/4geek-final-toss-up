@@ -199,7 +199,33 @@ export function userActions(getStore, getActions, setStore) {
                 console.log("El usuario canceló la eliminación de la cuenta.");
             }
         },
-
+        recover: async (password, token) => {
+            const store = getStore();
+            const actions = getActions();
+            let body = {
+                token: token,
+                password: password
+            };
+            let { respuestaJson, response } = await actions.useFetch(
+                "/api/new_password",
+                body,
+                "PUT"
+            );
+            return { respuestaJson, response };
+        },
+        linkrecoverpassword: async (email) => {
+            const store = getStore();
+            const actions = getActions();
+            let body = {
+                email: email,
+            };
+            let { respuestaJson, response } = await actions.useFetch(
+                "/api/reset_password",
+                body,
+                "POST"
+            );
+            return { respuestaJson, response };
+        },
         // deleteAccount: async () => {
         //   let actions = getActions();
         //   let store = getStore();
@@ -216,4 +242,5 @@ export function userActions(getStore, getActions, setStore) {
         //   }
         // },
     };
+
 }

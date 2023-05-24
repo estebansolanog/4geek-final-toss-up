@@ -160,7 +160,7 @@ export const Login = () => {
             <br />
             <Grid container direction="column" alignItems="center" justifyContent="center">
               <Grid item xs>
-                <Link href="Recover" variant="body2" style={{ color: "white" }}>
+                <Link href="/email_password" variant="body2" style={{ color: "white" }}>
                   Olvidé mi contraseña
                 </Link>
               </Grid>

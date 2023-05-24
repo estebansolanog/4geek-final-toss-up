@@ -22,6 +22,9 @@ import LandingPage from "./pages/landing.jsx";
 import PublicHome from "./pages/publicHome.jsx";
 import Chatbot from "./component/chatbot.jsx";
 import AddManualRecipe from "./component/AddManualRecipe.jsx";
+import ChangePasswordPage from "./pages/changepassword.jsx";
+import RecoverPassword from "./pages/passwordemail.jsx";
+
 // import WithAuth from "./component/Auth/withAuth.jsx";
 
 // Crear un nuevo componente para la selección del Navbar
@@ -60,7 +63,7 @@ const Layout = () => {
             {/* <Route element={<Demo />} path="/demo" /> */}
             <Route element={<AddManualRecipe />} path="/addRecipe" />
             <Route element={<Login />} path="/login" />
-            {/* <Route element={<LandingPage />} path="/landingPage" /> */}
+            <Route element={<LandingPage />} path="/landingPage" />
             <Route element={<Register />} path="/register" />
             <Route element={<PublicHome />} path="/public" />
             {/* <Route element={<AddManualRecipe />} path="/addRecipe" /> */}
@@ -69,6 +72,9 @@ const Layout = () => {
             <Route path="/demo" element={<>{store.userLogin ? <Demo /> : <Login />}</>} />
             {/* <Route path="/addRecipe" element={<>{store.userLogin ? <AddManualRecipe /> : <Login />}</>} /> */}
             <Route path="/receta" element={<>{store.userLogin ? <Receta /> : <Login />}</>} />
+            <Route path="/change_password/:token" element={<ChangePasswordPage/>} />
+            <Route path="/email_password" element={<RecoverPassword/>} />
+
             {/* <Route element={<CardCarousel />} path="/cardCarousel" /> */}
             {/* <Route path="/chatbot" element={WithAuth(Chatbot)} />
             {/* <Route path="/chatbot" element={WithAuth(Chatbot)} />
@@ -78,7 +84,6 @@ const Layout = () => {
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
-          <Footer />
         </ScrollToTop>
       </BrowserRouter>
     </div>
