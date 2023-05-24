@@ -16,17 +16,19 @@ import EditRecipeManualModal from './EditRecipeManualModal.jsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import { Link } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   plusButton: {
     position: 'fixed',
     bottom: '50%',
-    right: '50%',
+    right: '49%',
     zIndex: 2,
   },
   plusButtonWithHistoric: {
     position: 'fixed',
-    top: '15%',
+    bottom: '3%',
     right: '3%',
     zIndex: 2,
   },
@@ -35,10 +37,6 @@ const useStyles = makeStyles((theme) => ({
 
 function AddManualRecipe() {
   const { store, actions } = useContext(Context);
-  const [recipeName, setRecipeName] = useState('');
-  const [recipeDescription, setRecipeDescription] = useState('');
-  const [recipeImage, setRecipeImage] = useState(null);
-  const [formKey, setFormKey] = useState(Math.random());
   const [chatHistory, setChatHistory] = useState([]);
   const classes = useStyles();
 
@@ -48,9 +46,8 @@ function AddManualRecipe() {
   const [sharedChats, setSharedChats] = useState(new Set());
   const [refresh, setRefresh] = useState(false);
   const [infoUsuario, setInfoUsuario] = useState(null)
-  const [open, setOpen] = useState(false);
-  const [selectedChat, setSelectedChat] = useState(null); //Para manejar el click en el botón de compartir y abrir la ventana modal para editar la receta
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate()
 
 
   const handleOpenModal = () => {
@@ -61,90 +58,23 @@ function AddManualRecipe() {
     setIsModalOpen(false);
   };
 
+  const refreshComponent = () => {
+    setRefresh(refresh + 1);
+  };
+
   const handleSave = () => {
     // Aquí puedes actualizar el estado de la receta si es necesario
     setIsModalOpen(false); // cerrar la modal después de guardar
-  };
-
-
-
-  //Ruta para guardar la receta
-  const handleSaveClick = (e) => {
-    e.preventDefault();
-
-    let body = new FormData();
-    body.append('image_of_recipe', recipeImage);
-    body.append('name', recipeName);
-    body.append('description', recipeDescription);
-    const options = {
-      body,
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`,
-      }
-    };
-
-    fetch(`http://localhost:3001/rrecipe/AddRecipe`, options)
-      .then(resp => resp.json())
-      .then(data => console.log("Success!!!!", data))
-      .then(data => {
-        console.log("Success!!!!", data);
-        setRecipeName('');
-        setRecipeDescription('');
-        setRecipeImage(null);
-        setFormKey(Math.random());  // Esto es para que se resetee el formulario
-      })
-      .catch(error => {
-        console.error("ERRORRRRRR!!!", error)
-        setRecipeName('');
-        setRecipeDescription('');
-        setRecipeImage(null)
-        setFormKey(Math.random());  // Esto es para que se resetee el formulario
-      });
-  };
-  //Ruta para guardar y compartir la receta
-  const handleSaveAndShareClick = (e) => {
-    e.preventDefault();
-
-    let body = new FormData();
-    body.append('image_of_recipe', recipeImage);
-    body.append('name', recipeName);
-    body.append('description', recipeDescription);
-    const options = {
-      body,
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`,
-      }
-    };
-
-    fetch(`http://localhost:3001/rrecipe/AddAndShareRecipe`, options)
-      .then(resp => resp.json())
-      .then(data => console.log("Success!!!!", data))
-      .then(data => {
-        console.log("Success!!!!", data);
-        setRecipeName('');
-        setRecipeDescription('');
-        setRecipeImage(null);
-        setFormKey(Math.random());  // Esto es para que se resetee el formulario
-      })
-      .catch(error => {
-        console.error("ERRORRRRRR!!!", error)
-        setRecipeName('');
-        setRecipeDescription('');
-        setRecipeImage(null)
-        setFormKey(Math.random());  // Esto es para que se resetee el formulario
-      });
-  };
-
-  const handleCancelClick = (e) => {
-    e.preventDefault();
-    setRecipeName('');
-    setRecipeDescription('');
-    setRecipeImage(null);
+    // Cambia el valor de 'refresh' para forzar una actualización de las recetas en la seccion "Mis Recetas"
+    // setRefresh(prevRefresh => !prevRefresh);
+    setChatHistory();
+    refreshComponent(); // Refresca el componente para mostrar los cambios
   };
 
   //SECION HISTORICO DE RECETAS
+
+
+
   useEffect(() => {
     const fetchChatHistory = async () => {
       try {
@@ -160,7 +90,7 @@ function AddManualRecipe() {
     };
 
     fetchChatHistory();
-  }, []);
+  }, [refresh]);
 
 
   const handleOpenSocialShareMenu = (event) => {
@@ -191,6 +121,7 @@ function AddManualRecipe() {
   const DeleteRecipeChat = (chat) => {
     console.log(chat);
     setAnchorEl(null);
+    setSocialShareAnchorEl(null);
     axios.delete(`http://localhost:3001/chat/DeleteRecipeChat/${chat.id}`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -230,13 +161,23 @@ function AddManualRecipe() {
   }, [])
   //FIN DE TRAER INFORMACIION DE USUARIO
 
+
+  const handleLinkClick = () => {
+    navigate("/myaccount")
+  }
+
+  // La función para refrescar el componente una vez se da guardar en la ventana modal
+
+
   return (
-    <div className='container_manual-recipe'>
-      <div className='container-add-recipe-manual-history'>
-        <div className="recetas-container">
+    <>
+      <div className='recetas-container-upper'>
+        {chatHistory && chatHistory.length > 0 ?
           <div className='container-add-recipe-manual-history-upper'>
-            {/* <h2>Todas mis recetas</h2> */}
-            {/* <div>
+            <Link className='link-to-myaccount' onClick={() => handleLinkClick('/myaccount')}>
+              <h5 >Todas mis recetas</h5>
+            </Link>
+            <div>
               <Fab className={classes.plusButtonWithHistoric} color="primary" aria-label="add" onClick={handleOpenModal}>
                 <AddIcon />
               </Fab>
@@ -245,149 +186,41 @@ function AddManualRecipe() {
                 onClose={handleCloseModal}
                 onSave={handleSave}
               />
-            </div> */}
+            </div>
+          </div> : <></>}
+      </div>
+      <div className="recetas-container">
+        <div className='recetas-container-boby'>
+          <div className='container-recipe-body-title'>
+            {chatHistory && chatHistory.length > 0 ?
+              <h2>Mis recetas</h2>
+              :
+              <></>}
+
           </div>
-
-          <div className='container-add-recipe-manual-history-title'><h2>Otras recetas mías</h2></div>
-          {chatHistory && chatHistory.length > 0 ? [...chatHistory].reverse().map((chat, index) => (
-            <div key={index}>
-              <div>
-                <Fab className={classes.plusButtonWithHistoric} color="primary" aria-label="add" onClick={handleOpenModal}>
-                  <AddIcon />
-                </Fab>
-                <EditRecipeManualModal
-                  open={isModalOpen}
-                  onClose={handleCloseModal}
-                  onSave={handleSave}
-                />
-              </div>
-              <div className="card d-none d-xs-block d-sm-block d-md-block " style={{ width: "26rem" }}>
-
-                {chat.image_of_recipe && <img className="responsive-image" src={chat.image_of_recipe} alt="recipe" />}
-                <div className="card-body bg bg-dark">
-                  <h5 className="card-title text-white">{chat.name}</h5>
-                  {expandedChatIndex === index ? (
-                    <p className="card-text text-warning" style={{ whiteSpace: 'pre-wrap' }}>{chat.description}</p>
-                  ) : (
-                    <p className="card-text text-warning" style={{ maxHeight: '3em', overflow: 'hidden', textOverflow: 'ellipsis' }}>{chat.description}</p>
-                  )}
-                  {chat.description && chat.description.split('\n').length > 3 && (
-                    <Button className="btn-link text-warning" onClick={() => handleToggleExpandChat(index)}>
-                      {expandedChatIndex === index ? "Ver menos" : "Ver más"}
-                    </Button>
-                  )}
-                  <Button className="btn-warning rounded" color="warning" onClick={handleOpenSocialShareMenu}>
-                    <i className="fa-solid fa-ellipsis-vertical btn-warning p-3 rounded"></i>
-                  </Button>
-                  <Menu
-                    id="social-share-menu"
-                    anchorEl={socialShareAnchorEl}
-                    keepMounted
-                    open={Boolean(socialShareAnchorEl)}
-                    onClose={handleCloseSocialShareMenu}
-                  >
-                    <MenuItem onClick={() => handleSocialShare('Facebook', chat)}><ShareIcon />Facebook</MenuItem>
-                    <MenuItem onClick={() => handleSocialShare('Twitter', chat)}><ShareIcon />Twitter</MenuItem>
-                    <MenuItem onClick={() => handleSocialShare('WhatsApp', chat)}><ShareIcon />WhatsApp</MenuItem>
-                    <Divider />
-                    <Button onClick={() => { DeleteRecipeChat(chat) }}>
-                      <MenuItem >Eliminar receta</MenuItem>
-                    </Button>
-                  </Menu>
+          <div className='.recetas-container-recipe'>
+            {chatHistory && chatHistory.length > 0 ? [...chatHistory].reverse().map((chat, index) => (
+              <div key={index}>
+                <div>
+                  <Fab className={classes.plusButtonWithHistoric} color="primary" aria-label="add" onClick={handleOpenModal}>
+                    <AddIcon />
+                  </Fab>
+                  <EditRecipeManualModal
+                    open={isModalOpen}
+                    onClose={handleCloseModal}
+                    onSave={handleSave}
+                  />
                 </div>
-              </div>
-            </div>
-          )) : <div>
-            <div className='container-chatless'>
-              <p>Hola, <span className='user-chat'>{infoUsuario}</span>.</p>
-              <p>Al parecer no haz creado recetas aún.</p>
-              <p>Para empezar. ¿Que tal si agregas una?</p>
-            </div>
-            <Fab className={classes.plusButton} color="primary" aria-label="add" onClick={handleOpenModal}>
-              <AddIcon />
-            </Fab>
-            <EditRecipeManualModal
-              open={isModalOpen}
-              onClose={handleCloseModal}
-              onSave={handleSave}
-            />
-          </div>}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default AddManualRecipe;
-
-{/* <div className='container-add-recipe-manual'>
-        <div className='container-add-recipe-manual-title'>
-          <h2>Agregar receta</h2>
-        </div>
-        <form key={formKey} onSubmit={handleSaveClick} className="recipe-add-form">
-          <div className="mb-3 container-add-recipe-mual-single">
-            <label htmlFor="recipeName" className="form-label">Nombre de la receta</label>
-            <input
-              type="text"
-              className="form-control"
-              id="recipeName"
-              placeholder="Ej. Torta de chocolate"
-              value={recipeName}
-              onChange={(e) => setRecipeName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3 recipe-add-form">
-            <label htmlFor="recipeDescription" className="form-label">Descripción de la receta</label>
-            <textarea
-              className="form-control recipe-description"
-              id="recipeDescription"
-              placeholder='Ej. "Esta torta de chocolate es muy rica"'
-              rows="3"
-              maxLength="1200"
-              value={recipeDescription}
-              onChange={(e) => setRecipeDescription(e.target.value)}
-              required
-            ></textarea>
-          </div>
-          <div className="mb-3 recipe-add-form">
-            <label htmlFor="recipeImage" className="form-label">Imagen de la receta</label>
-            <input
-              type="file"
-              className="form-control"
-              id="recipeImage"
-              onChange={(e) => setRecipeImage(e.target.files[0])}
-              required
-            />
-          </div>
-          <div className='container-add-recipe-manual-button '>
-            <Button onClick={handleCancelClick} color="secondary">Cancelar</Button>
-            <div>
-              <Button onClick={handleSaveClick} color="primary" >Guardar</Button>
-              <Button onClick={handleSaveAndShareClick} color="primary" border="primary" >Guardar y Compartir</Button>
-            </div>
-          </div>
-        </form>
-      </div>
-
-      <div>
-        <div className='container-add-recipe-manual-history-title'><h2>Todas mis recetas</h2></div>
-        <div className='container-add-recipe-manual-history'>
-          <div className="recetas-container">
-            <div>
-
-              {chatHistory && chatHistory.length > 0 ? [...chatHistory].reverse().map((chat, index) => (
-                <div key={index}>
-                  <div className="card d-none d-xs-block d-sm-block d-md-block " style={{ width: "26rem" }}>
-
-                    {chat.image_of_recipe && <img className="responsive-image" src={chat.image_of_recipe} alt="recipe" />}
-                    <div className="card-body bg bg-dark">
-                      <h5 className="card-title text-white">{chat.name}</h5>
-                      {expandedChatIndex === index ? (
-                        <p className="card-text text-warning" style={{ whiteSpace: 'pre-wrap' }}>{chat.description}</p>
-                      ) : (
-                        <p className="card-text text-warning" style={{ maxHeight: '3em', overflow: 'hidden', textOverflow: 'ellipsis' }}>{chat.description}</p>
-                      )}
+                <div>
+                  {chat.image_of_recipe && <img className="responsive-image" src={chat.image_of_recipe} alt="recipe" />}
+                  <div className="card-body bg bg-dark">
+                    <h5 className="card-title text-white">{chat.name}</h5>
+                    {expandedChatIndex === index ? (
+                      <p className="card-text text-warning" style={{ whiteSpace: 'pre-wrap' }}>{chat.description}</p>
+                    ) : (
+                      <p className="card-text text-warning" style={{ maxHeight: '3em', overflow: 'hidden', textOverflow: 'ellipsis' }}>{chat.description}</p>
+                    )}
+                    <div className='add-manual-recipe_button-group'>
                       {chat.description && chat.description.split('\n').length > 3 && (
                         <Button className="btn-link text-warning" onClick={() => handleToggleExpandChat(index)}>
                           {expandedChatIndex === index ? "Ver menos" : "Ver más"}
@@ -403,29 +236,41 @@ export default AddManualRecipe;
                         open={Boolean(socialShareAnchorEl)}
                         onClose={handleCloseSocialShareMenu}
                       >
-                        <MenuItem onClick={() => handleSocialShare('Facebook', chat)}><ShareIcon />Facebook</MenuItem>
+                        {/* <MenuItem onClick={() => handleSocialShare('Facebook', chat)}><ShareIcon />Facebook</MenuItem>
                         <MenuItem onClick={() => handleSocialShare('Twitter', chat)}><ShareIcon />Twitter</MenuItem>
-                        <MenuItem onClick={() => handleSocialShare('WhatsApp', chat)}><ShareIcon />WhatsApp</MenuItem>
+                        <MenuItem onClick={() => handleSocialShare('WhatsApp', chat)}><ShareIcon />WhatsApp</MenuItem> */}
                         <Divider />
-                        <Button onClick={() => { DeleteRecipeChat(chat) }}>
+                        {/* <Button onClick={() => { DeleteRecipeChat(chat) }}>
                           <MenuItem >Eliminar receta</MenuItem>
-                        </Button>
+                        </Button> */}
+                        <MenuItem onClick={() => DeleteRecipeChat(chat)}>Eliminar receta</MenuItem>
+
                       </Menu>
                     </div>
                   </div>
                 </div>
-              )) : <div>
-                <Fab className={classes.plusButton} color="primary" aria-label="add" onClick={handleOpenModal}>
-                  <AddIcon />
-                </Fab>
-                <EditRecipeManualModal
-                  open={isModalOpen}
-                  onClose={handleCloseModal}
-                  onSave={handleSave}
-                />
-              </div>}
-            </div>
+              </div>
+            )) : <div>
+              <div className='container-chatless'>
+                <p>Hola, <strong className='user-chat'>{infoUsuario}</strong>.</p>
+                <p>Al parecer no haz creado ninguna receta aún.</p>
+                <p>Para empezar. ¿Que tal si agregas una?</p>
+              </div>
+              <Fab className={classes.plusButton} color="primary" aria-label="add" onClick={handleOpenModal}>
+                <AddIcon />
+              </Fab>
+              <EditRecipeManualModal
+                open={isModalOpen}
+                onClose={handleCloseModal}
+                onSave={handleSave}
+              />
+            </div>}
           </div>
         </div>
-      </div> */}
 
+      </div>
+    </>
+  );
+}
+
+export default AddManualRecipe;

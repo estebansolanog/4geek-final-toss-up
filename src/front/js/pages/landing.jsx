@@ -345,7 +345,7 @@ const LandingPage = () => {
         </a>
 
         <div id="search">
-          <Link to="/home" className="my-link">
+          <Link to="/public" className="my-link">
             <div className="search-img">
               <h2>Busca entre cientos de recetas</h2>
               <img className="container-img" src={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/search_section_element_backless_tywwbl.png"} alt="Backgroun of section search" />
