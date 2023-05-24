@@ -273,77 +273,78 @@ const AllMyRecipes = () => {
 
 
   return (
-    <div className='container-maria'>
-      <h1></h1>
+    <div className='container-principal'>
+      <div className='container-maria'>
+        <h1></h1>
 
-      <div >
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}><h2>Todas mis recetas</h2></div>
-        {chatHistory && chatHistory.length > 0 ? [...chatHistory].reverse().map((chat, index) => (
-          <div key={index}>
-            <div className="container-maria-chat">
-              {/* <p><strong>{infoUsuario}:</strong> {chat.user_query}</p> */}
+        <div >
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}><h2>Todas mis recetas</h2></div>
+          {chatHistory && chatHistory.length > 0 ? [...chatHistory].reverse().map((chat, index) => (
+            <div key={index}>
+              <div className="container-maria-chat">
+                {/* <p><strong>{infoUsuario}:</strong> {chat.user_query}</p> */}
 
-              <p><strong>{chat.user_query}</strong></p>
-              {chat.image_of_recipe && <img className="responsive-image" src={chat.image_of_recipe} alt="recipe" />}
-              <p style={{ whiteSpace: 'pre-wrap' }}> {chat.description}</p>
-              {/* <EditRecipeModal recipe={chat} onSave={handleSave} /> */}
+                <p><strong>{chat.user_query}</strong></p>
+                {chat.image_of_recipe && <img className="responsive-image" src={chat.image_of_recipe} alt="recipe" />}
+                <p style={{ whiteSpace: 'pre-wrap' }}> {chat.description}</p>
+                {/* <EditRecipeModal recipe={chat} onSave={handleSave} /> */}
 
-              <div className="container-maria-chat__buttons">
-                <div>
-                  <Button variant="outlined" color="primary" onClick={() => handleEditClick(chat)}>
-                    Editar
+                <div className="container-maria-chat__buttons">
+                  <div>
+                    <Button variant="outlined" color="primary" onClick={() => handleEditClick(chat)}>
+                      Editar
+                    </Button>
+                    <EditRecipeModal
+                      open={!!selectedChat}
+                      onClose={() => setSelectedChat(null)}
+                      chat={selectedChat}
+                      onSave={handleSave}
+                    />
+                    <Button variant="outlined" color="primary" onClick={() => handleShareUnshare(chat)}>
+                      <ShareIcon />
+                      {sharedChats.has(chat.id) ? 'Dejar de compartir' : 'Compartir'}
+                    </Button>
+                  </div>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleOpenSocialShareMenu}
+                  >
+                    <i className="fa-solid fa-ellipsis-vertical"></i>
                   </Button>
-                  <EditRecipeModal
-                    open={!!selectedChat}
-                    onClose={() => setSelectedChat(null)}
-                    chat={selectedChat}
-                    onSave={handleSave}
-                  />
-                  <Button variant="outlined" color="primary" onClick={() => handleShareUnshare(chat)}>
-                    <ShareIcon />
-                    {sharedChats.has(chat.id) ? 'Dejar de compartir' : 'Compartir'}
-                  </Button>
+                  <Menu
+                    id="social-share-menu"
+                    anchorEl={socialShareAnchorEl}
+                    keepMounted
+                    open={Boolean(socialShareAnchorEl)}
+                    onClose={handleCloseSocialShareMenu}
+                  >
+                    <MenuItem onClick={() => handleSocialShare('Facebook', chat)}><ShareIcon />Facebook</MenuItem>
+                    <MenuItem onClick={() => handleSocialShare('Twitter', chat)}><ShareIcon />Twitter</MenuItem>
+                    <MenuItem onClick={() => handleSocialShare('WhatsApp', chat)}><ShareIcon />WhatsApp</MenuItem>
+                    <Divider />
+                    <Button onClick={() => { DeleteRecipeChat(chat) }}>
+                      <MenuItem >Eliminar receta</MenuItem>
+                    </Button>
+
+
+                  </Menu>
                 </div>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={handleOpenSocialShareMenu}
-                >
-                  <i className="fa-solid fa-ellipsis-vertical"></i>
-                </Button>
-                <Menu
-                  id="social-share-menu"
-                  anchorEl={socialShareAnchorEl}
-                  keepMounted
-                  open={Boolean(socialShareAnchorEl)}
-                  onClose={handleCloseSocialShareMenu}
-                >
-                  <MenuItem onClick={() => handleSocialShare('Facebook', chat)}><ShareIcon />Facebook</MenuItem>
-                  <MenuItem onClick={() => handleSocialShare('Twitter', chat)}><ShareIcon />Twitter</MenuItem>
-                  <MenuItem onClick={() => handleSocialShare('WhatsApp', chat)}><ShareIcon />WhatsApp</MenuItem>
-                  <Divider />
-                  <Button onClick={() => { DeleteRecipeChat(chat) }}>
-                    <MenuItem >Eliminar receta</MenuItem>
-                  </Button>
-
-
-                </Menu>
               </div>
             </div>
-          </div>
 
-        )) : <div className='container-chatless'>
-          <p>Hola, <span className='user-chat'>{infoUsuario}</span>.</p>
-          <p>Al parecer no hay recetas por aquí.</p>
-          <p>Para empezar, ¿Que tal si eliges la forma de crear una?</p>
-          <div>
-            <Link to="/addRecipe"><button className='btn btn-primary'>Por mi cuenta</button></Link>
-            <Link to="/chatbot"><button className='btn btn-primary'>Con MarIA</button></Link>
-          </div>
+          )) : <div className='container-chatless'>
+            <p>Hola, <span className='user-chat'>{infoUsuario}</span>.</p>
+            <p>Al parecer no hay recetas por aquí.</p>
+            <p>Para empezar, ¿Que tal si eliges la forma de crear una?</p>
+            <div className='add-recipe-buttons'>
+              <Link to="/addRecipe"><button className='btn btn-primary'>Por mi cuenta</button></Link>
+              <Link to="/chatbot"><button className='btn btn-primary'>Con MarIA</button></Link>
+            </div>
 
-        </div>}
-      </div>
-      {/* {isLoading ? <p>Cargando receta...</p> : null}
+          </div>}
+        </div>
+        {/* {isLoading ? <p>Cargando receta...</p> : null}
       <div className="input-chat">
         <form onSubmit={handleSubmit}>
           <input
@@ -359,20 +360,22 @@ const AllMyRecipes = () => {
         </form>
       </div>
       <div ref={messagesEndRef} /> Añade este div */}
-      <div>
-        <Fab className={classes.plusButton} color="primary" aria-label="add" onClick={handleClick}>
-          <AddIcon />
-        </Fab>
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <Link to="/addRecipe" style={{ textDecoration: 'none', color: 'black' }}><MenuItem onClick={handleClose}>Agregar receta manual</MenuItem></Link>
-          <Link to="/chatbot" style={{ textDecoration: 'none', color: 'black' }}><MenuItem onClick={handleClose}>Agregar receta con MarIA</MenuItem></Link>
-        </Menu>
+        {infoUsuario ?
+          <div>
+            <Fab className={classes.plusButton} color="primary" aria-label="add" onClick={handleClick}>
+              <AddIcon />
+            </Fab>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <Link to="/addRecipe" style={{ textDecoration: 'none', color: 'black' }}><MenuItem onClick={handleClose}>Agregar receta manual</MenuItem></Link>
+              <Link to="/chatbot" style={{ textDecoration: 'none', color: 'black' }}><MenuItem onClick={handleClose}>Agregar receta con MarIA</MenuItem></Link>
+            </Menu>
+          </div> : <></>}
       </div>
     </div>
   );

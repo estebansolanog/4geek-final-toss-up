@@ -253,86 +253,88 @@ const Chatbot = () => {
 
 
   return (
-    <div className='container-maria'>
-      <h1></h1>
+    <div className='container-principal'>
+      <div className='container-maria'>
+        <h1></h1>
 
-      <div >
-        {chatHistory && chatHistory.length > 0 ? chatHistory.map((chat, index) => (
-          <div key={index}>
-            <div className="container-maria-chat">
-              <p><strong>{infoUsuario}:</strong> {chat.user_query}</p>
+        <div >
+          {chatHistory && chatHistory.length > 0 ? chatHistory.map((chat, index) => (
+            <div key={index}>
+              <div className="container-maria-chat">
+                <p><strong>{infoUsuario}:</strong> {chat.user_query}</p>
 
-              <p><strong>MarIA:</strong></p>
-              {chat.image_of_recipe && <img className="responsive-image" src={chat.image_of_recipe} alt="recipe" />}
-              <p style={{ whiteSpace: 'pre-wrap' }}> {chat.description}</p>
-              {/* <EditRecipeModal recipe={chat} onSave={handleSave} /> */}
+                <p><strong>MarIA:</strong></p>
+                {chat.image_of_recipe && <img className="responsive-image" src={chat.image_of_recipe} alt="recipe" />}
+                <p style={{ whiteSpace: 'pre-wrap' }}> {chat.description}</p>
+                {/* <EditRecipeModal recipe={chat} onSave={handleSave} /> */}
 
-              <div className="container-maria-chat__buttons">
-                <div>
-                  <Button variant="outlined" color="primary" onClick={() => handleEditClick(chat)}>
-                    Editar
+                <div className="container-maria-chat__buttons">
+                  <div>
+                    <Button variant="outlined" color="primary" onClick={() => handleEditClick(chat)}>
+                      Editar
+                    </Button>
+                    <EditRecipeModal
+                      open={!!selectedChat}
+                      onClose={() => setSelectedChat(null)}
+                      chat={selectedChat}
+                      onSave={handleSave}
+                    />
+                    <Button variant="outlined" color="primary" onClick={() => handleShareUnshare(chat)}>
+                      <ShareIcon />
+                      {sharedChats.has(chat.id) ? 'Dejar de compartir' : 'Compartir'}
+                    </Button>
+                  </div>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleOpenSocialShareMenu}
+                  >
+                    <i className="fa-solid fa-ellipsis-vertical"></i>
                   </Button>
-                  <EditRecipeModal
-                    open={!!selectedChat}
-                    onClose={() => setSelectedChat(null)}
-                    chat={selectedChat}
-                    onSave={handleSave}
-                  />
-                  <Button variant="outlined" color="primary" onClick={() => handleShareUnshare(chat)}>
-                    <ShareIcon />
-                    {sharedChats.has(chat.id) ? 'Dejar de compartir' : 'Compartir'}
-                  </Button>
+                  <Menu
+                    id="social-share-menu"
+                    anchorEl={socialShareAnchorEl}
+                    keepMounted
+                    open={Boolean(socialShareAnchorEl)}
+                    onClose={handleCloseSocialShareMenu}
+                  >
+                    <MenuItem onClick={() => handleSocialShare('Facebook', chat)}><ShareIcon />Facebook</MenuItem>
+                    <MenuItem onClick={() => handleSocialShare('Twitter', chat)}><ShareIcon />Twitter</MenuItem>
+                    <MenuItem onClick={() => handleSocialShare('WhatsApp', chat)}><ShareIcon />WhatsApp</MenuItem>
+                    <Divider />
+                    <Button onClick={() => { DeleteRecipeChat(chat) }}>
+                      <MenuItem >Eliminar receta</MenuItem>
+                    </Button>
+
+
+                  </Menu>
                 </div>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={handleOpenSocialShareMenu}
-                >
-                  <i className="fa-solid fa-ellipsis-vertical"></i>
-                </Button>
-                <Menu
-                  id="social-share-menu"
-                  anchorEl={socialShareAnchorEl}
-                  keepMounted
-                  open={Boolean(socialShareAnchorEl)}
-                  onClose={handleCloseSocialShareMenu}
-                >
-                  <MenuItem onClick={() => handleSocialShare('Facebook', chat)}><ShareIcon />Facebook</MenuItem>
-                  <MenuItem onClick={() => handleSocialShare('Twitter', chat)}><ShareIcon />Twitter</MenuItem>
-                  <MenuItem onClick={() => handleSocialShare('WhatsApp', chat)}><ShareIcon />WhatsApp</MenuItem>
-                  <Divider />
-                  <Button onClick={() => { DeleteRecipeChat(chat) }}>
-                    <MenuItem >Eliminar receta</MenuItem>
-                  </Button>
-
-
-                </Menu>
               </div>
             </div>
-          </div>
 
-        )) : <div className='container-chatless'>
-          <p>Hola, <span className='user-chat'>{infoUsuario}</span>.</p>
-          <p>Soy MarIA,tu asistente de recetas desarrollada por el equipo de TossUp.</p>
-          <p>Para empezar, escribe una receta que quieras preparar.</p>
-        </div>}
+          )) : <div className='container-chatless'>
+            <p>Hola, <span className='user-chat'>{infoUsuario}</span>.</p>
+            <p>Soy MarIA,tu asistente de recetas desarrollada por el equipo de TossUp.</p>
+            <p>Para empezar, escribe una receta que quieras preparar.</p>
+          </div>}
+        </div>
+        {isLoading ? <p>Cargando receta...</p> : null}
+        <div className="input-chat">
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              placeholder="¿Qué vas a preparar hoy?"
+            // style={{ flex: 1 }}
+            />
+            <button type="submit" className='boton-send'>
+              <SendIcon />
+            </button>
+          </form>
+        </div>
+        <div ref={messagesEndRef} /> {/* Añade este div */}
       </div>
-      {isLoading ? <p>Cargando receta...</p> : null}
-      <div className="input-chat">
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            placeholder="¿Qué vas a preparar hoy?"
-          // style={{ flex: 1 }}
-          />
-          <button type="submit" className='boton-send'>
-            <SendIcon />
-          </button>
-        </form>
-      </div>
-      <div ref={messagesEndRef} /> {/* Añade este div */}
     </div>
   );
 };

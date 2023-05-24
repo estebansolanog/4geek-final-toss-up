@@ -163,7 +163,7 @@ function AddManualRecipe() {
 
 
   const handleLinkClick = () => {
-    navigate("/myaccount")
+    navigate("/allMyRecipes")
   }
 
   // La función para refrescar el componente una vez se da guardar en la ventana modal
@@ -174,7 +174,7 @@ function AddManualRecipe() {
       <div className='recetas-container-upper'>
         {chatHistory && chatHistory.length > 0 ?
           <div className='container-add-recipe-manual-history-upper'>
-            <Link className='link-to-myaccount' onClick={() => handleLinkClick('/myaccount')}>
+            <Link className='link-to-myaccount' onClick={() => handleLinkClick('/allMyRecipes')}>
               <h5 >Todas mis recetas</h5>
             </Link>
             <div>

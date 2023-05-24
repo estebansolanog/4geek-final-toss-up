@@ -23,6 +23,9 @@ import PublicHome from "./pages/publicHome.jsx";
 import Chatbot from "./component/chatbot.jsx";
 import AddManualRecipe from "./component/AddManualRecipe.jsx";
 import AllMyRecipes from "./pages/AllMyRecipes.jsx";
+import ChangePasswordPage from "./pages/changepassword.jsx";
+import RecoverPassword from "./pages/passwordemail.jsx";
+
 // import WithAuth from "./component/Auth/withAuth.jsx";
 
 // Crear un nuevo componente para la selección del Navbar
@@ -62,7 +65,7 @@ const Layout = () => {
             <Route element={<AddManualRecipe />} path="/addRecipe" />
             <Route element={<AllMyRecipes />} path="/allMyRecipes" />
             <Route element={<Login />} path="/login" />
-            {/* <Route element={<LandingPage />} path="/landingPage" /> */}
+            <Route element={<LandingPage />} path="/landingPage" />
             <Route element={<Register />} path="/register" />
             <Route element={<PublicHome />} path="/public" />
             {/* <Route element={<AddManualRecipe />} path="/addRecipe" /> */}
@@ -80,7 +83,6 @@ const Layout = () => {
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
-          <Footer />
         </ScrollToTop>
       </BrowserRouter>
     </div>
