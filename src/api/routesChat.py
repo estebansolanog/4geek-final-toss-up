@@ -164,6 +164,19 @@ def get_all_share_recipes():
 
     return jsonify(share_recipes), 200
 
+
+#Se renderiza en el home publico
+@chat.route('/AllShareRecipesForAll', methods=['GET'])
+def get_all_share_recipes_for_all():
+
+
+    share_recipes = RecipeChat.query.filter_by(share=True).all()
+    share_recipes = list(map(lambda item: item.serialize(), share_recipes))
+    print(share_recipes)
+
+    return jsonify(share_recipes), 200
+
+
 @chat.route('/EditRecipeChat', methods=['PUT'])
 @jwt_required()
 def edit_recipe_chat():

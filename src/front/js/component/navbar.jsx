@@ -8,7 +8,7 @@ import Logo from "../../img/logoTossUp_backgroundless_v3.png";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
-  const [activeLink, setActiveLink] = useState('/home');
+  const [activeLink, setActiveLink] = useState('/');
   const [infoUsuario, setInfoUsuario] = useState(null)
 
   const handleLinkClick = (path) => {
@@ -48,8 +48,8 @@ export const Navbar = () => {
 
               </div>
               <div className="menu-group-1 flex-column flex-md-row">
-                <Link to="/home" onClick={() => handleLinkClick('/home')} className="navbar-link">
-                  <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/home' })}>Inicio</span>
+                <Link to="/" onClick={() => handleLinkClick('/')} className="navbar-link">
+                  <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/' })}>Inicio</span>
                 </Link>
                 <Link to="/chatbot" onClick={() => handleLinkClick('/receta')} className="navbar-link">
                   <span className={classNames('navbar-brand mb-0 h1 text-white col-1', { 'active': activeLink === '/chatbot' })}>Crear</span>
@@ -135,7 +135,7 @@ export const Navbar = () => {
               <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
-                    <Link to="/public" onClick={() => handleLinkClick('/public')}>
+                    <Link to="/" onClick={() => handleLinkClick('/')}>
                       <span className={classNames('navbar-brand mb-0 h1 text-warning col-1 ', { 'active': activeLink === '/public' })}>
                         INICIO
                       </span>
