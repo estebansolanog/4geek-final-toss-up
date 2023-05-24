@@ -70,3 +70,9 @@
 #edit-btn:hover {
   background-color: #ecec20;
 }
+
+.delete-account {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

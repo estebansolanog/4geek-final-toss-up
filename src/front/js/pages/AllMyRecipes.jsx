@@ -3,17 +3,30 @@ import axios from 'axios';
 import { useContext } from 'react';
 import { Context } from '../store/appContext';
 import Button from '@material-ui/core/Button';
-import EditRecipeModal from './EditRecipeModal.jsx';
+import EditRecipeModal from '../component/EditRecipeModal.jsx';
 import "../../styles/chatbot.css"
 import ShareIcon from '@material-ui/icons/Share';
 import Divider from '@material-ui/core/Divider';
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import { Link } from 'react-router-dom';
 import SendIcon from '@material-ui/icons/Send';
 
-const Chatbot = () => {
+import { makeStyles } from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+
+const useStyles = makeStyles((theme) => ({
+  plusButton: {
+    position: 'fixed',
+    bottom: '3%',
+    right: '3%',
+    zIndex: 2,
+  },
+}));
+
+const AllMyRecipes = () => {
   const { store, actions } = useContext(Context);
   const [recipe, setRecipe] = useState(''); // Estado para almacenar la receta
   const [isLoading, setIsLoading] = useState(false); // Estado para controlar el indicador de carga
@@ -22,7 +35,7 @@ const Chatbot = () => {
   const [infoUsuario, setInfoUsuario] = useState(null)
   const messagesEndRef = useRef(null);
   const [refresh, setRefresh] = useState(false);
-
+  const classes = useStyles();
   const [selectedChat, setSelectedChat] = useState(null); //Para manejar el click en el botón de compartir y abrir la ventana modal para editar la receta
   // const [refresh, setRefresh] = useState(false);
 
@@ -45,6 +58,13 @@ const Chatbot = () => {
 
   const handleOpenShareMenu = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const handleClickShare = (option, chat) => {
@@ -258,12 +278,13 @@ const Chatbot = () => {
         <h1></h1>
 
         <div >
-          {chatHistory && chatHistory.length > 0 ? chatHistory.map((chat, index) => (
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}><h2>Todas mis recetas</h2></div>
+          {chatHistory && chatHistory.length > 0 ? [...chatHistory].reverse().map((chat, index) => (
             <div key={index}>
               <div className="container-maria-chat">
-                <p><strong>{infoUsuario}:</strong> {chat.user_query}</p>
+                {/* <p><strong>{infoUsuario}:</strong> {chat.user_query}</p> */}
 
-                <p><strong>MarIA:</strong></p>
+                <p><strong>{chat.user_query}</strong></p>
                 {chat.image_of_recipe && <img className="responsive-image" src={chat.image_of_recipe} alt="recipe" />}
                 <p style={{ whiteSpace: 'pre-wrap' }}> {chat.description}</p>
                 {/* <EditRecipeModal recipe={chat} onSave={handleSave} /> */}
@@ -314,30 +335,51 @@ const Chatbot = () => {
 
           )) : <div className='container-chatless'>
             <p>Hola, <span className='user-chat'>{infoUsuario}</span>.</p>
-            <p>Soy MarIA,tu asistente de recetas desarrollada por el equipo de TossUp.</p>
-            <p>Para empezar, escribe una receta que quieras preparar.</p>
+            <p>Al parecer no hay recetas por aquí.</p>
+            <p>Para empezar, ¿Que tal si eliges la forma de crear una?</p>
+            <div className='add-recipe-buttons'>
+              <Link to="/addRecipe"><button className='btn btn-primary'>Por mi cuenta</button></Link>
+              <Link to="/chatbot"><button className='btn btn-primary'>Con MarIA</button></Link>
+            </div>
+
           </div>}
         </div>
-        {isLoading ? <p>Cargando receta...</p> : null}
-        <div className="input-chat">
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              value={inputValue}
-              onChange={handleInputChange}
-              placeholder="¿Qué vas a preparar hoy?"
-            // style={{ flex: 1 }}
-            />
-            <button type="submit" className='boton-send'>
-              <SendIcon />
-            </button>
-          </form>
-        </div>
-        <div ref={messagesEndRef} /> {/* Añade este div */}
+        {/* {isLoading ? <p>Cargando receta...</p> : null}
+      <div className="input-chat">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder="¿Qué vas a preparar hoy?"
+          // style={{ flex: 1 }}
+          />
+          <button type="submit" className='boton-send'>
+            <SendIcon />
+          </button>
+        </form>
+      </div>
+      <div ref={messagesEndRef} /> Añade este div */}
+        {infoUsuario ?
+          <div>
+            <Fab className={classes.plusButton} color="primary" aria-label="add" onClick={handleClick}>
+              <AddIcon />
+            </Fab>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <Link to="/addRecipe" style={{ textDecoration: 'none', color: 'black' }}><MenuItem onClick={handleClose}>Agregar receta manual</MenuItem></Link>
+              <Link to="/chatbot" style={{ textDecoration: 'none', color: 'black' }}><MenuItem onClick={handleClose}>Agregar receta con MarIA</MenuItem></Link>
+            </Menu>
+          </div> : <></>}
       </div>
     </div>
   );
 };
 
-export default Chatbot;
+export default AllMyRecipes;
 

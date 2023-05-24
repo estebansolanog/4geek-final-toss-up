@@ -185,7 +185,7 @@ export function userActions(getStore, getActions, setStore) {
                 let actions = getActions();
                 let store = getStore();
                 let { respuestaJson, response } = await actions.useFetch(
-                    "/api/account/delete",
+                    "/api/myaccount/delete",
                     {},
                     "DELETE"
                 );

@@ -167,7 +167,7 @@ const LandingPage = () => {
         </a>
 
         <div id="search">
-          <Link to="/home" className="my-link">
+          <Link to="/public" className="my-link">
             <div className="search-img">
               <h2>Busca entre cientos de recetas</h2>
               <img className="container-img" src={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/search_section_element_backless_tywwbl.png"} alt="Backgroun of section search" />
@@ -351,7 +351,7 @@ const LandingPage = () => {
               <img className="container-img" src={"https://res.cloudinary.com/doqx408xv/image/upload/v1684159199/search_section_element_backless_tywwbl.png"} alt="Backgroun of section search" />
               <h3 className="search-text-title-mini" >Crea tus propias recetas</h3>
               <h4 className="search-text-paragraph-mini" >Crea tus resetas favoritas en cuestion </h4>
-              <h4 className="search-text-paragraph-mini" > de segundos con nuestra Asistente Virtual</h4>
+              <h4 className="search-text-paragraph-mini" > de segundos con nuestra Asistente con Intelicia Arficial</h4>
               <button type="button" className="btn btn-warning button-search" >
                 <Link className="my-link" to="/chatbot"><h2>Crear receta</h2></Link>
               </button>

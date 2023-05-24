@@ -4,15 +4,24 @@
 }
 
 .container-maria {
-  display: flex;
+  /* display: flex;
   padding-left: 33%;
   padding-right: 33%;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 100%;
+  align-items: center; */
+  max-width: 600px;
+  /* border: 1px solid red; */
 }
 
+.container-principal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* border: 1px solid red; */
+}
 .container-maria-chat {
   display: flex;
   flex-direction: column;
@@ -67,4 +76,13 @@ form input {
   justify-content: center;
   align-items: center;
   width: 100%;
+}
+
+.add-recipe-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  height: 300px;
 }
