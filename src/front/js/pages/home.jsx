@@ -14,6 +14,7 @@ import { Divider } from "@material-ui/core";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import CommentIcon from '@material-ui/icons/Comment';
 import "../../styles/home.css"
+import Navbar from "../component/navbar.jsx";
 
 const useStyles = makeStyles((theme) => ({
   plusButton: {
@@ -50,6 +51,13 @@ const Home = () => {
 
     fetchChatHistory();
   }, []);
+
+
+  useEffect(() => {
+
+
+  }, [setChatHistory]);
+
 
   const handleOpenSocialShareMenu = (event) => {
     setSocialShareAnchorEl(event.currentTarget);
@@ -90,10 +98,10 @@ const Home = () => {
     }
     cargaDatos()
   }, [])
-  //FIN DE TRAER INFORMACIION DE USUARIO
 
   return (
     <>
+      <Navbar />
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '20PX' }}>
         <div>
           {chatHistory && chatHistory.length > 0 ? [...chatHistory].reverse().map((chat, index) => (

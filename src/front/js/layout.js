@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Context } from "./store/appContext";
 import { useLocation } from "react-router-dom";
 
@@ -26,25 +26,29 @@ import AllMyRecipes from "./pages/AllMyRecipes.jsx";
 import ChangePasswordPage from "./pages/changepassword.jsx";
 import RecoverPassword from "./pages/passwordemail.jsx";
 
-// import WithAuth from "./component/Auth/withAuth.jsx";
+import WithAuth from "./component/Auth/withAuth.jsx";
 
-// Crear un nuevo componente para la selección del Navbar
+//Crear un nuevo componente para la selección del Navbar
 const NavbarSelector = () => {
   const { store, actions } = useContext(Context);
   const location = useLocation();
 
-  if ((store.userLogin) === true) {
-    return <Navbar />;
-  } else if ((store.userLogin) === false && (location.pathname) === '/public') {
+  if (!actions.userLogin && (location.pathname) === '/public') {
     return <PublicNavbarForPublicHome />;
-  } else if ((store.userLogin) === false) {
+  }
+  if (actions.userLogin) {
+    return <Navbar />;
+  }
+  if (!actions.userLogin) {
     return <PublicNavbar />;
   }
 };
 
+
 //create your first component
 const Layout = () => {
   const { store, actions } = useContext(Context);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   //the basename is used when your project is published in a subdirectory and not in the root of the domain
   // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
   const basename = process.env.BASENAME || "";
@@ -53,14 +57,17 @@ const Layout = () => {
     <div className="h-100">
       <BrowserRouter basename={basename}>
         <ScrollToTop>
-          <NavbarSelector />
+          {/* <NavbarSelector /> */}
 
-          {/* {store.userLogin ? <Navbar /> : <PublicNavbar />} */}
+          {/* {store.userLogin ? <Navbar /> : <PublicNavbarForPublicHome />} */}
 
           {/* <Navbar /> */}
           <Routes>
             {/* <Route element={<Chatbot />} path="/chatbot" /> */}
             <Route element={<MyAccount />} path="/myaccount" />
+            <Route element={<ChangePasswordPage />} path="/changePwd" />
+            <Route element={<RecoverPassword />} path="/email_password" />
+
             {/* <Route element={<Demo />} path="/demo" /> */}
             <Route element={<AddManualRecipe />} path="/addRecipe" />
             <Route element={<AllMyRecipes />} path="/allMyRecipes" />
@@ -68,19 +75,25 @@ const Layout = () => {
             <Route element={<LandingPage />} path="/landingPage" />
             <Route element={<Register />} path="/register" />
             <Route element={<PublicHome />} path="/public" />
+            <Route element={<Home />} path="/home" />
+            <Route element={<Chatbot />} path="/chatbot" />
+
+            <Route element={<LandingPage />} path="/" />
             {/* <Route element={<AddManualRecipe />} path="/addRecipe" /> */}
-            <Route path="/" element={<>{store.userLogin ? <Home /> : <LandingPage />}</>} />
-            <Route path="/chatbot" element={<>{store.userLogin ? <Chatbot /> : <Chatbot />}</>} />
-            <Route path="/demo" element={<>{store.userLogin ? <Demo /> : <Demo />}</>} />
+            {/* <Route path="/" element={ <LandingPage  />} */}
+            {/* <Route path="/chatbot" element={<>{store.userLogin ? <Chatbot /> : <Chatbot />}</>} /> */}
+            {/* <Route path="/demo" element={<>{store.userLogin ? <Demo /> : <Demo />}</>} />
             {/* <Route path="/addRecipe" element={<>{store.userLogin ? <AddManualRecipe /> : <Login />}</>} /> */}
-            <Route path="/receta" element={<>{store.userLogin ? <Receta /> : <Receta />}</>} />
+
+
+
             {/* <Route element={<CardCarousel />} path="/cardCarousel" /> */}
             {/* <Route path="/chatbot" element={WithAuth(Chatbot)} />
             {/* <Route path="/chatbot" element={WithAuth(Chatbot)} />
             <Route path="/demo" element={WithAuth(Demo)} />
             <Route path="/addRecipe" element={WithAuth(AddManualRecipe)} />
             <Route path="/receta" element={WithAuth(Receta)} /> */}
-            <Route element={<Single />} path="/single/:theid" />
+            {/* <Route element={<Single />} path="/single/:theid" /> */}
             <Route element={<h1>Not found!</h1>} />
           </Routes>
         </ScrollToTop>
@@ -90,3 +103,5 @@ const Layout = () => {
 };
 
 export default injectContext(Layout);
+
+

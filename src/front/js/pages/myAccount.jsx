@@ -3,6 +3,8 @@ import "../../styles/myAccount.css";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 import { Footer } from "../component/footerRegister";
+import Link from '@material-ui/core/Link';
+import Navbar from "../component/navbar.jsx";
 import {
     TextField,
     Button,
@@ -17,7 +19,7 @@ const MyAccount = () => {
     const [email, setEmail] = useState("");
     // const [password, setPassword] = useState("");
     const [pfp, setPFP] = useState("https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/1200px-Unknown_person.jpg");
-
+    const navigate = useNavigate();
     useEffect(() => {
         console.log(name);
     }, [name]);
@@ -46,6 +48,7 @@ const MyAccount = () => {
     const deleteAccount = (e) => {
         e.preventDefault();
         actions.deleteAccount();
+        navigate("/login");
     }
 
 
@@ -71,6 +74,7 @@ const MyAccount = () => {
 
     return (
         <div className="landing-page">
+            <Navbar />
             <div className="background-img">
 
                 <img src={"https://c0.wallpaperflare.com/preview/575/367/712/kitchen-design-modern-contemporary.jpg"} />
@@ -105,7 +109,7 @@ const MyAccount = () => {
                         <div className="d-flex">
                             <TextField
                                 label="Last Name"
-                                type="text"
+                                type="name"
                                 value={lastName || ""}
                                 onChange={(e) => setLastName(e.target.value)}
                                 margin="normal"
@@ -115,29 +119,29 @@ const MyAccount = () => {
                                     placeholder: lastName,
                                     style: { color: "black" },
                                 }}
-                            />
-                        </div>
+                            />                        </div>
                         <div className="d-flex">
                             <TextField
-                                label="Email"
-                                type="email"
-                                value={email || ""}
-                                onChange={(e) => setEmail(e.target.value)}
+                                label="Last Name"
+                                type="name"
+                                value={lastName || ""}
+                                onChange={(e) => setLastName(e.target.value)} // Aquí está la corrección
                                 margin="normal"
                                 required
                                 fullWidth
                                 InputProps={{
-                                    placeholder: email,
+                                    placeholder: lastName,
                                     style: { color: "black" },
                                 }}
                             />
                         </div>
                         <Button onClick={(e) => { handleSaveClick(e) }} id="edit-btn" >Guardar</Button>
                     </div>
+
                 </div>
-                <br />
-                <br />
-                <br />
+                <div className="change-password-container">
+                    <Link href="/changePwd"><h2 style={{ color: "white", cursor: "pointer" }} className="change-password-text">Cambiar contraseña</h2></Link>
+                </div>
                 <br />
                 <br />
                 <br />

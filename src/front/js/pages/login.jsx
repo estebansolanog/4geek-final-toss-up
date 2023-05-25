@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 
 import { NavbarLogin } from "../component/navbarLogin";
 // import { NavbarVisitor } from "../component/navbarVisitor";
+import PublicNavbar from "../component/publicNavbar.jsx";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
@@ -72,11 +73,31 @@ export const Login = () => {
   // };
 
 
+  // const handleSignIn = (e) => {
+  //   e.preventDefault();
+  //   actions.login(email, password);
+  //   navigate("/");
+  // };
+
   const handleSignIn = (e) => {
     e.preventDefault();
-    actions.login(email, password);
-    navigate("/");
+
+    // Suponemos que actions.login retorna una promesa que se resuelve cuando el login es exitoso.
+    actions.login(email, password)
+      .then(() => {
+        // Guarda el estado de inicio de sesión en localStorage solo si el inicio de sesión es exitoso.
+        localStorage.setItem('userLogin', 'true');
+
+        console.log(localStorage.getItem('userLogin'));
+      })
+      .catch((error) => {
+        // Maneja cualquier error que ocurra durante el inicio de sesión aquí.
+        console.log(error);
+      });
+
+    navigate("/home");
   };
+
   useEffect(() => {
     console.log(email);
   }, [email]);
@@ -86,6 +107,7 @@ export const Login = () => {
 
   return (
     <div className="landing-page">
+      <PublicNavbar />
       <div className="video-container">
         <video autoPlay muted loop>
           <source src={"https://res.cloudinary.com/doqx408xv/video/upload/v1684159209/comida_chxnqx.mp4"} type="video/mp4" />
@@ -93,7 +115,7 @@ export const Login = () => {
         </video>
       </div>
       <div className="content">
-        {/* <NavbarLogin /> */}
+
         <br />
         <br />
         <br />

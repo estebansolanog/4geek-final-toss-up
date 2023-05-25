@@ -16,6 +16,7 @@ import SendIcon from '@material-ui/icons/Send';
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import Navbar from '../component/navbar.jsx';
 
 const useStyles = makeStyles((theme) => ({
   plusButton: {
@@ -177,7 +178,7 @@ const AllMyRecipes = () => {
 
   useEffect(() => {
     const fetchChatHistory = async () => {
-      const response = await axios.get('http://localhost:3001/chat/getChatHistory', {
+      const response = await axios.get('http://localhost:3001/chat/getAllMyRecipes', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("token")}`
         }
@@ -274,6 +275,9 @@ const AllMyRecipes = () => {
 
   return (
     <div className='container-principal'>
+      <div className='container-principal-navbar'>
+        <Navbar />
+      </div>
       <div className='container-maria'>
         <h1></h1>
 

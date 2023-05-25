@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 
+// import Navbar from "../component/navbar.jsx";
+import PublicNavbar from "../component/publicNavbar.jsx";
 
 import { Link } from "react-router-dom";
 import {
@@ -55,6 +57,8 @@ export const Register = () => {
 
   return (
     <div className="landing-page">
+      {/* <Navbar /> */}
+      <PublicNavbar />
       <div className="video-container">
 
         <img src={"https://buenazo.cronosmedia.glr.pe/original/2022/10/27/635b20574d2f5c508f58567d.jpg"} />

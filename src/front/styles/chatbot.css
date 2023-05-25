@@ -22,6 +22,9 @@
   width: 100%;
   /* border: 1px solid red; */
 }
+.container-principal-navbar {
+  width: 100%;
+}
 .container-maria-chat {
   display: flex;
   flex-direction: column;

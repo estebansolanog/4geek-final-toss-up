@@ -14,6 +14,7 @@ import { Divider } from "@material-ui/core";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import CommentIcon from '@material-ui/icons/Comment';
 import "../../styles/publicHome.css"
+import PublicNavbarForPublicHome from "../component/publicNavbarForPublicHome.jsx";
 
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -94,6 +95,7 @@ const PublicHome = () => {
 
   return (
     <>
+      <PublicNavbarForPublicHome />
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '20PX' }}>
         <div>
           {chatHistory && chatHistory.length > 0 ? [...chatHistory].reverse().map((chat, index) => (
