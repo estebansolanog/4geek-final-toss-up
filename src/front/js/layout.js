@@ -68,6 +68,7 @@ const Layout = () => {
             <Route element={<LandingPage />} path="/landingPage" />
             <Route element={<Register />} path="/register" />
             <Route element={<PublicHome />} path="/public" />
+            
             {/* <Route element={<AddManualRecipe />} path="/addRecipe" /> */}
             <Route path="/" element={<>{store.userLogin ? <Home /> : <LandingPage />}</>} />
             <Route path="/chatbot" element={<>{store.userLogin ? <Chatbot /> : <Chatbot />}</>} />

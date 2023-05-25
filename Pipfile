@@ -28,6 +28,7 @@ packages = "*"
 pyjwt = "*"
 openai = "*"
 email-validator = "*"
+flask-mail = "*"
 
 [requires]
 python_version = "3.10"

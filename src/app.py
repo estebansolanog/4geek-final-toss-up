@@ -25,6 +25,7 @@ from itsdangerous import URLSafeTimedSerializer
 
 
 # Configuración del correo electrónico
+app = Flask(__name__)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
@@ -38,7 +39,6 @@ s = URLSafeTimedSerializer('your-secret-key')
 
 ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
-app = Flask(__name__)
 
 # Setup JWT
 app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEY")
