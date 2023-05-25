@@ -58,10 +58,13 @@ export function userActions(getStore, getActions, setStore) {
                 setStore({ ...store, userLogin: true });
                 // console.log("token", token)
                 store.usuario = { msg: "usuario logueado" };
+                localStorage.setItem('userLogin', 'true');
+                console.log(localStorage.getItem('userLogin'));
             } else {
                 console.log("login fallido");
                 localStorage.setItem("token", "");
                 sessionStorage.setItem("token", "");
+                localStorage.setItem('userLogin', 'false');
                 setStore({ ...store, userLogin: false });
                 store.usuario = { msg: "login fallido" };
             }
@@ -171,6 +174,7 @@ export function userActions(getStore, getActions, setStore) {
             if (response.ok) {
                 localStorage.setItem("token", "");
                 sessionStorage.setItem("token", "");
+                localStorage.removeItem('userLogin');
                 setStore({ ...store, userLogin: false });
                 console.log(respuestaJson);
             }

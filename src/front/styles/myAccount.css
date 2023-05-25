@@ -34,8 +34,8 @@
 
 .landing-page {
   position: relative;
-  height: 100vh;
-  overflow: hidden;
+  height: 100%;
+  overflow: auto;
 }
 
 .background-img {
@@ -75,4 +75,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.change-password-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.change-password-text {
+  color: white;
+  font-size: 1rem;
 }

@@ -16,6 +16,8 @@ const EditRecipeModal = ({ open, onClose, chat, onSave }) => {
 
   const [id, setId] = useState('');
 
+  const [refresh, setRefresh] = useState(false);
+
   useEffect(() => {
     if (chat) {
       setEditedRecipe(chat.description);
@@ -24,6 +26,36 @@ const EditRecipeModal = ({ open, onClose, chat, onSave }) => {
       setId(chat.id);
     }
   }, [chat]);
+
+  // const handleSaveClick = (e) => {
+  //   e.preventDefault();
+
+  //   let body = new FormData();
+  //   body.append('image_of_recipe', editedImage);  // donde editedImage es la imagen editada que seleccionó el usuario
+  //   body.append('description', editedRecipe);
+  //   body.append('user_query', editedQuery);
+  //   body.append('id', id);
+
+  //   const options = {
+  //     body,
+  //     method: "POST",
+  //     headers: {
+  //       "Authorization": `Bearer ${localStorage.getItem("token")}`,
+  //       // "Content-Type": "multipart/form-data"
+  //     }
+
+  //   };
+  //   // you need to have the user_id in the localStorage
+  //   // const currentUserId = localStorage.getItem("token"); //Aquí tienen que colocar el token
+  //   fetch(`http://localhost:3001/chat/EditRecipeChat`, options)
+  //     .then(resp => resp.json())
+  //     .then(data => console.log("Success!!!!", data))
+  //     .then(data => {
+  //       console.log("Success!!!!", data);
+  //       onSave(); // <-- Llamamos a 'onSave' aquí
+  //     })
+  //     .catch(error => console.error("ERRORRRRRR!!!", error));
+  // };
 
   const handleSaveClick = (e) => {
     e.preventDefault();
@@ -34,31 +66,10 @@ const EditRecipeModal = ({ open, onClose, chat, onSave }) => {
     body.append('user_query', editedQuery);
     body.append('id', id);
 
-    const handleSaveAndShareClick = (e) => {
-      e.preventDefault();
-
-      let body = new FormData();
-      body.append('image_of_recipe', recipeImage);
-      body.append('name', recipeName);
-      body.append('description', recipeDescription);
-      const options = {
-        body,
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${localStorage.getItem("token")}`,
-        }
-      };
-
-      fetch(`http://localhost:3001/rrecipe/AddAndShareRecipe`, options)
-        .then(resp => resp.json())
-        .then(data => console.log("Success!!!!", data))
-        .catch(error => console.error("ERRORRRRRR!!!", error));
-    };
-
 
     const options = {
       body,
-      method: "POST",
+      method: "PUT",
       headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`,
         // "Content-Type": "multipart/form-data"
@@ -72,11 +83,48 @@ const EditRecipeModal = ({ open, onClose, chat, onSave }) => {
       .then(data => console.log("Success!!!!", data))
       .then(data => {
         console.log("Success!!!!", data);
-        onSave(); // <-- Llamamos a 'onSave' aquí
+        onClose();
+        setRefresh(prevRefresh => !prevRefresh); // Agrega esta línea aquí
+        onSave()
+
       })
       .catch(error => console.error("ERRORRRRRR!!!", error));
   };
 
+  const handleSaveAndShareClick = (e) => {
+    e.preventDefault();
+
+    let body = new FormData();
+    body.append('image_of_recipe', editedImage);  // donde editedImage es la imagen editada que seleccionó el usuario
+    body.append('description', editedRecipe);
+    body.append('user_query', editedQuery);
+    body.append('id', id);
+
+
+    const options = {
+      body,
+      method: "PUT",
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        // "Content-Type": "multipart/form-data"
+      }
+
+    };
+    // you need to have the user_id in the localStorage
+    // const currentUserId = localStorage.getItem("token"); //Aquí tienen que colocar el token
+    fetch(`http://localhost:3001/chat/EditAndShareRecipeChat`, options)
+      .then(resp => resp.json())
+      .then(data => console.log("Success!!!!", data))
+      .then(data => {
+        console.log("Success!!!!", data);
+        onClose();
+        setRefresh(prevRefresh => !prevRefresh); // Agrega esta línea aquí
+        onSave()
+
+      })
+      .catch(error => console.error("ERRORRRRRR!!!", error));
+
+  };
 
   const handleImageChange = (e) => {
     if (e.target.files.length > 0) {
@@ -140,9 +188,9 @@ const EditRecipeModal = ({ open, onClose, chat, onSave }) => {
         <Button onClick={handleSaveClick} color="primary">
           Guardar
         </Button>
-        {/* <Button onClick={handleSaveAndShareClick} color="primary">
+        <Button onClick={handleSaveAndShareClick} color="primary">
           Guardar y Compartir
-        </Button> */}
+        </Button>
       </DialogActions>
     </Dialog>
   );

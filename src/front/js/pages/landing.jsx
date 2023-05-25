@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 import "../../styles/landingPage.css";
 import { Height } from "@material-ui/icons";
 // import "../../styles/publicNavbar.css";
+import PublicNavbar from "../component/publicNavbar.jsx";
 const LandingPage = () => {
   return (
     <>
+      <PublicNavbar />
       <div className="">
         <div id="top" style={{ display: "flex", height: "80vh" }} className="container-carousel">
           <Carousel fade className="carousel-container">

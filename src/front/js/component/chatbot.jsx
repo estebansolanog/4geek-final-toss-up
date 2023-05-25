@@ -13,6 +13,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import SendIcon from '@material-ui/icons/Send';
 
+import Navbar from './navbar.jsx';
+
 const Chatbot = () => {
   const { store, actions } = useContext(Context);
   const [recipe, setRecipe] = useState(''); // Estado para almacenar la receta
@@ -165,6 +167,7 @@ const Chatbot = () => {
       console.log(response.data);
       setChatHistory(response.data);
 
+
       // Establecer sharedChats en base a los datos de la respuesta
       const sharedChatsFromResponse = response.data.filter(chat => chat.share).map(chat => chat.id);
       setSharedChats(new Set(sharedChatsFromResponse));
@@ -254,6 +257,9 @@ const Chatbot = () => {
 
   return (
     <div className='container-principal'>
+      <div className='container-principal-navbar'>
+        <Navbar />
+      </div>
       <div className='container-maria'>
         <h1></h1>
 

@@ -233,6 +233,63 @@ def edit_recipe_chat():
 
     return jsonify(my_image.serialize()), 200
 
+@chat.route('/EditAndShareRecipeChat', methods=['PUT'])
+@jwt_required()
+def edit_and_share_recipe_chat():
+
+    jwt_claims = get_jwt()
+    print(jwt_claims)
+    user = jwt_claims["users_id"]
+    print("el id del USUARIO:",user)
+
+    id = request.form.get("id")
+    print("ID DE RECETA:", id)
+
+    if 'image_of_recipe' not in request.files:
+        raise APIException("No image to upload")
+    if 'description' not in request.form:
+        raise APIException("No description to upload")
+    if 'user_query' not in request.form:
+        raise APIException("No user_query to upload")
+    if 'id' not in request.form:
+        raise APIException("No id to upload")
+    
+    # Consigue un timestamp y formatea como string
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    result = cloudinary.uploader.upload(
+        request.files['image_of_recipe'],
+        # public_id=f'recipe/{user.id}/{request.form.get("user_query")}',
+        # public_id=f'recipe/user/image_of_recipe',
+        public_id = f'{request.form.get("user_query").replace(" ", "_")}_{timestamp}',
+
+        #Para darle un tamaño específico a la imagen:
+        # crop='limit',
+        # width=450,
+        # height=450,
+        # eager=[{
+        #     'width': 200, 'height': 200,
+        #     'crop': 'thumb', 'gravity': 'face',
+        #     'radius': 100
+        # },
+        # ],
+        # tags=['profile_picture']
+    )
+
+   
+
+    my_image = RecipeChat.query.get(id)
+    my_image.image_of_recipe = result['secure_url']
+    my_image.description = request.form.get("description")
+    my_image.user_query = request.form.get("user_query")
+    my_image.user_id = user
+    my_image.share = True
+    
+    db.session.add(my_image) 
+    db.session.commit()
+
+    return jsonify(my_image.serialize()), 200
+
 
 @chat.route('/getChatHistory', methods=['GET'])
 @jwt_required()
@@ -247,6 +304,21 @@ def get_chat_history():
     print(recipes)
 
     return jsonify(recipes), 200
+
+@chat.route('/getAllMyRecipes', methods=['GET'])
+@jwt_required()
+def get_all_my_recipes():
+
+    jwt_claims = get_jwt()
+    print(jwt_claims)
+    user_id = jwt_claims["users_id"]
+    
+    recipes = RecipeChat.query.filter_by(user_id=user_id).all()
+    recipes = list(map(lambda item: item.serialize(), recipes))
+    print(recipes)
+
+    return jsonify(recipes), 200
+
 
 @chat.route('/recipe', methods=['POST'])
 @jwt_required()

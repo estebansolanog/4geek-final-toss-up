@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/passwordemail.css";
 import { Footer } from "../component/footerLogin";
+import Navbar from "../component/navbar.jsx";
 
 const RecoverPassword = () => {
     const [email, setEmail] = useState("");
@@ -22,9 +23,10 @@ const RecoverPassword = () => {
 
     return (
         <div className="recover-password-container">
-
+            <div className="recover-password-container-navbar">
+                <Navbar />
+            </div>
             <div>
-                <br />
                 <br />
                 <br />
                 <br />
@@ -60,13 +62,6 @@ const RecoverPassword = () => {
                         </Link>
                     </div>
                 </div>
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
                 <br />
                 <br />
                 <br />
