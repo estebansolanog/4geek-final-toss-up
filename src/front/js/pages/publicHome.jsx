@@ -98,7 +98,6 @@ const PublicHome = () => {
         <div>
           {chatHistory && chatHistory.length > 0 ? [...chatHistory].reverse().map((chat, index) => (
             <div key={index}>
-
               <div className="recetas-container card d-none d-xs-block d-sm-block d-md-block" style={{ width: "40rem" }}>
                 <p className="card-title text-black">Por: <strong>{chat.user_name}</strong></p>
                 {chat.image_of_recipe && <img className="responsive-image" src={chat.image_of_recipe} alt="recipe" />}
@@ -110,7 +109,6 @@ const PublicHome = () => {
                         style={{ color: 'gray', fontSize: "1.5rem" }}
                         onClick={handleClick}
                       />
-
                       <FavoriteIcon
                         style={{ color: 'gray', fontSize: "1.5rem" }}
                         onClick={handleClick}
@@ -151,64 +149,64 @@ const PublicHome = () => {
         </div>
         <div style={{ border: "red", height: "10px " }}></div>
       </div>
-
-
-
-
+  
       <div className="recetas-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '20PX' }}>
-
         <div>
-          {chatHistory && chatHistory.length > 0 ? chatHistory.map((chat, index) => (
-            <div key={index}>
-              <div className="card d-xs-none d-sm-none d-md-none" style={{ width: "18rem" }}>
-                {chat.image_of_recipe && <img className="responsive-image" src={chat.image_of_recipe} alt="recipe" />}
-                <div className="card-body bg bg-dark">
-                  <h5 className="card-title text-white">{chat.query_user}</h5>
-                  {expandedChatIndex === index ? (
-                    <p className="card-text text-warning" style={{ whiteSpace: 'pre-wrap' }}>{chat.description}</p>
-                  ) : (
-                    <p className="card-text text-warning" style={{ maxHeight: '3em', overflow: 'hidden', textOverflow: 'ellipsis' }}>{chat.description}</p>
-                  )}
-                  <div className="home_button-group">
-                    {chat.description && chat.description.split('\n').length > 3 && (
-                      <Button className="btn-link text-warning" onClick={() => handleToggleExpandChat(index)}>
-                        {expandedChatIndex === index ? "Ver menos" : "Ver más"}
-                      </Button>
+          {chatHistory && Array.isArray(chatHistory) && chatHistory.length > 0 ? (
+            chatHistory.map((chat, index) => (
+              <div key={index}>
+                <div className="card d-xs-none d-sm-none d-md-none" style={{ width: "18rem" }}>
+                  <img className="responsive-image" src="https://assets.unileversolutions.com/recipes-v2/239972.jpg" alt="recipe" />
+                  <div className="card-body bg bg-dark">
+                    <h5 className="card-title text-white">{chat.query_user}</h5>
+                    {expandedChatIndex === index ? (
+                      <p className="card-text text-warning" style={{ whiteSpace: 'pre-wrap' }}>{chat.description}</p>
+                    ) : (
+                      <p className="card-text text-warning" style={{ maxHeight: '3em', overflow: 'hidden', textOverflow: 'ellipsis' }}>{chat.description}</p>
                     )}
-                    <Button className="btn-warning rounded" color="warning" onClick={handleOpenSocialShareMenu}>
-                      <i className="fa-solid fa-ellipsis-vertical btn-warning p-3 rounded"></i>
-                    </Button>
-                    <Menu
-                      id="social-share-menu"
-                      anchorEl={socialShareAnchorEl}
-                      keepMounted
-                      open={Boolean(socialShareAnchorEl)}
-                      onClose={handleCloseSocialShareMenu}
-                    >
-                      <MenuItem onClick={() => handleSocialShare('Facebook', chat)}><ShareIcon />Facebook</MenuItem>
-                      <MenuItem onClick={() => handleSocialShare('Twitter', chat)}><ShareIcon />Twitter</MenuItem>
-                      <MenuItem onClick={() => handleSocialShare('WhatsApp', chat)}><ShareIcon />WhatsApp</MenuItem>
-                    </Menu>
+                    <div className="home_button-group">
+                      {chat.description && chat.description.split('\n').length > 3 && (
+                        <Button className="btn-link text-warning" onClick={() => handleToggleExpandChat(index)}>
+                          {expandedChatIndex === index ? "Ver menos" : "Ver más"}
+                        </Button>
+                      )}
+                      <Button className="btn-warning rounded" color="warning" onClick={handleOpenSocialShareMenu}>
+                        <i className="fa-solid fa-ellipsis-vertical btn-warning p-3 rounded"></i>
+                      </Button>
+                      <Menu
+                        id="social-share-menu"
+                        anchorEl={socialShareAnchorEl}
+                        keepMounted
+                        open={Boolean(socialShareAnchorEl)}
+                        onClose={handleCloseSocialShareMenu}
+                      >
+                        <MenuItem onClick={() => handleSocialShare('Facebook', chat)}><ShareIcon />Facebook</MenuItem>
+                        <MenuItem onClick={() => handleSocialShare('Twitter', chat)}><ShareIcon />Twitter</MenuItem>
+                        <MenuItem onClick={() => handleSocialShare('WhatsApp', chat)}><ShareIcon />WhatsApp</MenuItem>
+                      </Menu>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )) : <p>No hay recetas compartidas</p>}
+            ))
+          ) : (
+            <p>No hay recetas compartidas</p>
+          )}
         </div>
-      </div>
-
-      <div>
-        <Fab className={classes.plusButton} color="secondary" aria-label="add" onClick={handleClick}>
-          <AddIcon />
-        </Fab>
-        <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
-          <MuiAlert onClose={handleCloseSnackbar} severity="info" elevation={6} variant="filled">
-            Debes iniciar sesión para desactivar esta funcionalidad
-          </MuiAlert>
-        </Snackbar>
+        <div>
+          <Fab className={classes.plusButton} color="secondary" aria-label="add" onClick={handleClick}>
+            <AddIcon />
+          </Fab>
+          <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
+            <MuiAlert onClose={handleCloseSnackbar} severity="info" elevation={6} variant="filled">
+              Debes iniciar sesión para desactivar esta funcionalidad
+            </MuiAlert>
+          </Snackbar>
+        </div>
       </div>
     </>
   );
-};
-
-export default PublicHome;
+  };
+  
+  export default PublicHome;
+  
